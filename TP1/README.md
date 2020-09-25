@@ -1,11 +1,11 @@
 # LAIG 2020/2021 - TP1
 
-## Group: T0xG0y
+## Group: T07G03
 
-| Name             | Number    | E-Mail             |
-| ---------------- | --------- | ------------------ |
-| John Doe         | 201801010 | ...                |
-| Jane Doe         | 201801011 | ...                |
+| Name               | Number    | E-Mail               |
+| ------------------ | --------- | -------------------- |
+| Catarina Fernandes | 201806610 | up201806610@fe.up.pt |
+| João Mascarenhas   | 201806389 | up201806389@fe.up.pt |
 
 ----
 ## Project information
