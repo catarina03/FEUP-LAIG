@@ -27,6 +27,7 @@ class MySceneGraph {
         scene.graph = this;
 
         this.nodes = [];
+        this.primitives = []; //just for testing
 
         this.idRoot = null; // The id of the root element.
 
@@ -196,6 +197,7 @@ class MySceneGraph {
             if ((error = this.parseNodes(nodes[index])) != null)
                 return error;
         }
+            
         this.log("all parsed");
     }
 
@@ -418,6 +420,10 @@ class MySceneGraph {
    * @param {nodes block element} nodesNode
    */
   parseNodes(nodesNode) {
+        console.log("--------------- NODES ------------");
+        console.log(nodesNode.nodeName);
+        console.log("----------------------------------");
+
         var children = nodesNode.children;
 
         this.nodes = [];
@@ -426,8 +432,15 @@ class MySceneGraph {
         var grandgrandChildren = [];
         var nodeNames = [];
 
+        var descendantNames = [];
+
         // Any number of nodes.
         for (var i = 0; i < children.length; i++) {
+            console.log(i);
+            console.log(this.reader.getString(children[i], "id"));
+            console.log(children);
+
+            this.nodes.push(children[i]);
 
             if (children[i].nodeName != "node") {
                 this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
@@ -444,26 +457,78 @@ class MySceneGraph {
                 return "ID must be unique for each node (conflict: ID = " + nodeID + ")";
 
             grandChildren = children[i].children;
+            console.log(children[i].nodeName);
 
             nodeNames = [];
             for (var j = 0; j < grandChildren.length; j++) {
                 nodeNames.push(grandChildren[j].nodeName);
+                console.log(grandChildren[j].nodeName);
             }
 
             var transformationsIndex = nodeNames.indexOf("transformations");
             var materialIndex = nodeNames.indexOf("material");
             var textureIndex = nodeNames.indexOf("texture");
             var descendantsIndex = nodeNames.indexOf("descendants");
+            var error;
 
             this.onXMLMinorError("To do: Parse nodes.");
             // Transformations
+            if ((transformationsIndex = nodeNames.indexOf("transformations")) == -1)
+                return "tag <transformations> missing";
+            else {
+                //TO DO
+            }
 
             // Material
+            if ((materialIndex = nodeNames.indexOf("material")) == -1)
+                return "tag <material> missing";
+            else {
+                //TO DO
+            }
 
             // Texture
+            if ((textureIndex = nodeNames.indexOf("texture")) == -1)
+                return "tag <texture> missing";
+            else {
+                //TO DO
+            }
 
             // Descendants
+            if ((descendantsIndex = nodeNames.indexOf("descendants")) == -1)
+                return "tag <descendants> missing";
+            else {
+                grandgrandChildren = grandChildren[descendantsIndex].children;
+
+                descendantNames = [];
+
+                for (var k = 0; k < grandgrandChildren.length; k++) {
+                    descendantNames.push(grandgrandChildren[k].nodeName);
+
+                    if (grandgrandChildren[k].nodeName == "leaf"){
+
+                        //Parse leaf
+                        if ((error = this.parseLeaf(grandgrandChildren[k])) != null)
+                        return error;
+                    } 
+                }
+
+            }
+            
         }
+    }
+
+    parseLeaf(leaf){
+        var leafType = this.reader.getString(leaf, 'type');
+
+        if(leafType == "rectangle"){
+            var x1 = this.reader.getFloat(leaf,'x1');
+            var y1 = this.reader.getFloat(leaf,'y1');
+            var x2 = this.reader.getFloat(leaf,'x2');
+            var y2 = this.reader.getFloat(leaf,'y2');
+            
+            this.primitives.push(new MyRectangle(this.scene, x1, x2, y1, y2));
+        }
+        
     }
 
 
@@ -564,10 +629,14 @@ class MySceneGraph {
     /**
      * Displays the scene, processing each node, starting in the root node.
      */
-    displayScene() {
-        
+    displayScene() {        
         //To do: Create display loop for transversing the scene graph, calling the root node's display function
+    
+
+        for (var i = 0; i < this.primitives.length; i++){
+            this.primitives[i].display();
+        }
         
-        //this.nodes[this.idRoot].display()
+
     }
 }
