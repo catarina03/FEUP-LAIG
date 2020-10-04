@@ -56,10 +56,18 @@
         <!--
         NOTE: this block "TEXTURE" must be repeated as necessary with different "id" 
         -->
-        <texture id="StandardTexture" path="./scenes/images/vidral.jpg"/>
+
+        <texture id="StandardTexture" path="./scenes/images/bank.jpg"/>
 
         <texture id="madeira_clara" path="./scenes/images/madeira_clara.jpg"/>
 
+        <texture id="verde_chao" path="./scenes/images/pine_green.jpg"/>
+
+        <texture id="quadro_barco" path="./scenes/images/moldura_barco.jpg"/>
+
+        <texture id="donut" path="./scenes/images/text_donut.jpg"/>
+
+    </textures>
 
     </textures>
 
@@ -69,12 +77,80 @@
                 requires a distinct "id". At least one material should be present. 
         -->
         <material id="StandardMaterial">
-            <shininess value="ff"/>
+
+            <shininess value="1"/>
+
             <ambient r="1.0" g="0.0" b="0.0" a="1.0"/>
             <diffuse r="0.6" g="0.0" b="0.0" a="1.0"/>
             <specular r="0.6" g="0.0" b="0.0" a="1.0"/>
             <emissive r="0.0" g="0.0" b="0.0" a="1.0"/>
         </material> 
+
+
+        <material id="branco"  >
+            <shininess value ="1" />
+			<ambient r="0.1" g="0.1" b="0.1" a="1.0" />
+			<diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
+			<specular r="1.0" g="1.0" b="1.0" a="1.0" />
+            <emissive r="0.0" g="0.0" b="0.0" a="0.0" />
+		</material>
+
+        <material id="vermelho" >
+            <shininess value ="1" />
+			<ambient r="0.1" g="0.1" b="0.1" a="1.0" />
+			<diffuse r="0.8" g="0.1" b="0.1" a="1.0" />
+			<specular r="0.8" g="0.1" b="0.1" a="1.0" />
+            <emissive r="0.0" g="0.0" b="0.0" a="0.0" />
+		</material>
+
+		<material id="azul" >
+            <shininess value ="1" />
+			<ambient r="0.1" g="0.1" b="0.1" a="1.0" />
+			<diffuse r="0.1" g="0.1" b="0.8" a="1.0" />
+			<specular r="0.1" g="0.1" b="0.8" a="1.0" />
+            <emissive r="0.0" g="0.0" b="0.0" a="0.0" />
+		</material>
+
+		<material id="verde" shininess ="1" >
+            <shininess value ="1" />
+			<ambient r="0.1" g="0.1" b="0.1" a="1.0" />
+			<diffuse r="0.1" g="0.8" b="0.1" a="1.0" />
+			<specular r="0.1" g="0.8" b="0.1" a="1.0" />
+            <emissive r="0.0" g="0.0" b="0.0" a="0.0" />
+		</material>
+
+		<material id="cinzento"  >
+			 <shininess value ="1" />
+			<ambient r="0.3" g="0.3" b="0.3" a="1.0" />
+			<diffuse r="0.6" g="0.6" b="0.6" a="1.0" />
+			<specular r="0.6" g="0.6" b="0.6" a="1.0" />
+            <emissive r="0.0" g="0.0" b="0.0" a="0.0" />
+		</material>
+
+		<material id="preto"  >
+            <shininess value ="1" />
+			<ambient r="0.1" g="0.1" b="0.1" a="1.0" />
+			<diffuse r="0.1" g="0.1" b="0.1" a="1.0" />
+			<specular r="0.1" g="0.1" b="0.1" a="1.0" />
+            <emissive r="0.0" g="0.0" b="0.0" a="0.0" />
+		</material>		
+
+		<material id="amarelo"  >
+            <shininess value ="1" />
+			<ambient r="0.1" g="0.1" b="0.1" a="1.0" />
+			<diffuse r="0.8" g="0.8" b="0.1" a="1.0" />
+			<specular r="0.8" g="0.8" b="0.1" a="1.0" />
+            <emissive r="0.0" g="0.0" b="0.0" a="0.0" />
+		</material>	
+
+        <material id="amarelo_lampada"  >
+            <shininess value ="1" />
+			<ambient r="0.1" g="0.1" b="0.1" a="1.0" />
+			<diffuse r="0.8" g="0.8" b="0.1" a="1.0" />
+			<specular r="0.8" g="0.8" b="0.1" a="1.0" />
+            <emissive r="1.0" g="1.0" b="1.0" a="1.0" />
+		</material>				
+			
 
     </materials>
 
@@ -88,7 +164,9 @@
             <!--
             this superimposes the material received from parent node id="null" maintains material from parent node 
             -->
-            <texture id="StandardTexture">
+
+            <texture id="clear">
+
                 <!--
                 declared texture superimposes the texture received from parent node id="null" maintains texture from parent node id="clear" clears texture declaration received from parent node 
                 -->
@@ -115,7 +193,10 @@
                 <nodered id="parede_zx"/>
 
                 <noderef id="mesa_pequena"/>
+                
+                <noderef id="movel_tv"/>
 
+                <noderef id="paralelepipedo"/>
                 <!-- "ss" is the identifier of a node or of leaf; -->
                 <!-- may be repeated as necessary. It can refer an -->
                 <!--
@@ -130,7 +211,8 @@
             </descendants>
         </node>
 
-        <node id="chao_">
+
+        <node id="chao">
             <!--
             defines one intermediate node; may be repeated as necessary 
             -->
@@ -139,7 +221,8 @@
             <!--
             this superimposes the material received from parent node id="null" maintains material from parent node 
             -->
-            <texture id="clear">
+
+            <texture id="verde_chao">
                 <!--
                 declared texture superimposes the texture received from parent node id="null" maintains texture from parent node id="clear" clears texture declaration received from parent node 
                 -->
@@ -159,52 +242,625 @@
             <descendants>
                <!-- <leaf type="triangle" x1="ff" y1="ff" x2="ff" y2="ff" x3="ff" y3="ff" z3="ff"/> -->
                 <!-- x y z coordinates of each vertex -->
-               <leaf type="rectangle" x1="5" y1="7" x2="3" y2="0"/>
+
+
+               <leaf type="rectangle" x1="4" y1="0" x2="0" y2="6"/>
 
             </descendants>
-        </node>
 
-        <node id="chao">
+        <node id="paralelepipedo">
 
-            <material id="carpete" />
+            <material id="null">
 
-            <texture id="null">  
-            </texture>
+            <texture id="null">  </texture>
 
-            <transformations>
+             <transformations>
+            
+               
             </transformations>
 
              <descendants>
-               <leaf type="rectangle" x1="1" y1="0" x2="0" y2="1"/>
+
+               <noderef id="face_cima_paralelepipedo"\>
+               <noderef id="face_baixo_paralelepipedo"\>
+               <noderef id="face_esquerda_paralelepipedo"\>
+               <noderef id="face_direita_paralelepipedo"\>
+               <noderef id="face_frente_paralelepipedo"\>
+               <noderef id="face_atras_paralelepipedo"\>
+
              </descendants>
         </node>
 
-        <node id="parede_zy">
 
-            <material id="" />
+        <node id="face_baixo_paralelepipedo">
 
-            <texture id="">  </texture>
+            <material id="null">
+
+            <texture id="null">  </texture>
 
              <transformations>
+            
+               
             </transformations>
 
              <descendants>
-               <leaf type="rectangle" x1="1" y1="0" x2="0" y2="1"/>
+                 <leaf type="rectangle" x1="0.5" y1="0" x2="0" y2="1"/>
+              
+
+             </descendants>
+        </node>
+
+        <node id="face_cima_paralelepipedo">
+
+            <material id="null">
+
+            <texture id="null">  </texture>
+
+             <transformations>
+            <translation x="0" y="0" z="0.2"/>
+               
+            </transformations>
+
+             <descendants>
+                 <leaf type="rectangle" x1="0.5" y1="0" x2="0" y2="1"/>
+              
+
+             </descendants>
+        </node>
+
+        <node id="face_esquerda_paralelepipedo">
+
+            <material id="null">
+
+            <texture id="null">  </texture>
+
+             <transformations>
+            <rotation axis="xx" angle="90"/>
+               
+            </transformations>
+
+             <descendants>
+                 <leaf type="rectangle" x1="0.5" y1="0.2" x2="0" y2="0"/>
+              
+
+             </descendants>
+        </node>
+
+        <node id="face_direita_paralelepipedo">
+
+            <material id="null">
+
+            <texture id="null">  </texture>
+
+             <transformations>
+
+             <translation x="0" y="1" z="0" />
+             <rotation axis="xx" angle="90"/>
+            
+               
+            </transformations>
+
+             <descendants>
+                 <leaf type="rectangle" x1="0.5" y1="0.2" x2="0" y2="0"/>
+              
+
+             </descendants>
+        </node>
+        
+         <node id="face_frente_paralelepipedo">
+
+            <material id="null">
+
+            <texture id="null">  </texture>
+
+             <transformations>
+
+             <translation x="0.5" y="0" z="0" />
+             <rotation axis="yy" angle="270"/>
+            
+               
+            </transformations>
+
+            <descendants>
+                 <leaf type="rectangle" x1="0.2" y1="0" x2="0" y2="0.5"/>
+              </descendants>
+        </node>  
+            
+
+         <node id="face_atras_paralelepipedo">
+
+            <material id="null">
+
+            <texture id="null">  </texture>
+
+             <transformations>
+             
+              <rotation axis="yy" angle="270"/>
+            
+               
+            </transformations>
+
+             <descendants>
+                 <leaf type="rectangle" x1="0.5" y1="0.2" x2="0" y2="0"/>
+              
+
+             </descendants>
+        </node>
+
+
+
+        </node>
+
+
+
+         <node id="parede_zy">
+
+            <material id="null">
+
+            <texture id="null">  </texture>
+
+             <transformations>
+             <rotation axis="yy" angle="270"/>
+               
+            </transformations>
+
+             <descendants>
+               <leaf type="rectangle" x1="4" y1="0" x2="0" y2="6"/>
+               <noderef id="moldura_barco"/>
+             </descendants>
+        </node>
+
+        <node id="moldura_barco">
+        <material id="null">
+
+            <texture id="quadro_barco">  </texture>
+
+             <transformations>
+
+             <translation x="0" y="2.5" z="2"/>  
+             <rotation axis="yy" angle="270"/>
+             
+               
+            </transformations>
+
+             <descendants>
+               <leaf type="rectangle" x1="0.5" y1="0" x2="0" y2="0.5"/>
+               
              </descendants>
         </node>
 
         <node id="parede_zx">
 
-            <material id="carpete" />
+
+            <material id="null">
 
             <texture id="null">  </texture>
 
              <transformations>
+             <rotation axis="xx" angle="90"/>
+               
             </transformations>
 
              <descendants>
-               <leaf type="rectangle" x1="2" y1="3" x2="3" y2="2"/>
+               <leaf type="rectangle" x1="6" y1="4" x2="0" y2="0"/>
              </descendants>
+
         </node>
+
+        <node id="mesa_pequena">
+
+            <material id="branco">
+
+            <texture id="madeira_clara">  </texture>
+
+             <transformations>
+               
+            </transformations>
+
+             <descendants>
+
+              <noderef id="tampo_mesa" />
+              <noderef id="perna1"/>
+              <noderef id="perna2"/>
+              <noderef id="perna3"/>
+              <noderef id="perna4"/>
+              <noderef id="caixa_donuts"/>
+              
+             </descendants>
+
+        </node>
+
+        <node id="movel_tv">
+
+            <material id="branco">
+
+            <texture id="madeira_clara">  </texture>
+
+             <transformations>
+              <translation x="4" y="2.5" z="0"/>
+
+               
+            </transformations>
+
+             <descendants>
+               <noderef id="tv"/>
+               <noderef id="base_movel"/>
+               <noderef id="pilar1_movel"/>
+               <noderef id="pilar2_movel"/>
+               <noderef id="pilar3_movel"/>
+               <noderef id="tampo_movel"/>
+
+             </descendants>
+
+        </node>
+        
+
+         <node id="tampo_mesa">
+
+            <material id="branco">
+
+            <texture id="madeira_clara">  </texture>
+
+             <transformations>
+
+             
+
+               
+            </transformations>
+
+             <descendants>
+              <leaf type="rectangle" x1="0" y1="0" x2="0" y2="0"/>
+               
+
+             </descendants>
+
+
+        </node>
+
+
+        <node id="perna1">
+
+            <material id="null">
+
+            <texture id="null">  </texture>
+
+             <transformations>
+             
+
+             
+
+               
+            </transformations>
+
+             <descendants>
+             <leaf type="cylinder" height="1.0" topRadius="0.5" bottomRadius="0.5" stacks="10" slices="5"/>
+               
+
+             </descendants>
+             
+
+        </node>
+
+
+       <node id="perna2">
+
+            <material id="null">
+
+            <texture id="null">  </texture>
+
+             <transformations>           
+
+               
+            </transformations>
+
+             <descendants>
+              <leaf type="cylinder" height="1.0" topRadius="0.5" bottomRadius="0.5" stacks="10" slices="5"/>
+               
+
+             </descendants>
+             
+
+        </node>
+
+        <node id="perna3">
+
+            <material id="null">
+
+            <texture id="null">  </texture>
+
+             <transformations>
+
+             
+
+               
+            </transformations>
+
+             <descendants>
+              <leaf type="cylinder" height="1.0" topRadius="0.5" bottomRadius="0.5" stacks="10" slices="5"/>
+               
+
+             </descendants>
+             
+
+        </node>
+
+
+        <node id="perna4">
+
+            <material id="null">
+
+            <texture id="null">  </texture>
+
+             <transformations>
+
+             
+             </transformations>
+
+             <descendants>
+             <leaf type="cylinder" height="1.0" topRadius="0.5" bottomRadius="0.5" stacks="10" slices="5"/>
+               
+
+             </descendants>
+             
+
+        </node>
+        
+
+         <node id="caixa_donuts">
+
+            <material id="null">
+
+            <texture id="null">  </texture>
+
+             <transformations>
+             <!-- falta aplicar transformaçoes-->
+             
+             </transformations>
+
+             <descendants>
+
+
+             <noderef id="face_baixo_paralelepipedo"\>
+             <noderef id="face_esquerda_paralelepipedo"\>
+             <noderef id="face_direita_paralelepipedo"\>
+             <noderef id="face_frente_paralelepipedo"\>
+             <noderef id="face_atras_paralelepipedo"\>
+        
+             <noderef id="donut1"/>
+             <noderef id="donut2"/>
+             <noderef id="donut3"/>
+            
+             
+             </descendants>
+             
+
+        </node>
+
+
+        <node id="donut1">
+
+            <material id="null">
+
+            <texture id="donut">  </texture>
+
+             <transformations>
+             <!-- falta aplicar transformaçoes-->
+             
+             </transformations>
+
+             <descendants>
+            
+           <leaf type="torus" inner="0.1" outer="0.05" slices="16" loops="48" />
+             
+             </descendants>
+             
+
+        </node>
+
+         <node id="donut2">
+
+            <material id="null">
+
+            <texture id="donut">  </texture>
+
+             <transformations>
+             <!-- falta aplicar transformaçoes-->
+             
+             </transformations>
+
+             <descendants>
+
+            <leaf type="torus" inner="0.1" outer="0.05" slices="16" loops="48" />
+
+             
+             </descendants>
+             
+
+        </node>
+
+         <node id="donut3">
+
+            <material id="null">
+
+            <texture id="donut">  </texture>
+
+             <transformations>
+             <!-- falta aplicar transformaçoes-->
+             
+             </transformations>
+
+             <descendants>
+             <leaf type="torus" inner="0.1" outer="0.05" slices="16" loops="48" />
+
+             
+             </descendants>
+             
+
+        </node>
+        
+
+
+
+
+        <node id="tv">
+
+            <material id="preto">
+
+            <texture id="null">  </texture>
+
+             <transformations>
+                <translation x="0" y="0" z="0.3"/>
+                <rotation axis="zz" angle="180"/>
+                <rotation axis="yy" angle="270"/>
+             
+             </transformations>
+
+             <descendants>
+
+             <noderef id="ecra"/>
+            
+
+
+           
+             
+             </descendants>
+             
+
+        </node>
+
+        <node id="ecra">
+
+            <material id="null">
+
+            <texture id="ecra_tv">  </texture>
+
+             <transformations>
+             
+               <translation x="0" y="0" z="0.1"/>
+
+             </transformations>
+
+             <descendants>
+             <leaf type="rectangle" x1="0.434" y1="0" x2="0" y2="0.752"/>
+
+             <noderef id="paralelepipedo"/>
+
+             </descendants>
+             
+
+        </node>
+
+       
+
+
+         <node id="base_movel">
+
+            <material id="null">
+
+            <texture id="null">  </texture>
+
+             <transformations>
+             <!--  falta fazer a transformaçao,é preciso experimentar o node do paralelepipedo-->
+
+
+             </transformations>
+
+             <descendants>
+             
+             <noderef id="paralelepipedo"/>
+
+             </descendants>
+             
+
+        </node>
+
+
+        <node id="pilar1_movel">
+
+            <material id="null">
+
+            <texture id="null">  </texture>
+
+             <transformations>
+             <!--  falta fazer a transformaçao,é preciso experimentar o node do paralelepipedo-->
+
+
+             </transformations>
+
+             <descendants>
+             
+             <noderef id="paralelepipedo"/>
+
+             </descendants>
+             
+
+        </node>
+
+        <node id="pilar2_movel">
+
+            <material id="null">
+
+            <texture id="null">  </texture>
+
+             <transformations>
+             <!--  falta fazer a transformaçao,é preciso experimentar o node do paralelepipedo-->
+
+
+             </transformations>
+
+             <descendants>
+             
+             <noderef id="paralelepipedo"/>
+
+             </descendants>
+             
+
+        </node>
+        
+        <node id="pilar3_movel">
+
+            <material id="null">
+
+            <texture id="null">  </texture>
+
+             <transformations>
+             <!--  falta fazer a transformaçao,é preciso experimentar o node do paralelepipedo-->
+
+
+             </transformations>
+
+             <descendants>
+             
+             <noderef id="paralelepipedo"/>
+
+             </descendants>
+             
+
+        </node>
+
+        <node id="tampo_movel">
+
+            <material id="null">
+
+            <texture id="null">  </texture>
+
+             <transformations>
+             <!--  falta fazer a transformaçao(neste caso seria um scaling e translaçao no Z)
+             ,é preciso experimentar o node do paralelepipedo-->
+
+
+             </transformations>
+
+             <descendants>
+             
+             <noderef id="paralelepipedo"/>
+
+             </descendants>
+             
+
+        </node>
+
     </nodes>
+
+             
 </lsf>
