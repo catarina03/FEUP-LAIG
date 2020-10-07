@@ -26,8 +26,10 @@ class MySceneGraph {
         this.scene = scene;
         scene.graph = this;
 
+        this.root = null;
         this.nodes = [];
         this.primitives = []; //just for testing
+        this.myNodes = []; //more testing
 
         this.idRoot = null; // The id of the root element.
 
@@ -424,7 +426,7 @@ class MySceneGraph {
         console.log(nodesNode.nodeName);
         console.log("----------------------------------");
 
-        var children = nodesNode.children;
+        var children = nodesNode.children; //<node>
 
         this.nodes = [];
 
@@ -432,15 +434,22 @@ class MySceneGraph {
         var grandgrandChildren = [];
         var nodeNames = [];
 
+        //var transformations = [];
+
         var descendantNames = [];
 
         // Any number of nodes.
         for (var i = 0; i < children.length; i++) {
+            var nodeID = this.reader.getString(children[i], "id");
+            //var newNode = new MyNode(this, nodeID);
+            //this.myNodes[nodeID] = newNode;
+
+
             console.log(i);
             console.log(this.reader.getString(children[i], "id"));
             console.log(children);
+            console.log(this.nodes);
 
-            this.nodes.push(children[i]);
 
             if (children[i].nodeName != "node") {
                 this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
@@ -456,7 +465,11 @@ class MySceneGraph {
             if (this.nodes[nodeID] != null)
                 return "ID must be unique for each node (conflict: ID = " + nodeID + ")";
 
-            grandChildren = children[i].children;
+            this.nodes[nodeID] = children[i];
+
+            var newComponent = new MyComponent(this.scene, nodeID, children[i], true);
+
+            grandChildren = children[i].children; //nodes: <material>, <texture>, <transformations>, <descendants>
             console.log(children[i].nodeName);
 
             nodeNames = [];
@@ -469,14 +482,45 @@ class MySceneGraph {
             var materialIndex = nodeNames.indexOf("material");
             var textureIndex = nodeNames.indexOf("texture");
             var descendantsIndex = nodeNames.indexOf("descendants");
+
             var error;
 
+            //var transformationsChildren
+
             this.onXMLMinorError("To do: Parse nodes.");
+
             // Transformations
             if ((transformationsIndex = nodeNames.indexOf("transformations")) == -1)
                 return "tag <transformations> missing";
             else {
-                //TO DO
+
+                var transformations = [];
+
+                var transformationID = this.reader.getString(children[i], 'id');  //ID of the associated node
+                var transformationsChildren = grandChildren[transformationsIndex].children;
+                var transformationMatrix = mat4.create();
+
+                for (var j = 0; j < transformationsChildren.length; j++){
+
+                    switch (transformationsChildren[j].nodeName){
+                        case "translation":
+                            var translationCoords = this.parseCoordinates3D(transformationsChildren[j], this.reader.getString(children[i], "id"));
+
+                            transformationMatrix = mat4.translate(transformationMatrix, transformationMatrix, translationCoords);
+
+                            console.log("Translation matrix: " + transformationMatrix);
+
+                            break;
+
+                    }
+
+                    
+                }
+
+                //transformations[transformationID] = transformationMatrix;
+                //newNode.transformation = transformations[transformationID];
+                
+
             }
 
             // Material
@@ -500,24 +544,47 @@ class MySceneGraph {
                 grandgrandChildren = grandChildren[descendantsIndex].children;
 
                 descendantNames = [];
+                var leaves = [];
+                var noderefs = [];
 
                 for (var k = 0; k < grandgrandChildren.length; k++) {
                     descendantNames.push(grandgrandChildren[k].nodeName);
 
-                    if (grandgrandChildren[k].nodeName == "leaf"){
-
-                        //Parse leaf
-                        if ((error = this.parseLeaf(grandgrandChildren[k])) != null)
+                    if (grandgrandChildren[k].nodeName == "leaf"){  //Parse leaf
+                        if ((error = this.parseLeaf(grandgrandChildren[k], leaves) != null))
                         return error;
                     } 
-                }
 
+                    if (grandgrandChildren[k].nodeName == "noderef"){  //Parse node
+                        /*
+                        if (this.nodes[this.reader.getString(grandgrandChildren[k], "id")] != null){
+                            newComponent.children.push(new MyComponent(this.scene, this.reader.getString(grandgrandChildren[k], "id"), this.nodes[this.reader.getString(grandgrandChildren[k], "id")], true));
+                        }
+                        else{
+                            console.log("To do: descendentes ainda não declarados");
+                            newComponent.children.push(new MyComponent(this.scene, this.reader.getString(grandgrandChildren[k], "id"), this.nodes[this.reader.getString(grandgrandChildren[k], "id")], false));
+                        }
+                        */
+                       noderefs.push(grandgrandChildren[k]);
+                    }
+                }
+            }
+
+            this.nodes.push(new MyComponent(this.scene, nodeID, children[i], true));
+
+            newComponent.transformation = transformationMatrix;
+            newComponent.primitives = leaves;
+            newComponent.children = noderefs;
+
+            if (nodeID == this.idRoot){
+                this.root = newComponent;
             }
             
         }
     }
 
-    parseLeaf(leaf){
+
+    parseLeaf(leaf, vector){
         var leafType = this.reader.getString(leaf, 'type');
 
         if(leafType == "rectangle"){
@@ -526,20 +593,24 @@ class MySceneGraph {
             var x2 = this.reader.getFloat(leaf,'x2');
             var y2 = this.reader.getFloat(leaf,'y2');
             
-            this.primitives.push(new MyRectangle(this.scene, x1, x2, y1, y2));
+            //this.myNodes[nodeID].primitives.push(new MyRectangle(this.scene, x1, x2, y1, y2));
+            //newComponent.children.push(new MyRectangle(this.scene, x1, x2, y1, y2));
+            vector.push(new MyRectangle(this.scene, x1, x2, y1, y2));
         }
         
     }
 
 
-    parseBoolean(node, name, messageError){
-        var boolVal = true;
-        boolVal = this.reader.getBoolean(node, name);
-        if (!(boolVal != null && !isNaN(boolVal) && (boolVal == true || boolVal == false)))
-            this.onXMLMinorError("unable to parse value component " + messageError + "; assuming 'value = 1'");
-
-        return boolVal || 1;
+    parseBoolean(node, name, messageError) {
+        var boolVal = this.reader.getBoolean(node, name);
+        if (!(boolVal != null && !isNaN(boolVal) && (boolVal == true || boolVal == false))) {
+          this.onXMLMinorError("unable to parse value component " + messageError + "; assuming 'value = 1'");
+          return true;
+        }
+        return boolVal;
     }
+
+
     /**
      * Parse the coordinates from a node with ID = id
      * @param {block element} node
@@ -626,16 +697,31 @@ class MySceneGraph {
         return color;
     }
 
+
+
+    
+
     /**
      * Displays the scene, processing each node, starting in the root node.
      */
     displayScene() {        
         //To do: Create display loop for transversing the scene graph, calling the root node's display function
     
+        this.scene.pushMatrix();
 
-        for (var i = 0; i < this.primitives.length; i++){
-            this.primitives[i].display();
-        }
+        this.root.display();
+
+        this.scene.popMatrix();
+        //this.primitives[0].display();
+
+        /*
+        for (var i = 0; ) {
+            //this.scene.multMatrix(x.transformation);
+            //this.x.primitives.display();
+            //this.scene.popMatrix();
+            console.log("x.id");
+        //}
+        */
         
 
     }
