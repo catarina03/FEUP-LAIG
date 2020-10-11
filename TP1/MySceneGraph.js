@@ -504,7 +504,7 @@ class MySceneGraph {
 
                     switch (transformationsChildren[j].nodeName){
                         case "translation":
-                            var translationCoords = this.parseCoordinates3D(transformationsChildren[j], this.reader.getString(children[j], "id"));
+                            var translationCoords = this.parseCoordinates3D(transformationsChildren[j], this.reader.getString(children[i], "id"));
 
                             transformationMatrix = mat4.translate(transformationMatrix, transformationMatrix, translationCoords);
 
@@ -527,7 +527,10 @@ class MySceneGraph {
 
                             break;
                         case "scale":
+                            var scaleCoords = this.parseScaleCoords(transformationsChildren[j], this.reader.getString(children[i], "id"));
 
+                            mat4.scale(transformationMatrix, transformationMatrix, scaleCoords);
+                            
                             break;
                     }
 
@@ -655,6 +658,36 @@ class MySceneGraph {
 
         return position;
     }
+
+
+    /**
+     * Parse the scale coordinates from a node with ID = id
+     * @param {block element} node
+     * @param {message to be displayed in case of error} messageError
+     */
+    parseScaleCoords(node, messageError) {
+        var scaleCoords = [];
+
+        // x
+        var x = this.reader.getFloat(node, 'sx');
+        if (!(x != null && !isNaN(x)))
+            return "unable to parse sx-coordinate of the " + messageError;
+
+        // y
+        var y = this.reader.getFloat(node, 'sy');
+        if (!(y != null && !isNaN(y)))
+            return "unable to parse sy-coordinate of the " + messageError;
+
+        // z
+        var z = this.reader.getFloat(node, 'sz');
+        if (!(z != null && !isNaN(z)))
+            return "unable to parse sz-coordinate of the " + messageError;
+
+        scaleCoords.push(...[x, y, z]);
+
+        return scaleCoords;
+    }
+
 
     /**
      * Parse the coordinates from a node with ID = id
