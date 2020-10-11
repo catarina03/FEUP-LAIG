@@ -9,7 +9,7 @@
         this.bottom_cover = new MyCircle(scene, bottom_radius, slices);
         this.height = height;
         this.cylinder_surface = new MyCylinderSurface(scene, bottom_radius, top_radius, height, slices, stacks);
-    };
+    }
 
       display(){
 
@@ -24,7 +24,7 @@
         this.scene.popMatrix();
 
         this.cylinder_surface.display();
-    };
+    }
 
 
     updateTexCoords(Sfactor,Tfactor){
@@ -43,7 +43,7 @@
         this.radius = radius;
         this.slices = slices;
         this.initBuffers();
-    };
+    }
 
     initBuffers(){
 
@@ -84,7 +84,7 @@
 
         this.primitiveType = this.scene.gl.TRIANGLES;
         this.initGLBuffers();
-    };
+    }
 
   updateTexCoords(Sfactor,Tfactor) {
 		this.updateTexCoordsGLBuffers();
@@ -103,7 +103,7 @@
         this.slices = slices;
         this.stacks = stacks;
         this.initBuffers();
-    };
+    }
 
     initBuffers(){
 
@@ -146,18 +146,24 @@
             for (var slice_c = 0; slice_c <= this.slices; slice_c++) {
                 var u = 1 - (slice_c / this.slices);
                 this.texCoords.push(u, v);
+                }
+        }
+
+        
 
     this.primitiveType = this.scene.gl.TRIANGLES;
      this.initGLBuffers();
 
-    };
-
+    }
     
 
         
-   updateTexCoords(Sfactor,Tfactor){
+     updateTexCoords(Sfactor,Tfactor){
+
        this.updateTexCoordsGLBuffers();
    }
+
+        
 
   
            
