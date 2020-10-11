@@ -465,7 +465,7 @@ class MySceneGraph {
             if (this.nodes[nodeID] != null)
                 return "ID must be unique for each node (conflict: ID = " + nodeID + ")";
 
-            this.nodes[nodeID] = children[i];
+            //this.nodes[nodeID] = children[i];
 
             var newComponent = new MyComponent(this.scene, nodeID, children[i], true);
 
@@ -504,14 +504,31 @@ class MySceneGraph {
 
                     switch (transformationsChildren[j].nodeName){
                         case "translation":
-                            var translationCoords = this.parseCoordinates3D(transformationsChildren[j], this.reader.getString(children[i], "id"));
+                            var translationCoords = this.parseCoordinates3D(transformationsChildren[j], this.reader.getString(children[j], "id"));
 
                             transformationMatrix = mat4.translate(transformationMatrix, transformationMatrix, translationCoords);
 
                             console.log("Translation matrix: " + transformationMatrix);
 
                             break;
+                        case "rotation":
+                            var rotationAxis = this.reader.getString(transformationsChildren[j], "axis");
+                            var rotationAngle = this.reader.getString(transformationsChildren[j], "angle");
+                            var rotation;
 
+                            console.log(rotationAxis);
+                            console.log(rotationAngle);
+
+                            if (rotationAxis == "x") rotation = [1, 0, 0];
+                            else if (rotationAxis == "y") rotation = [0, 1, 0];
+                            else if (rotationAxis == "z") rotation = [0, 0, 1];
+
+                            transformationMatrix = mat4.rotate(transformationMatrix, transformationMatrix, rotationAngle * DEGREE_TO_RAD, rotation);
+
+                            break;
+                        case "scale":
+
+                            break;
                     }
 
                     
@@ -543,12 +560,12 @@ class MySceneGraph {
             else {
                 grandgrandChildren = grandChildren[descendantsIndex].children;
 
-                descendantNames = [];
+                //descendantNames = [];
                 var leaves = [];
                 var noderefs = [];
 
                 for (var k = 0; k < grandgrandChildren.length; k++) {
-                    descendantNames.push(grandgrandChildren[k].nodeName);
+                    //descendantNames.push(grandgrandChildren[k].nodeName);
 
                     if (grandgrandChildren[k].nodeName == "leaf"){  //Parse leaf
                         if ((error = this.parseLeaf(grandgrandChildren[k], leaves) != null))

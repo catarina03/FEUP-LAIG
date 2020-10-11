@@ -73,6 +73,10 @@ class MyComponent extends CGFobject{
             this.primitives[i].display();
         }
 
+        for (let j = 0; j < this.children.length; j++){
+            //this.children[j].display();
+        }
+
 
         
 
