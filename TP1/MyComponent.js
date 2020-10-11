@@ -24,7 +24,6 @@ class MyComponent extends CGFobject{
         this.currMatIndex = 0;
 
         /*
-        this.transformation = mat4.create();
         this.materials = [];
         this.texture;
         this.length_s = null;

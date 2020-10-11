@@ -546,6 +546,8 @@ class MySceneGraph {
             this.nodes[nodeID] = children[i];
             this.objects[nodeID] = newComponent;
 
+            console.log(newComponent);
+
             if (nodeID == this.idRoot){
                 this.root = newComponent;
             }
@@ -616,6 +618,14 @@ class MySceneGraph {
             let slices = this.reader.getFloat(leaf,'slices');
 
             vector.push(new MySphere(this.scene, radius, slices, stacks));
+        }
+        else if (leafType == "torus"){
+            let inner = this.reader.getFloat(leaf,'inner');
+            let outer = this.reader.getFloat(leaf,'outer');
+            let slices = this.reader.getFloat(leaf,'slices');
+            let loops = this.reader.getFloat(leaf,'loops');
+
+            //vector.push(new MyTorus(this.scene, inner, outer, slices, loops));
         }
         
     }
