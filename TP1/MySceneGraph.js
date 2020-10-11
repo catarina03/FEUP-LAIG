@@ -581,12 +581,35 @@ class MySceneGraph {
         var leafType = this.reader.getString(leaf, 'type');
 
         if(leafType == "rectangle"){
-            var x1 = this.reader.getFloat(leaf,'x1');
-            var y1 = this.reader.getFloat(leaf,'y1');
-            var x2 = this.reader.getFloat(leaf,'x2');
-            var y2 = this.reader.getFloat(leaf,'y2');
+            let x1 = this.reader.getFloat(leaf,'x1');
+            let y1 = this.reader.getFloat(leaf,'y1');
+            let x2 = this.reader.getFloat(leaf,'x2');
+            let y2 = this.reader.getFloat(leaf,'y2');
 
             vector.push(new MyRectangle(this.scene, x1, x2, y1, y2));
+        }
+        else if (leafType == "triangle"){
+            let x1 = this.reader.getFloat(leaf,'x1');
+            let y1 = this.reader.getFloat(leaf,'y1');
+            let z1 = this.reader.getFloat(leaf,'z1');
+            let x2 = this.reader.getFloat(leaf,'x2');
+            let y2 = this.reader.getFloat(leaf,'y2');
+            let z2 = this.reader.getFloat(leaf,'z2');
+            let x3 = this.reader.getFloat(leaf,'x3');
+            let y3 = this.reader.getFloat(leaf,'y3');
+            let z3 = this.reader.getFloat(leaf,'z3');
+
+            vector.push(new MyTriangle(this.scene, x1, y1, z1, x2, y2, z2, x3, y3, z3));
+        }
+        else if (leafType == "cylinder"){
+            let height = this.reader.getFloat(leaf,'height');
+            let topRadius = this.reader.getFloat(leaf,'topRadius');
+            let bottomRadius = this.reader.getFloat(leaf,'bottomRadius');
+            let stacks = this.reader.getFloat(leaf,'stacks');
+            let slices = this.reader.getFloat(leaf,'slices');
+
+            vector.push(new MyCylinder(this.scene, height, topRadius, bottomRadius, stacks, slices));
+            //vector.push(new MyCircle(this.scene, topRadius, slices));
         }
         
     }

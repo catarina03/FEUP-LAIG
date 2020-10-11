@@ -138,10 +138,11 @@
             </transformations>
 
             <descendants>
-                <noderef id="estrutura" />
-                <noderef id="mesa_pequena"/>
-                <noderef id="movel_tv"/>
-                <noderef id="moldura_barco"/>
+                <leaf type="cylinder" height="3" topRadius="2" bottomRadius="2" stacks="20" slices="20"/>
+                <!-- <noderef id="estrutura" /> -->
+                <!-- <noderef id="mesa_pequena"/> -->
+                <!-- <noderef id="movel_tv"/> -->
+                <!-- <noderef id="moldura_barco"/> -->
             </descendants>
         </node>
             
