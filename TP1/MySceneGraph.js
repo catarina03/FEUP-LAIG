@@ -28,6 +28,7 @@ class MySceneGraph {
 
         this.root = null;
         this.nodes = [];
+        this.objects = [];
         this.primitives = []; //just for testing
         this.myNodes = []; //more testing
 
@@ -199,6 +200,10 @@ class MySceneGraph {
             if ((error = this.parseNodes(nodes[index])) != null)
                 return error;
         }
+
+        this.buildFamily(this.root);
+
+        console.log(this.root);
             
         this.log("all parsed");
     }
@@ -428,8 +433,6 @@ class MySceneGraph {
 
         var children = nodesNode.children; //<node>
 
-        this.nodes = [];
-
         var grandChildren = [];
         var grandgrandChildren = [];
         var nodeNames = [];
@@ -439,7 +442,7 @@ class MySceneGraph {
         var descendantNames = [];
 
         // Any number of nodes.
-        for (var i = 0; i < children.length; i++) {
+        for (let i = 0; i < children.length; i++) {
             var nodeID = this.reader.getString(children[i], "id");
             //var newNode = new MyNode(this, nodeID);
             //this.myNodes[nodeID] = newNode;
@@ -467,7 +470,7 @@ class MySceneGraph {
 
             //this.nodes[nodeID] = children[i];
 
-            var newComponent = new MyComponent(this.scene, nodeID, children[i], true);
+            var newComponent = new MyComponent(this.scene, nodeID, "component", true);
 
             grandChildren = children[i].children; //nodes: <material>, <texture>, <transformations>, <descendants>
             console.log(children[i].nodeName);
@@ -500,7 +503,7 @@ class MySceneGraph {
                 var transformationsChildren = grandChildren[transformationsIndex].children;
                 var transformationMatrix = mat4.create();
 
-                for (var j = 0; j < transformationsChildren.length; j++){
+                for (let j = 0; j < transformationsChildren.length; j++){
 
                     switch (transformationsChildren[j].nodeName){
                         case "translation":
@@ -530,7 +533,7 @@ class MySceneGraph {
                             var scaleCoords = this.parseScaleCoords(transformationsChildren[j], this.reader.getString(children[i], "id"));
 
                             mat4.scale(transformationMatrix, transformationMatrix, scaleCoords);
-                            
+
                             break;
                     }
 
@@ -585,21 +588,64 @@ class MySceneGraph {
                             newComponent.children.push(new MyComponent(this.scene, this.reader.getString(grandgrandChildren[k], "id"), this.nodes[this.reader.getString(grandgrandChildren[k], "id")], false));
                         }
                         */
-                       noderefs.push(grandgrandChildren[k]);
+                        noderefs.push(grandgrandChildren[k]);
                     }
                 }
             }
 
-            this.nodes.push(new MyComponent(this.scene, nodeID, children[i], true));
-
             newComponent.transformation = transformationMatrix;
             newComponent.primitives = leaves;
             newComponent.children = noderefs;
+            
+            this.nodes[nodeID] = children[i];
+            this.objects[nodeID] = newComponent;
+
 
             if (nodeID == this.idRoot){
                 this.root = newComponent;
             }
             
+        }
+
+    }
+
+    buildFamily(object){
+
+        var node = this.nodes[object.id];
+        console.log(this.nodes);
+        var children = node.children; //nodes: <material>, <texture>, <transformations>, <descendants>
+
+        var grandChildren = [];
+        var descendantsIndex = null;
+        //var grandgrandChildren = [];
+        //var nodeNames = [];
+
+        for (let i = 0; i < children.length; i++){
+            // Descendants
+            if (children[i].nodeName == "descendants") {
+                grandChildren = children[i].children;
+
+                for (let j = 0; j < grandChildren.length; j++){
+ 
+                    if (grandChildren[j].nodeName == "noderef"){  //Parse node
+                        console.log("oi noderef: ");
+                        console.log(children[i]);
+
+                        if (this.objects[object.id].objects[grandChildren[j].id] == null)
+                            this.objects[object.id].objects[grandChildren[j].id] = this.objects[grandChildren[j].id];
+                        console.log(this.objects[grandChildren[j].id]);
+                        console.log("grandChildren[" + j + "].id: " + grandChildren[j].id);
+                        console.log(this.objects[object.id].objects[grandChildren[j].id]);
+                        console.log("object.id: " + object.id);
+                        console.log(this.objects[object.id].objects);
+
+                        this.buildFamily(this.objects[grandChildren[j].id]);
+
+                        //var newObject = 
+                        //object.objects[this.reader.getString(grandChildren[j], "id")] = new ;
+                    }
+                }
+            }
         }
     }
 

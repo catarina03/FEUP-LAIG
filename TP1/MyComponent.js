@@ -15,6 +15,7 @@ class MyComponent extends CGFobject{
 
         this.children = [];
         this.primitives = [];
+        this.objects = [];
         this.transformation = null;
 
         this.currMaterial = null;
@@ -64,17 +65,19 @@ class MyComponent extends CGFobject{
         //Applies Material
 
 
-        
+        console.log(this.id);
         for (let i = 0; i < this.primitives.length; i++){
             //Texture transformations
 
             //Calls children display method
-            //console.log(this.children[i]);
+            console.log(this.primitives[i]);
             this.primitives[i].display();
         }
 
-        for (let j = 0; j < this.children.length; j++){
-            //this.children[j].display();
+        console.log(this.objects);
+        for (let obj in this.objects){
+            console.log(this.objects[obj]);
+            this.objects[obj].display();
         }
 
 

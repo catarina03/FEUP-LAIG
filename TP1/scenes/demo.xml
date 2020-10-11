@@ -138,6 +138,7 @@
             </transformations>
 
             <descendants>
+                <leaf type="rectangle" x1="25" y1="0" x2="0" y2="25"/>
                 <noderef id="estrutura" />
                 <noderef id="mesa_pequena"/>
                 <noderef id="movel_tv"/>
@@ -510,7 +511,7 @@
             </transformations>
 
             <descendants>
-                <noderef di="donut" />
+                <noderef id="donut" />
             </descendants>
         </node>
 
@@ -524,7 +525,7 @@
             </transformations>
 
             <descendants>
-                <noderef di="donut" />
+                <noderef id="donut" />
             </descendants>
         </node>
 
@@ -538,7 +539,7 @@
             </transformations>
 
             <descendants>
-                <noderef di="donut" />
+                <noderef id="donut" />
             </descendants>
         </node>
 
