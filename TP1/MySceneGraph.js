@@ -425,10 +425,6 @@ class MySceneGraph {
    * @param {nodes block element} nodesNode
    */
   parseNodes(nodesNode) {
-        console.log("--------------- NODES ------------");
-        console.log(nodesNode.nodeName);
-        console.log("----------------------------------");
-
         var children = nodesNode.children; //<node>
         var grandChildren = [];  //<material>, <texture>, <transformations>, <descendants>
         var grandgrandChildren = [];  //<noderef>, <leaf>
