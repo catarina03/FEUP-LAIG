@@ -608,8 +608,7 @@ class MySceneGraph {
             let stacks = this.reader.getFloat(leaf,'stacks');
             let slices = this.reader.getFloat(leaf,'slices');
 
-            vector.push(new MyCylinder(this.scene, height, topRadius, bottomRadius, stacks, slices));
-            //vector.push(new MyCircle(this.scene, topRadius, slices));
+            vector.push(new MyCylinder(this.scene, bottomRadius, topRadius, height, slices, stacks));
         }
         
     }

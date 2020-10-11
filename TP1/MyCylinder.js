@@ -1,6 +1,13 @@
-
-
-
+/**
+ * MyCylinder
+ * @constructor
+ * @param scene - Reference to MyScene object
+ * @param bottom_radius - radius of the bottom circle
+ * @param top_radius - radius of the top circle
+ * @param height - height of the cylinder
+ * @param slices - number of slices
+ * @param stacks - number of stacks
+ */
 class MyCylinder extends CGFobject{
     constructor(scene, bottom_radius, top_radius, height, slices, stacks) {
         super(scene);
@@ -9,10 +16,9 @@ class MyCylinder extends CGFobject{
         this.bottom_cover = new MyCircle(scene, bottom_radius, slices);
         this.height = height;
         this.cylinder_surface = new MyCylinderSurface(scene, bottom_radius, top_radius, height, slices, stacks);
-    };
+    }
 
-      display(){
-
+    display(){
         this.scene.pushMatrix();
         this.scene.translate(0, 0, this.height);
         this.top_cover.display();
@@ -24,29 +30,31 @@ class MyCylinder extends CGFobject{
         this.scene.popMatrix();
 
         this.cylinder_surface.display();
-    };
+    }
 
 
     updateTexCoords(Sfactor,Tfactor){
-
-      this.cylinder_surface.updateTexCoords(1,1);
+        this.cylinder_surface.updateTexCoords(1,1);
     }
-
-
-    }
+}
 
  
-
- class MyCircle extends CGFobject{
+/**
+ * MyCircle
+ * @constructor
+ * @param scene - Reference to MyScene object
+ * @param radius - radius of auxiliar circle
+ * @param slices - number of slices of auxiliar circle
+ */
+class MyCircle extends CGFobject{
     constructor(scene, radius, slices) {
         super(scene);
         this.radius = radius;
         this.slices = slices;
         this.initBuffers();
-    };
+    }
 
     initBuffers(){
-
         var angle = 2.0 * Math.PI / this.slices;
 
         this.vertices = [0,0,0];
@@ -76,25 +84,29 @@ class MyCylinder extends CGFobject{
 
             this.normals.push(0,0,1);
             this.normals.push(0,0,1);
-
-
         }
-
-
 
         this.primitiveType = this.scene.gl.TRIANGLES;
         this.initGLBuffers();
-    };
+    }
 
-  updateTexCoords(Sfactor,Tfactor) {
-		this.updateTexCoordsGLBuffers();
+    updateTexCoords(Sfactor,Tfactor) {
+	    this.updateTexCoordsGLBuffers();
 	}
-
-
 }
 
 
- class MyCylinderSurface extends CGFobject{
+/**
+ * MyCilinderSurface
+ * @constructor
+ * @param scene - Reference to MyScene object
+ * @param bottom_radius - bottom radius of auxiliar surface
+ * @param top_radius - top radius of auxiliar surface
+ * @param height - height of auxiliar surface
+ * @param slices - number of slices of auxiliar surface
+ * @param stacks - number of stacks of auxiliar surface
+ */
+class MyCylinderSurface extends CGFobject{
     constructor(scene, bottom_radius, top_radius, height, slices, stacks) {
         super(scene);
         this.bottom_radius=bottom_radius;
@@ -103,16 +115,14 @@ class MyCylinder extends CGFobject{
         this.slices = slices;
         this.stacks = stacks;
         this.initBuffers();
-    };
+    }
 
     initBuffers(){
-
         var angle = 2.0 * Math.PI / this.slices;
 
         this.vertices = [];
         this.indices = [];
         this.normals = [];
-
 
         for (var stack_c = 0; stack_c <= this.stacks; stack_c++) {
             var curr_angle = 0.0;
@@ -136,33 +146,23 @@ class MyCylinder extends CGFobject{
                 this.indices.push(index4, index3, index1);
                 this.indices.push(index1, index2, index4);
             }
-    }
+        }
 
-      
-    this.texCoords = [];
+        this.texCoords = [];
 
         for (var stack_c = 0; stack_c <= this.stacks; stack_c++) {
             var v = 1 - (stack_c / this.stacks);
             for (var slice_c = 0; slice_c <= this.slices; slice_c++) {
                 var u = 1 - (slice_c / this.slices);
                 this.texCoords.push(u, v);
+            }
+        }
 
-    this.primitiveType = this.scene.gl.TRIANGLES;
-     this.initGLBuffers();
-
-    };
-
-    
-
-        
-   updateTexCoords(Sfactor,Tfactor){
+        this.primitiveType = this.scene.gl.TRIANGLES;
+        this.initGLBuffers();
+    }
+ 
+    updateTexCoords(Sfactor,Tfactor){
        this.updateTexCoordsGLBuffers();
-   }
-
-  
-           
-          
-
-        
-
-  }
+    }
+}
