@@ -67,12 +67,8 @@
             x1 = Math.cos(curr_angle) * this.radius;
             y1 = Math.sin(curr_angle) * this.radius;
 
-            this.vertices=[
-                 x0,y0,0,
-                 x1,y1,0
-             ]
-            
-        
+            this.vertices.push(x0,y0,0);
+            this.vertices.push(x1,y1,0);
 
             this.indices.push(0, index_counter+1, index_counter+2);
 
@@ -81,20 +77,28 @@
             this.normals.push(0,0,1);
             this.normals.push(0,0,1);
 
- }
+
+        }
+
+
+
         this.primitiveType = this.scene.gl.TRIANGLES;
         this.initGLBuffers();
     };
-    
-}
 
+  updateTexCoords(Sfactor,Tfactor) {
+		this.updateTexCoordsGLBuffers();
+	}
+
+
+}
 
 
  class MyCylinderSurface extends CGFobject{
     constructor(scene, bottom_radius, top_radius, height, slices, stacks) {
         super(scene);
         this.bottom_radius=bottom_radius;
-        this.top_radius=top_radius
+        this.top_radius=top_radius;
         this.height = height;
         this.slices = slices;
         this.stacks = stacks;
@@ -112,7 +116,7 @@
 
         for (var stack_c = 0; stack_c <= this.stacks; stack_c++) {
             var curr_angle = 0.0;
-            var curr_radius = (this.top_rad - this.base_rad) * (stack_c / this.stacks) + this.base_rad;
+            var curr_radius = (this.top_radius - this.bottom_radius) * (stack_c / this.stacks) + this.bottom_radius;
             var z0 = this.height * stack_c / this.stacks;
             for (slice_c = 0; slice_c <= this.slices; slice_c++) {
                 var x = Math.cos(curr_angle) * curr_radius;
@@ -134,17 +138,7 @@
             }
     }
 
-    this.primitiveType = this.scene.gl.TRIANGLES;
-        this.initGLBuffers();
-
-    };
-
-    
-
-        
-   updateTexCoords(Sfactor,Tfactor){
-
-    
+      
     this.texCoords = [];
 
         for (var stack_c = 0; stack_c <= this.stacks; stack_c++) {
@@ -152,14 +146,23 @@
             for (var slice_c = 0; slice_c <= this.slices; slice_c++) {
                 var u = 1 - (slice_c / this.slices);
                 this.texCoords.push(u, v);
+
+    this.primitiveType = this.scene.gl.TRIANGLES;
+     this.initGLBuffers();
+
+    };
+
+    
+
+        
+   updateTexCoords(Sfactor,Tfactor){
+       this.updateTexCoordsGLBuffers();
+   }
+
+  
            
-          }
+          
 
-        }
+        
 
-       
-   
-
-    }
-
- }
+  }
