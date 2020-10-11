@@ -610,6 +610,13 @@ class MySceneGraph {
 
             vector.push(new MyCylinder(this.scene, bottomRadius, topRadius, height, slices, stacks));
         }
+        else if (leafType == "sphere"){
+            let radius = this.reader.getFloat(leaf,'radius');
+            let stacks = this.reader.getFloat(leaf,'stacks');
+            let slices = this.reader.getFloat(leaf,'slices');
+
+            vector.push(new MySphere(this.scene, radius, slices, stacks));
+        }
         
     }
 
