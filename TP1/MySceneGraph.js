@@ -202,8 +202,6 @@ class MySceneGraph {
         }
 
         this.buildFamily(this.root);
-
-        console.log(this.root);
             
         this.log("all parsed");
     }
@@ -432,28 +430,12 @@ class MySceneGraph {
         console.log("----------------------------------");
 
         var children = nodesNode.children; //<node>
-
-        var grandChildren = [];
-        var grandgrandChildren = [];
+        var grandChildren = [];  //<material>, <texture>, <transformations>, <descendants>
+        var grandgrandChildren = [];  //<noderef>, <leaf>
         var nodeNames = [];
-
-        //var transformations = [];
-
-        var descendantNames = [];
 
         // Any number of nodes.
         for (let i = 0; i < children.length; i++) {
-            var nodeID = this.reader.getString(children[i], "id");
-            //var newNode = new MyNode(this, nodeID);
-            //this.myNodes[nodeID] = newNode;
-
-
-            console.log(i);
-            console.log(this.reader.getString(children[i], "id"));
-            console.log(children);
-            console.log(this.nodes);
-
-
             if (children[i].nodeName != "node") {
                 this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
                 continue;
@@ -468,27 +450,20 @@ class MySceneGraph {
             if (this.nodes[nodeID] != null)
                 return "ID must be unique for each node (conflict: ID = " + nodeID + ")";
 
-            //this.nodes[nodeID] = children[i];
+            var newComponent = new MyComponent(this.scene, nodeID, "component");
 
-            var newComponent = new MyComponent(this.scene, nodeID, "component", true);
-
-            grandChildren = children[i].children; //nodes: <material>, <texture>, <transformations>, <descendants>
-            console.log(children[i].nodeName);
+            grandChildren = children[i].children; 
 
             nodeNames = [];
             for (var j = 0; j < grandChildren.length; j++) {
                 nodeNames.push(grandChildren[j].nodeName);
-                console.log(grandChildren[j].nodeName);
             }
 
             var transformationsIndex = nodeNames.indexOf("transformations");
             var materialIndex = nodeNames.indexOf("material");
             var textureIndex = nodeNames.indexOf("texture");
             var descendantsIndex = nodeNames.indexOf("descendants");
-
             var error;
-
-            //var transformationsChildren
 
             this.onXMLMinorError("To do: Parse nodes.");
 
@@ -496,54 +471,33 @@ class MySceneGraph {
             if ((transformationsIndex = nodeNames.indexOf("transformations")) == -1)
                 return "tag <transformations> missing";
             else {
-
-                var transformations = [];
-
                 var transformationID = this.reader.getString(children[i], 'id');  //ID of the associated node
                 var transformationsChildren = grandChildren[transformationsIndex].children;
                 var transformationMatrix = mat4.create();
 
                 for (let j = 0; j < transformationsChildren.length; j++){
-
                     switch (transformationsChildren[j].nodeName){
                         case "translation":
-                            var translationCoords = this.parseCoordinates3D(transformationsChildren[j], this.reader.getString(children[i], "id"));
-
+                            var translationCoords = this.parseCoordinates3D(transformationsChildren[j], transformationID);
                             transformationMatrix = mat4.translate(transformationMatrix, transformationMatrix, translationCoords);
-
-                            console.log("Translation matrix: " + transformationMatrix);
-
                             break;
                         case "rotation":
                             var rotationAxis = this.reader.getString(transformationsChildren[j], "axis");
                             var rotationAngle = this.reader.getString(transformationsChildren[j], "angle");
                             var rotation;
 
-                            console.log(rotationAxis);
-                            console.log(rotationAngle);
-
                             if (rotationAxis == "x") rotation = [1, 0, 0];
                             else if (rotationAxis == "y") rotation = [0, 1, 0];
                             else if (rotationAxis == "z") rotation = [0, 0, 1];
 
                             transformationMatrix = mat4.rotate(transformationMatrix, transformationMatrix, rotationAngle * DEGREE_TO_RAD, rotation);
-
                             break;
                         case "scale":
-                            var scaleCoords = this.parseScaleCoords(transformationsChildren[j], this.reader.getString(children[i], "id"));
-
+                            var scaleCoords = this.parseScaleCoords(transformationsChildren[j], transformationID);
                             mat4.scale(transformationMatrix, transformationMatrix, scaleCoords);
-
                             break;
-                    }
-
-                    
-                }
-
-                //transformations[transformationID] = transformationMatrix;
-                //newNode.transformation = transformations[transformationID];
-                
-
+                    }                    
+                }                
             }
 
             // Material
@@ -566,19 +520,15 @@ class MySceneGraph {
             else {
                 grandgrandChildren = grandChildren[descendantsIndex].children;
 
-                //descendantNames = [];
                 var leaves = [];
                 var noderefs = [];
 
                 for (var k = 0; k < grandgrandChildren.length; k++) {
-                    //descendantNames.push(grandgrandChildren[k].nodeName);
-
                     if (grandgrandChildren[k].nodeName == "leaf"){  //Parse leaf
                         if ((error = this.parseLeaf(grandgrandChildren[k], leaves) != null))
                         return error;
                     } 
-
-                    if (grandgrandChildren[k].nodeName == "noderef"){  //Parse node
+                    else if (grandgrandChildren[k].nodeName == "noderef"){  //Parse node
                         /*
                         if (this.nodes[this.reader.getString(grandgrandChildren[k], "id")] != null){
                             newComponent.children.push(new MyComponent(this.scene, this.reader.getString(grandgrandChildren[k], "id"), this.nodes[this.reader.getString(grandgrandChildren[k], "id")], true));
@@ -600,7 +550,6 @@ class MySceneGraph {
             this.nodes[nodeID] = children[i];
             this.objects[nodeID] = newComponent;
 
-
             if (nodeID == this.idRoot){
                 this.root = newComponent;
             }
@@ -610,39 +559,21 @@ class MySceneGraph {
     }
 
     buildFamily(object){
-
         var node = this.nodes[object.id];
-        console.log(this.nodes);
         var children = node.children; //nodes: <material>, <texture>, <transformations>, <descendants>
-
-        var grandChildren = [];
-        var descendantsIndex = null;
-        //var grandgrandChildren = [];
-        //var nodeNames = [];
+        var grandChildren = []; //<noderef> or <leaf>
 
         for (let i = 0; i < children.length; i++){
+
             // Descendants
             if (children[i].nodeName == "descendants") {
                 grandChildren = children[i].children;
-
                 for (let j = 0; j < grandChildren.length; j++){
- 
-                    if (grandChildren[j].nodeName == "noderef"){  //Parse node
-                        console.log("oi noderef: ");
-                        console.log(children[i]);
-
+                    if (grandChildren[j].nodeName == "noderef"){ 
                         if (this.objects[object.id].objects[grandChildren[j].id] == null)
                             this.objects[object.id].objects[grandChildren[j].id] = this.objects[grandChildren[j].id];
-                        console.log(this.objects[grandChildren[j].id]);
-                        console.log("grandChildren[" + j + "].id: " + grandChildren[j].id);
-                        console.log(this.objects[object.id].objects[grandChildren[j].id]);
-                        console.log("object.id: " + object.id);
-                        console.log(this.objects[object.id].objects);
 
                         this.buildFamily(this.objects[grandChildren[j].id]);
-
-                        //var newObject = 
-                        //object.objects[this.reader.getString(grandChildren[j], "id")] = new ;
                     }
                 }
             }
@@ -658,9 +589,7 @@ class MySceneGraph {
             var y1 = this.reader.getFloat(leaf,'y1');
             var x2 = this.reader.getFloat(leaf,'x2');
             var y2 = this.reader.getFloat(leaf,'y2');
-            
-            //this.myNodes[nodeID].primitives.push(new MyRectangle(this.scene, x1, x2, y1, y2));
-            //newComponent.children.push(new MyRectangle(this.scene, x1, x2, y1, y2));
+
             vector.push(new MyRectangle(this.scene, x1, x2, y1, y2));
         }
         
@@ -794,9 +723,6 @@ class MySceneGraph {
     }
 
 
-
-    
-
     /**
      * Displays the scene, processing each node, starting in the root node.
      */
@@ -807,18 +733,7 @@ class MySceneGraph {
 
         this.root.display();
 
-        this.scene.popMatrix();
-        //this.primitives[0].display();
-
-        /*
-        for (var i = 0; ) {
-            //this.scene.multMatrix(x.transformation);
-            //this.x.primitives.display();
-            //this.scene.popMatrix();
-            console.log("x.id");
-        //}
-        */
-        
+        this.scene.popMatrix();   
 
     }
 }
