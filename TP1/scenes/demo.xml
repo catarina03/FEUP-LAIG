@@ -138,7 +138,6 @@
             </transformations>
 
             <descendants>
-                <leaf type="torus" inner="2" outer="2" slices="20" loops="20" />
                 <noderef id="estrutura" />
                 <noderef id="mesa_pequena"/>
                 <noderef id="movel_tv"/>

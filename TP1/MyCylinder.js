@@ -32,7 +32,6 @@ class MyCylinder extends CGFobject{
         this.cylinder_surface.display();
     }
 
-
     updateTexCoords(Sfactor,Tfactor){
         this.cylinder_surface.updateTexCoords(1,1);
     }
@@ -166,3 +165,4 @@ class MyCylinderSurface extends CGFobject{
        this.updateTexCoordsGLBuffers();
     }
 }
+

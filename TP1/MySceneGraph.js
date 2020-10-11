@@ -625,7 +625,7 @@ class MySceneGraph {
             let slices = this.reader.getFloat(leaf,'slices');
             let loops = this.reader.getFloat(leaf,'loops');
 
-            //vector.push(new MyTorus(this.scene, inner, outer, slices, loops));
+            vector.push(new MyTorus(this.scene, inner, outer, slices, loops));
         }
         
     }
