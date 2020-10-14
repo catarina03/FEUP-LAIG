@@ -156,9 +156,9 @@
             </transformations>
 
             <descendants>
-                <nodered id="parede_zy"/>
+                <noderef id="parede_zy"/>
                 <noderef id="chao"/>
-                <nodered id="parede_yx"/>
+                <noderef id="parede_yx"/>
             </descendants>
         </node>
 
@@ -294,7 +294,8 @@
             <texture id="null" />
 
             <transformations>
-                <rotation axis="y" angle="90"/>
+                <scale sx="-1" sy="1" sz="1" />
+                <rotation axis="y" angle="-90"/>
             </transformations>
 
             <descendants>
@@ -463,7 +464,7 @@
             </transformations>
 
             <descendants>
-                <leaf type="cylinder" height="1.0" topRadius="0.5" bottomRadius="0.5" stacks="10" slices="5"/>
+                <leaf type="cylinder" height="1.0" topRadius="0.5" bottomRadius="0.5" stacks="10" slices="20"/>
             </descendants>
         </node>
         
@@ -556,7 +557,7 @@
             </transformations>
 
             <descendants>
-                <leaf type="torus" inner="0.2" outer="0.1" slices="16" loops="48" />
+                <leaf type="torus" inner="0.1" outer="0.2" slices="16" loops="48" />
             </descendants>
         </node>
         

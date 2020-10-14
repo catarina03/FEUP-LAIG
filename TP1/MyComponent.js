@@ -24,8 +24,6 @@ class MyComponent extends CGFobject{
         this.currMatIndex = 0;
 
         /*
-        this.materials = [];
-        this.texture;
         this.length_s = null;
         this.length_t = null;
         */
