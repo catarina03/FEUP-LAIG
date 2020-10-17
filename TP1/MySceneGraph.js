@@ -29,6 +29,7 @@ class MySceneGraph {
         this.root = null;
         this.nodes = [];
         this.objects = [];
+        this.textures = [];
         this.primitives = []; //just for testing
         this.myNodes = []; //more testing
 
@@ -372,16 +373,47 @@ class MySceneGraph {
         return null;
     }
 
-    /**
+        /**
      * Parses the <textures> block. 
      * @param {textures block element} texturesNode
      */
     parseTextures(texturesNode) {
-
         //For each texture in textures block, check ID and file URL
-        this.onXMLMinorError("To do: Parse textures.");
+        var children = texturesNode.children;
+
+        for (var i = 0; i < children.length; i++) {
+            var id = this.reader.getString(children[i], 'id');
+
+            if (typeof this.textures[id] != 'undefined') //ver se a textura ja existe
+            {
+                this.onXMLError("texture: already exists a texture with such id" + id + ".")
+            }
+
+            var returnValueTexture = this.parseEachTexture(children[i], id, "texture with ID" + id);
+
+            if (returnValueTexture != null)
+                return returnValueTexture;
+        }
+
         return null;
     }
+
+
+    parseEachTexture(texturesNode, id, messageError) {
+        //reads path
+        var path = this.reader.getString(texturesNode, 'path');
+
+        if (path == null) //checks if reading was succesfull
+        {
+            return "Not found file " + path + " of " + messageError;
+        }
+
+        this.textures[id] = new CGFtexture(this.scene, path); //creates new texture
+        this.log("Parsed texture");
+
+        return null;
+    }
+
 
     /**
      * Parses the <materials> node.
@@ -424,7 +456,7 @@ class MySceneGraph {
    * Parses the <nodes> block.
    * @param {nodes block element} nodesNode
    */
-  parseNodes(nodesNode) {
+    parseNodes(nodesNode) {
         var children = nodesNode.children; //<node>
         var grandChildren = [];  //<material>, <texture>, <transformations>, <descendants>
         var grandgrandChildren = [];  //<noderef>, <leaf>
@@ -508,6 +540,11 @@ class MySceneGraph {
                 return "tag <texture> missing";
             else {
                 //TO DO
+                var nodeTexture = [];
+                var length_s;
+                var length_t;
+                this.parseNodeTexture(nodeID, grandChildren[transformationsIndex], nodeTexture, length_s, length_t);
+
             }
 
             // Descendants
@@ -540,6 +577,9 @@ class MySceneGraph {
             }
 
             newComponent.transformation = transformationMatrix;
+            newComponent.currTexture = nodeTexture;
+            newComponent.length_s = length_s;
+            newComponent.length_t = length_t;
             newComponent.primitives = leaves;
             newComponent.children = noderefs;
             
@@ -555,6 +595,54 @@ class MySceneGraph {
         }
 
     }
+
+
+    parseNodeTexture(componentID, componentsNode, componentTexture,componentLength_s, componentLength_t) {
+        var textureID = this.reader.getString(componentsNode, 'id');
+        var length_s = this.reader.getFloat(componentsNode, 'length_s', false);
+        var length_t = this.reader.getFloat(componentsNode, 'length_t', false);
+
+        // Validates id, length_s, length_t
+        if (textureID == null)
+            return "id of texture is not valid (null) of component " + componentID;
+
+        if (textureID == "null" || textureID == "clear") {
+            if (length_s != null || length_t != null) {
+                return "id '" + textureID + ": cannot instantiate the attributes a lenght_s and lenght_t with texture inherit/none of component " + componentID;
+            } else {
+                componentTexture = this.textures[textureID];
+                return null;
+            }
+        }
+
+        if (this.textures[textureID] == null)
+            return textureID + " is not valid on materials of component " + componentID;
+
+        if (length_t == null || length_s == null) {
+            return "missing lenght_t or/and lenght_s on texture " + textureID + "on component " + componentID;
+        }
+
+        //setting length_s and length_t 
+        if (length_s != null) {
+            if (isNaN(length_s))
+                return "lenght_s is not a number in texture " + textureID + " of component " + componentID;
+            if (length_s <= 0)
+                return "lenght_s is cannot be negative or 0 in texture " + textureID + " of component " + componentID;
+            componentLength_s = length_s;
+        }
+
+        if (length_t != null) {
+            if (isNaN(length_t))
+                return "length_t is not a number in texture " + textureID + " of component " + componentID;
+            if (length_t <= 0)
+                return "length_t is cannot be negative or 0 in texture " + textureID + " of component " + componentID;
+            componentLength_t = length_t;
+        }
+
+        componentTexture = this.textures[textureID];
+    }
+
+
 
     buildFamily(object){
         var node = this.nodes[object.id];
@@ -762,13 +850,6 @@ class MySceneGraph {
      * Displays the scene, processing each node, starting in the root node.
      */
     displayScene() {        
-        //To do: Create display loop for transversing the scene graph, calling the root node's display function
-    
-        this.scene.pushMatrix();
-
         this.root.display();
-
-        this.scene.popMatrix();   
-
     }
 }

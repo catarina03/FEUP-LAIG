@@ -23,12 +23,8 @@ class MyComponent extends CGFobject{
         
         this.currMatIndex = 0;
 
-        /*
         this.length_s = null;
         this.length_t = null;
-        */
-
-
     };
 
     getID(){
