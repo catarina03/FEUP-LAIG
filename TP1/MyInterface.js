@@ -20,6 +20,11 @@ class MyInterface extends CGFinterface {
 
         this.gui = new dat.GUI();
 
+        //Checkbox element in GUI
+        this.gui.add(this.scene, 'displayAxis').name('Display Axis');
+        
+        this.gui.add(this.scene, 'zoom', 0.1, 8).name('Zoom');
+
         // add a group of controls (and open/expand by defult)
 
         this.initKeys();

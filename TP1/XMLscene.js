@@ -20,6 +20,8 @@ class XMLscene extends CGFscene {
         super.init(application);
 
         this.sceneInited = false;
+        this.displayAxis = true;
+        this.zoom = 1;
 
         this.initCameras();
 
@@ -113,6 +115,8 @@ class XMLscene extends CGFscene {
 
         this.pushMatrix();
 
+        this.scale(this.zoom, this.zoom, this.zoom);
+
         for (var i = 0; i < this.lights.length; i++) {
             this.lights[i].setVisible(true);
             this.lights[i].enable();
@@ -120,7 +124,7 @@ class XMLscene extends CGFscene {
 
         if (this.sceneInited) {
             // Draw axis
-            this.axis.display();
+            if (this.displayAxis) this.axis.display();
  
             this.defaultAppearance.apply();
 
