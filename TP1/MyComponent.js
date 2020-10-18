@@ -46,6 +46,7 @@ class MyComponent extends CGFobject{
         //push transformation, material and texture to the corresponding stacks
         this.scene.pushMatrix();
         //Material
+        this.currMaterial=this.scene.pushMaterial(this.component.materials[this.currMatIndex]);
         //Texture
 
         //Applies transformation
@@ -57,6 +58,7 @@ class MyComponent extends CGFobject{
         //Applies Texture
 
         //Applies Material
+        this.currMaterial.apply();
 
         for (let i = 0; i < this.primitives.length; i++){
             this.primitives[i].display();
@@ -70,6 +72,7 @@ class MyComponent extends CGFobject{
         //Texture
         //Material
         //Pops tranformation
+        this.scene.popMaterial();
         this.scene.popMatrix();
     }
 

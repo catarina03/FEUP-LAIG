@@ -252,8 +252,11 @@ class MySceneGraph {
      * @param {view block element} viewsNode
      */
     parseViews(viewsNode) {
+
+
+        this.defaultView = this.reader.getString(viewsNode, 'default');
         this.onXMLMinorError("To do: Parse views and create cameras.");
-        return null;
+       // return null;
     }
 
     /**
@@ -395,36 +398,148 @@ class MySceneGraph {
         var grandChildren = [];
         var nodeNames = [];
 
+        var numMaterials = 0;
+
         // Any number of materials.
         for (var i = 0; i < children.length; i++) {
+
+
+        var global = [];
+        var attributeNames=[];
+        var attributeTypes=[];
+
+
+
 
             if (children[i].nodeName != "material") {
                 this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
                 continue;
             }
 
+            else{
+                attributeNames.push(...["emissive","ambient","diffuse","specular"]);
+                attributeTypes.push(...["color","color","color","color"]);
+            }
+
             // Get id of the current material.
             var materialID = this.reader.getString(children[i], 'id');
+            
             if (materialID == null)
                 return "no ID defined for material";
+            
+            if(materialID==""){
+                this.onXMLMinorError("ignored material in the position"+(i+1)+ ":ID is missing");
+                continue;
+            }
+            
 
             // Checks for repeated IDs.
             if (this.materials[materialID] != null)
-                return "ID must be unique for each light (conflict: ID = " + materialID + ")";
+                return "(ID must be unique for each light (conflict: ID = " + materialID + ")";
 
             //Continue here
-            this.onXMLMinorError("To do: Parse materials.");
+
+                    var materialSpecs = children[i].children;
+
+        var nodeNames = [];
+
+        for (var j = 0; j < materialSpecs.length; j++)
+            nodeNames.push(materialSpecs[j].nodeName);
+
+        // Determines the values for each field.
+        // Shininess.
+        var shininessIndex = nodeNames.indexOf("shininess");
+        if (shininessIndex == -1)
+            return "no shininess value defined for material with ID = " + materialID;
+        var shininess = this.reader.getFloat(materialSpecs[shininessIndex], 'value');
+
+        if (shininess == null)
+            return "unable to parse shininess value for material with ID = " + materialID;
+        else if (isNaN(shininess))
+            return "'shininess' is a non numeric value";
+        else if (shininess <= 0)
+            return "'shininess' must be positive";
+
+       // var shininess = this.reader.getFloat(children[i], 'shininess');
+        if(!(shininess != null && !isNaN(shininess)))return "unable to parse shininess for the material with ID = "+ materialID + shininess ;
+       
+
+            global.push(shininess);
+            grandChildren=children[i].children;
+
+
+            nodeNames=[];
+
+            for(var j=0; j< grandChildren.length;j++){
+                nodeNames.push(grandChildren[j].nodeName);
+            }
+
+            for(var j=0;j< attributeNames.length;j++){
+                var attributeIndex=nodeNames.indexOf(attributeNames[j]);
+            
+                if(attributeIndex != -1) {
+
+                    var aux=this.parseColor(grandChildren[attributeIndex],"attribute \"" + attributeNames[j] + "\" of the Material with ID = " + materialID);
+                    
+
+                    if(!Array.isArray(aux))return aux;
+
+
+                    global.push(aux);
+                 
+                }
+
+                else
+                    return "material"+ attributeNames[j]+ "undefined for id =" + materialID;
+
         }
 
-        //this.log("Parsed materials");
+
+        var provMaterial=new CGFappearance(this.scene);
+           provMaterial.setShininess(global[0]);
+           provMaterial.setEmission(...global[1]);
+           provMaterial.setAmbient(...global[2]);
+           provMaterial.setDiffuse(...global[3]);
+           provMaterial.setSpecular(...global[4]);
+           provMaterial.setTextureWrap('REPEAT','REPEAT');
+
+           this.materials[materialID]=provMaterial;
+           numMaterials++;
+
+
+
+
+
+
+
+
+        }
+
+
+
+        if(numMaterials==0)
+            return "there must be at least one material defined";
+            
+        this.log("Parsed materials");
         return null;
+
+
+
     }
+
+
+
+        
+        
+       
+    
 
     /**
    * Parses the <nodes> block.
    * @param {nodes block element} nodesNode
    */
   parseNodes(nodesNode) {
+        
         var children = nodesNode.children; //<node>
         var grandChildren = [];  //<material>, <texture>, <transformations>, <descendants>
         var grandgrandChildren = [];  //<noderef>, <leaf>
@@ -432,6 +547,11 @@ class MySceneGraph {
 
         // Any number of nodes.
         for (let i = 0; i < children.length; i++) {
+
+          
+
+
+
             if (children[i].nodeName != "node") {
                 this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
                 continue;
@@ -442,11 +562,16 @@ class MySceneGraph {
             if (nodeID == null)
                 return "no ID defined for nodeID";
 
+
+           
             // Checks for repeated IDs.
             if (this.nodes[nodeID] != null)
                 return "ID must be unique for each node (conflict: ID = " + nodeID + ")";
 
             var newComponent = new MyComponent(this.scene, nodeID, "component");
+
+           
+              
 
             grandChildren = children[i].children; 
 
@@ -497,11 +622,23 @@ class MySceneGraph {
             }
 
             // Material
+            // Retrieves material ID
             if ((materialIndex = nodeNames.indexOf("material")) == -1)
                 return "tag <material> missing";
             else {
-                //TO DO
+                 
+            var materialID = this.reader.getString(grandChildren[materialIndex], 'id');
+            if (materialID == null)
+                return "unable to parse material ID (node ID = " + nodeID + ")";
+            if (materialID != "null" && this.materials[materialID] == null)
+                return "ID does not correspond to a valid material (node ID = " + nodeID + ")";
+
+                
+               
             }
+
+            
+
 
             // Texture
             if ((textureIndex = nodeNames.indexOf("texture")) == -1)
@@ -542,6 +679,7 @@ class MySceneGraph {
             newComponent.transformation = transformationMatrix;
             newComponent.primitives = leaves;
             newComponent.children = noderefs;
+            newComponent.currMatIndex=materialID;
             
             this.nodes[nodeID] = children[i];
             this.objects[nodeID] = newComponent;

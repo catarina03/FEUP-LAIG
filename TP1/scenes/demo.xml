@@ -51,7 +51,7 @@
 
     <materials>
         <material id="StandardMaterial">
-            <shininess value="1"/>
+            <shininess value="0.9"/>
             <ambient r="1.0" g="0.0" b="0.0" a="1.0"/>
             <diffuse r="0.6" g="0.0" b="0.0" a="1.0"/>
             <specular r="0.6" g="0.0" b="0.0" a="1.0"/>
@@ -128,7 +128,7 @@
     <nodes>
 
         <node id="SalaSimpsons">
-            <material id="StandardMaterial"/>
+            <material id="amarelo"/>
 
             <texture id="clear">
                 <amplification afs="2.0" aft="2.0"/>
