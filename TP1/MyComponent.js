@@ -39,7 +39,7 @@ class MyComponent extends CGFobject{
 
     //nextMaterial()
 
-    display(){
+    display(texP){
         //push transformation, material and texture to the corresponding stacks
         this.scene.pushMatrix();
         //Material
@@ -55,6 +55,14 @@ class MyComponent extends CGFobject{
         if (this.currTexture != "null" && this.currTexture != "clear"){
             this.currMaterial.setTexture(this.currTexture);
             this.currMaterial.apply();
+        }
+        else if (this.currTexture == "clear"){
+            this.currMaterial.setTexture(null);
+            this.currMaterial.apply();
+        }
+        else if (this.currTexture == "null"){
+            this.currTexture = texP;
+            //
         }
         //console.log(this.currTexture);
 
@@ -74,7 +82,7 @@ class MyComponent extends CGFobject{
 
         for (let obj in this.objects){
             //Recursive loop through all objects
-            this.objects[obj].display();
+            this.objects[obj].display(this.currTexture);
         }
 
         //Texture
