@@ -24,8 +24,8 @@ class MyComponent extends CGFobject{
         
         this.currMatIndex = 0;
 
-        this.length_s = null;
-        this.length_t = null;
+        this.afs = null;
+        this.aft = null;
     };
 
     getID(){
@@ -52,14 +52,21 @@ class MyComponent extends CGFobject{
         }
 
         //Applies Texture
+        if (this.currTexture != "null" && this.currTexture != "clear"){
+            this.currMaterial.setTexture(this.currTexture);
+            this.currMaterial.apply();
+        }
+        //console.log(this.currTexture);
 
         //Applies Material
+        /*
         if (this.currMaterial != "null" && this.currMaterial != "clear"){
-            //this.currMaterial.setTexture(this.scene.textures[currTexture]);
-            //console.log(this.currTexture);
-            console.log(this.textures[this.currTexture]);
+            //this.currMaterial.setTexture(this.currTexture);            
+            console.log(this.currTexture);
             //this.currMaterial.apply();
         }
+        */
+        //console.log(this.scene.textures);
 
         for (let i = 0; i < this.primitives.length; i++){
             this.primitives[i].display();

@@ -46,6 +46,7 @@
         <texture id="verde_chao" path="./scenes/images/pine_green.jpg"/>
         <texture id="quadro_barco" path="./scenes/images/moldura_barco.jpg"/>
         <texture id="donut" path="./scenes/images/text_donut.jpg"/>
+        <texture id="ecra_tv" path="./scenes/images/ecra_tv.png" />
     </textures>
 
 

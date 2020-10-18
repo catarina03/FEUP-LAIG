@@ -540,11 +540,7 @@ class MySceneGraph {
                 return "tag <texture> missing";
             else {
                 //TO DO
-                var nodeTexture = [];
-                var length_s;
-                var length_t;
-                this.parseNodeTexture(nodeID, grandChildren[transformationsIndex], nodeTexture, length_s, length_t);
-
+                var texStruct = this.parseNodeTexture(nodeID, grandChildren[textureIndex]);
             }
 
             // Descendants
@@ -562,31 +558,32 @@ class MySceneGraph {
                         return error;
                     } 
                     else if (grandgrandChildren[k].nodeName == "noderef"){  //Parse node
-                        /*
-                        if (this.nodes[this.reader.getString(grandgrandChildren[k], "id")] != null){
-                            newComponent.children.push(new MyComponent(this.scene, this.reader.getString(grandgrandChildren[k], "id"), this.nodes[this.reader.getString(grandgrandChildren[k], "id")], true));
-                        }
-                        else{
-                            console.log("To do: descendentes ainda não declarados");
-                            newComponent.children.push(new MyComponent(this.scene, this.reader.getString(grandgrandChildren[k], "id"), this.nodes[this.reader.getString(grandgrandChildren[k], "id")], false));
-                        }
-                        */
                         noderefs.push(grandgrandChildren[k]);
                     }
                 }
             }
 
             newComponent.transformation = transformationMatrix;
-            newComponent.currTexture = nodeTexture;
-            newComponent.length_s = length_s;
-            newComponent.length_t = length_t;
+
+            if (texStruct.id == "null"){
+                newComponent.currTexture = "null";
+            }
+            else if (texStruct.id == "clear"){
+                newComponent.currTexture = "clear";
+            }
+            else{
+                newComponent.currTexture = this.textures[texStruct.id];
+            }
+
+            newComponent.afs = texStruct.afs;
+            newComponent.aft = texStruct.aft;
             newComponent.primitives = leaves;
             newComponent.children = noderefs;
             
             this.nodes[nodeID] = children[i];
             this.objects[nodeID] = newComponent;
 
-            console.log(newComponent);
+            console.log(newComponent.currTexture);
 
             if (nodeID == this.idRoot){
                 this.root = newComponent;
@@ -597,49 +594,54 @@ class MySceneGraph {
     }
 
 
-    parseNodeTexture(componentID, componentsNode, componentTexture,componentLength_s, componentLength_t) {
-        var textureID = this.reader.getString(componentsNode, 'id');
-        var length_s = this.reader.getFloat(componentsNode, 'length_s', false);
-        var length_t = this.reader.getFloat(componentsNode, 'length_t', false);
+    parseNodeTexture(componentID, textureNode) {
+        var textureID = this.reader.getString(textureNode, 'id');
+        var afs = 1;
+        var aft = 1;
+        
+        var texStruct = {
+            id: textureID,
+            af_s: afs,
+            af_t: aft
+        };
 
-        // Validates id, length_s, length_t
-        if (textureID == null)
-            return "id of texture is not valid (null) of component " + componentID;
-
-        if (textureID == "null" || textureID == "clear") {
-            if (length_s != null || length_t != null) {
-                return "id '" + textureID + ": cannot instantiate the attributes a lenght_s and lenght_t with texture inherit/none of component " + componentID;
-            } else {
-                componentTexture = this.textures[textureID];
-                return null;
-            }
+        if (textureID == "null" || textureID == "clear"){
+            return texStruct;
         }
 
         if (this.textures[textureID] == null)
             return textureID + " is not valid on materials of component " + componentID;
 
-        if (length_t == null || length_s == null) {
-            return "missing lenght_t or/and lenght_s on texture " + textureID + "on component " + componentID;
+        var amplification = textureNode.children;
+        if (amplification.length > 0){
+            afs = this.reader.getFloat(amplification[0], 'afs');
+            aft = this.reader.getFloat(amplification[0], 'aft');
+
+            //setting afs and aft 
+            if (afs != null) {
+                if (isNaN(afs))
+                    return "afs isn't a number in texture " + textureID + " of component " + componentID;
+                if (afs <= 0)
+                    return "afs is can't be negative or 0 in texture " + textureID + " of component " + componentID;
+            }
+            else{
+                //warning
+                afs = 1;
+            }
+
+            if (aft != null) {
+                if (isNaN(aft))
+                    return "aft isn't a number in texture " + textureID + " of component " + componentID;
+                if (aft <= 0)
+                    return "aft is can't be negative or 0 in texture " + textureID + " of component " + componentID;
+            }
+            else{
+                //warning
+                aft = 1;
+            }
         }
 
-        //setting length_s and length_t 
-        if (length_s != null) {
-            if (isNaN(length_s))
-                return "lenght_s is not a number in texture " + textureID + " of component " + componentID;
-            if (length_s <= 0)
-                return "lenght_s is cannot be negative or 0 in texture " + textureID + " of component " + componentID;
-            componentLength_s = length_s;
-        }
-
-        if (length_t != null) {
-            if (isNaN(length_t))
-                return "length_t is not a number in texture " + textureID + " of component " + componentID;
-            if (length_t <= 0)
-                return "length_t is cannot be negative or 0 in texture " + textureID + " of component " + componentID;
-            componentLength_t = length_t;
-        }
-
-        componentTexture = this.textures[textureID];
+        return texStruct
     }
 
 
