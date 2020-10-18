@@ -21,7 +21,7 @@ class XMLscene extends CGFscene {
 
         this.sceneInited = false;
         this.displayAxis = true;
-        this.zoom = 1;
+        this.zoom = 2;
 
         this.initCameras();
 
@@ -85,6 +85,8 @@ class XMLscene extends CGFscene {
      * As loading is asynchronous, this may be called already after the application has started the run loop
      */
     onGraphLoaded() {
+       // this.initViews();
+         
         this.axis = new CGFaxis(this, this.graph.referenceLength);
 
         this.gl.clearColor(...this.graph.background);
@@ -93,8 +95,24 @@ class XMLscene extends CGFscene {
 
         this.initLights();
 
+       // this.camera=this.graph.views[this.graph.defaultView];
+       // this.interface.setActiveCamera(this.camera);
+
+         this.interface.addLightsGUI();
+      //   this.interface.addCamerasGUI();
+
         this.sceneInited = true;
     }
+
+/*
+     initViews(){
+        this.camera = this.graph.views[this.graph.defaultView];
+        this.interface.setActiveCamera(this.camera);
+    }
+
+
+   
+*/
 
     /**
      * Displays the scene.
@@ -114,18 +132,22 @@ class XMLscene extends CGFscene {
         this.applyViewMatrix();
 
         this.pushMatrix();
+        
+        if(this.displayAxis) this.axis.display();
 
-        this.scale(this.zoom, this.zoom, this.zoom);
-
+        this.scale(this.zoom/2, this.zoom/2, this.zoom/2);
+        
         for (var i = 0; i < this.lights.length; i++) {
             this.lights[i].setVisible(true);
             this.lights[i].enable();
         }
 
+        for(var i=0;i<this.lights.length;i++)
+            this.lights[i].update();
+
         if (this.sceneInited) {
-            // Draw axis
-            if (this.displayAxis) this.axis.display();
- 
+            if(this.displayAxis) this.axis.display();
+
             this.defaultAppearance.apply();
 
             // Displays the scene (MySceneGraph function).

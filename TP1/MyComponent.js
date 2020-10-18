@@ -39,10 +39,11 @@ class MyComponent extends CGFobject{
 
     //nextMaterial()
 
-    display(texP){
+    display(parentMaterial, parentTexture){
         //push transformation, material and texture to the corresponding stacks
         this.scene.pushMatrix();
         //Material
+        //this.currMaterial=this.scene.pushMaterial(this.component.materials[this.currMatIndex]);
         //Texture
         //this.scene.pushTexture(this.currTexture);
 
@@ -51,32 +52,40 @@ class MyComponent extends CGFobject{
             this.scene.multMatrix(this.transformation);
         }
 
-        //Applies Texture
-        if (this.currTexture != "null" && this.currTexture != "clear"){
-            this.currMaterial.setTexture(this.currTexture);
-            this.currMaterial.apply();
-        }
-        else if (this.currTexture == "clear"){
-            this.currMaterial.setTexture(null);
-            this.currMaterial.apply();
-        }
-        else if (this.currTexture == "null"){
-            this.currTexture = texP;
-            this.currMaterial.setTexture(this.currTexture);
-            this.currMaterial.apply();
-            //
-        }
-        //console.log(this.currTexture);
+        //Applies Material and Texture
 
-        //Applies Material
-        /*
-        if (this.currMaterial != "null" && this.currMaterial != "clear"){
-            //this.currMaterial.setTexture(this.currTexture);            
-            console.log(this.currTexture);
-            //this.currMaterial.apply();
+        if(this.currMaterial == "null") { 
+            this.currMaterial = parentMaterial;
+
+            if (this.currTexture != "null" && this.currTexture != "clear"){
+                this.currMaterial.setTexture(this.currTexture);
+            }
+            else if (this.currTexture == "clear"){
+                this.currMaterial.setTexture(null);
+            }
+            else if (this.currTexture == "null"){
+                this.currTexture = parentTexture;
+                this.currMaterial.setTexture(this.currTexture);
+            }       
+
+            this.currMaterial.apply();                                     
+        }  
+        else {
+            if (this.currTexture != "null" && this.currTexture != "clear"){
+                this.currMaterial.setTexture(this.currTexture);
+            }
+            else if (this.currTexture == "clear"){
+                this.currMaterial.setTexture(null);
+            }
+            else if (this.currTexture == "null"){
+                this.currTexture = parentTexture;
+                this.currMaterial.setTexture(this.currTexture);
+            }   
+
+            this.currMaterial.apply();
         }
-        */
-        //console.log(this.scene.textures);
+
+        //console.log(this.currTexture);
 
         for (let i = 0; i < this.primitives.length; i++){
             this.primitives[i].display();
@@ -84,13 +93,14 @@ class MyComponent extends CGFobject{
 
         for (let obj in this.objects){
             //Recursive loop through all objects
-            this.objects[obj].display(this.currTexture);
+            this.objects[obj].display(this.currMaterial, this.currTexture);
         }
 
         //Texture
         //this.scene.popTexture(this.currTexture);
         //Material
         //Pops tranformation
+        //this.scene.popMaterial();
         this.scene.popMatrix();
     }
 
