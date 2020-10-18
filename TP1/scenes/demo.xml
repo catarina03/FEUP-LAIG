@@ -46,12 +46,13 @@
         <texture id="verde_chao" path="./scenes/images/pine_green.jpg"/>
         <texture id="quadro_barco" path="./scenes/images/moldura_barco.jpg"/>
         <texture id="donut" path="./scenes/images/text_donut.jpg"/>
+        <texture id="ecra_tv" path="./scenes/images/ecra_tv.png" />
     </textures>
 
 
     <materials>
         <material id="StandardMaterial">
-            <shininess value="0.9"/>
+            <shininess value="1"/>
             <ambient r="1.0" g="0.0" b="0.0" a="1.0"/>
             <diffuse r="0.6" g="0.0" b="0.0" a="1.0"/>
             <specular r="0.6" g="0.0" b="0.0" a="1.0"/>
@@ -128,7 +129,7 @@
     <nodes>
 
         <node id="SalaSimpsons">
-            <material id="amarelo"/>
+            <material id="StandardMaterial"/>
 
             <texture id="clear">
                 <amplification afs="2.0" aft="2.0"/>
