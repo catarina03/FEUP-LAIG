@@ -373,7 +373,7 @@ class MySceneGraph {
         return null;
     }
 
-        /**
+    /**
      * Parses the <textures> block. 
      * @param {textures block element} texturesNode
      */

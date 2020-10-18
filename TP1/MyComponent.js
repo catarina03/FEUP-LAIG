@@ -18,7 +18,8 @@ class MyComponent extends CGFobject{
         this.objects = [];
         this.transformation = null;
 
-        this.currMaterial = null;
+        //this.currMaterial = null;
+        this.currMaterial = new CGFappearance(this.scene);
         this.currTexture = null;
         
         this.currMatIndex = 0;
@@ -43,16 +44,22 @@ class MyComponent extends CGFobject{
         this.scene.pushMatrix();
         //Material
         //Texture
+        //this.scene.pushTexture(this.currTexture);
 
         //Applies transformation
         if (this.transformation != null){
-            //console.log(this.transformation);
             this.scene.multMatrix(this.transformation);
         }
 
         //Applies Texture
 
         //Applies Material
+        if (this.currMaterial != "null" && this.currMaterial != "clear"){
+            //this.currMaterial.setTexture(this.scene.textures[currTexture]);
+            //console.log(this.currTexture);
+            console.log(this.textures[this.currTexture]);
+            //this.currMaterial.apply();
+        }
 
         for (let i = 0; i < this.primitives.length; i++){
             this.primitives[i].display();
@@ -64,6 +71,7 @@ class MyComponent extends CGFobject{
         }
 
         //Texture
+        //this.scene.popTexture(this.currTexture);
         //Material
         //Pops tranformation
         this.scene.popMatrix();
