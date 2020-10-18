@@ -62,6 +62,8 @@ class MyComponent extends CGFobject{
         }
         else if (this.currTexture == "null"){
             this.currTexture = texP;
+            this.currMaterial.setTexture(this.currTexture);
+            this.currMaterial.apply();
             //
         }
         //console.log(this.currTexture);

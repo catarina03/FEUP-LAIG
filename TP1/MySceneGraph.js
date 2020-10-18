@@ -678,7 +678,7 @@ class MySceneGraph {
             let x2 = this.reader.getFloat(leaf,'x2');
             let y2 = this.reader.getFloat(leaf,'y2');
 
-            vector.push(new MyRectangle(this.scene, x1, x2, y1, y2));
+            vector.push(new MyRectangle(this.scene, x1, y1, x2, y2));
         }
         else if (leafType == "triangle"){
             let x1 = this.reader.getFloat(leaf,'x1');
