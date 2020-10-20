@@ -59,10 +59,19 @@ class MyCircle extends CGFobject{
         this.vertices = [0,0,0];
         this.indices = [];
         this.normals = [0,0,1];
+        this.texCoords = [];
 
         var curr_angle = 0;
         var index_counter = 0;
         var x0, x1, y0, y1;
+        var div = 2 * Math.PI / this.slices;
+
+
+        this.texCoords.push(0.5, 0.5);
+
+        for (var i = 0; i <= this.slices; i++) {
+        this.texCoords.push(0.5 + 0.5 * Math.cos(i * div), 0.5 + 0.5 * Math.sin(i * div));
+        }
 
         for(var i = 0; i < this.slices; i++){
 
