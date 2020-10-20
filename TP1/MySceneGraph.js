@@ -674,7 +674,7 @@ class MySceneGraph {
             newComponent.aft = texStruct.aft;
             newComponent.primitives = leaves;
             newComponent.children = noderefs;
-            newComponent.currMatIndex=materialID;
+            newComponent.currMatIndex = materialID;
             newComponent.currMaterial = componentMaterial;
 
             this.nodes[nodeID] = children[i];

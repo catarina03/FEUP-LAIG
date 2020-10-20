@@ -46,7 +46,9 @@
         <texture id="verde_chao" path="./scenes/images/pine_green.jpg"/>
         <texture id="quadro_barco" path="./scenes/images/moldura_barco.jpg"/>
         <texture id="donut" path="./scenes/images/text_donut.jpg"/>
-        <texture id="ecra_tv" path="./scenes/images/ecra_tv.png" />
+        <texture id="tv" path="./scenes/images/ecra_tv.png" />
+        <texture id="paper_box" path="./scenes/images/paper_box.png" />
+        <texture id="ecra_tv" path="./scenes/images/tv_screen.png" />
     </textures>
 
 
@@ -204,6 +206,20 @@
 
             <texture id="null" />
 
+            <transformations>          
+            </transformations>
+
+            <descendants>
+                <noderef id="face_baixo_paralelepipedo_fora" />
+                <noderef id="face_baixo_paralelepipedo_dentro" />
+            </descendants>
+        </node>
+
+        <node id="face_baixo_paralelepipedo_fora">
+            <material id="null" />
+
+            <texture id="null" />
+
             <transformations>
                 <rotation axis="x" angle="90" />           
             </transformations>
@@ -213,7 +229,36 @@
             </descendants>
         </node>
 
+        <node id="face_baixo_paralelepipedo_dentro">
+            <material id="null" />
+
+            <texture id="null" />
+
+            <transformations>
+                <translation x="0" y="0" z="1" />
+                <rotation axis="x" angle="-90" />           
+            </transformations>
+
+            <descendants>
+                <leaf type="rectangle" x1="0" y1="0" x2="1" y2="1"/>
+            </descendants>
+        </node>
+
         <node id="face_cima_paralelepipedo">
+            <material id="null" />
+
+            <texture id="null" />
+
+            <transformations>
+            </transformations>
+
+            <descendants>
+                <noderef id="face_cima_paralelepipedo_fora" />
+                <noderef id="face_cima_paralelepipedo_dentro" />
+            </descendants>
+        </node>
+
+        <node id="face_cima_paralelepipedo_fora">
             <material id="null" />
 
             <texture id="null" />
@@ -228,7 +273,36 @@
             </descendants>
         </node>
 
+        <node id="face_cima_paralelepipedo_dentro">
+            <material id="null" />
+
+            <texture id="null" />
+
+            <transformations>
+                <translation x="0" y="1" z="0"/>
+                <rotation axis="x" angle="90" />  
+            </transformations>
+
+            <descendants>
+                <leaf type="rectangle" x1="0" y1="0" x2="1" y2="1"/>
+            </descendants>
+        </node>
+
         <node id="face_esquerda_paralelepipedo">
+            <material id="null" />
+
+            <texture id="null" />
+
+            <transformations>
+            </transformations>
+
+            <descendants>
+                <noderef id="face_esquerda_paralelepipedo_fora" />
+                <noderef id="face_esquerda_paralelepipedo_dentro" />
+            </descendants>
+        </node>
+
+        <node id="face_esquerda_paralelepipedo_fora">
             <material id="null" />
 
             <texture id="null" />
@@ -242,7 +316,36 @@
             </descendants>
         </node>
 
+        <node id="face_esquerda_paralelepipedo_dentro">
+            <material id="null" />
+
+            <texture id="null" />
+
+            <transformations>
+                <translation x="0" y="0" z="1" />
+                <rotation axis="y" angle="90"/>
+            </transformations>
+
+            <descendants>
+                <leaf type="rectangle" x1="0" y1="0" x2="1" y2="1"/>
+            </descendants>
+        </node>
+
         <node id="face_direita_paralelepipedo">
+            <material id="null" />
+
+            <texture id="null" />
+
+            <transformations>
+            </transformations>
+
+            <descendants>
+                <noderef id="face_direita_paralelepipedo_fora" />
+                <noderef id="face_direita_paralelepipedo_dentro" />
+            </descendants>
+        </node>
+
+        <node id="face_direita_paralelepipedo_fora">
             <material id="null" />
 
             <texture id="null" />
@@ -256,8 +359,37 @@
                 <leaf type="rectangle" x1="0" y1="0" x2="1" y2="1" />
             </descendants>
         </node>
+
+        <node id="face_direita_paralelepipedo_dentro">
+            <material id="null" />
+
+            <texture id="null" />
+
+            <transformations>
+                <translation x="1" y="0" z="0" />
+                <rotation axis="y" angle="-90" />
+            </transformations>
+
+            <descendants>
+                <leaf type="rectangle" x1="0" y1="0" x2="1" y2="1" />
+            </descendants>
+        </node>
         
         <node id="face_frente_paralelepipedo">
+            <material id="null" />
+
+            <texture id="null" />
+
+            <transformations>
+            </transformations>
+
+            <descendants>
+                <noderef id="face_frente_paralelepipedo_fora" />
+                <noderef id="face_frente_paralelepipedo_dentro" />
+            </descendants>
+        </node>  
+
+        <node id="face_frente_paralelepipedo_fora">
             <material id="null" />
 
             <texture id="null" />
@@ -272,13 +404,55 @@
             </descendants>
         </node>  
 
+        <node id="face_frente_paralelepipedo_dentro">
+            <material id="null" />
+
+            <texture id="null" />
+
+            <transformations>
+            </transformations>
+
+            <descendants>
+                <leaf type="rectangle" x1="0" y1="0" x2="1" y2="1"/>
+            </descendants>
+        </node>  
+
         <node id="face_atras_paralelepipedo">
             <material id="null" />
 
             <texture id="null" />
 
             <transformations>
+            </transformations>
+
+            <descendants>
+                <noderef id="face_atras_paralelepipedo_fora" />
+                <noderef id="face_atras_paralelepipedo_dentro" />
+            </descendants>
+        </node>
+
+        <node id="face_atras_paralelepipedo_fora">
+            <material id="null" />
+
+            <texture id="null" />
+
+            <transformations>
                 <translation x="0" y="0" z="1" />
+            </transformations>
+
+            <descendants>
+                <leaf type="rectangle" x1="0" y1="0" x2="1" y2="1"/>
+            </descendants>
+        </node>
+
+        <node id="face_atras_paralelepipedo_dentro">
+            <material id="null" />
+
+            <texture id="null" />
+
+            <transformations>
+                <translation x="1" y="0" z="1" />
+                <rotation axis="y" angle="180" />
             </transformations>
 
             <descendants>
@@ -384,7 +558,7 @@
         <node id="tampo_mesa">
             <material id="branco" />
 
-            <texture id="madeira_clara" />
+            <texture id="null" />
 
             <transformations>
                 <translation x="2.5" y="3" z="0" />
@@ -470,10 +644,10 @@
         <node id="caixa_donuts">
             <material id="null" />
 
-            <texture id="null" />
+            <texture id="paper_box" />
 
             <transformations>
-                <translation x="3" y="3.5" z="0.5" />
+                <translation x="3" y="3.251" z="0.5" />
             </transformations>
 
             <descendants>
@@ -488,10 +662,10 @@
         <node id="caixa">
             <material id="vermelho" />
 
-            <texture id="clear" />
+            <texture id="null" />
 
             <transformations>
-                <scale sx="3" sy="1" sz="1.5"/>
+                <scale sx="3" sy="0.33" sz="1.5"/>
             </transformations>
 
             <descendants>
@@ -509,8 +683,7 @@
             <texture id="donut" />
 
             <transformations>
-                <translation x="0.5" y="0" z="0.5" />
-                <scale sx="1.6" sy="1" sz="1.6" />   
+                <translation x="0.5" y="0.1" z="0.5" />
             </transformations>
 
             <descendants>
@@ -524,8 +697,7 @@
             <texture id="donut" />
 
             <transformations>
-                <translation x="1.5" y="0" z="0.5" />
-                <scale sx="1.6" sy="1" sz="1.6" />     
+                <translation x="1.5" y="0.1" z="0.5" /> 
             </transformations>
 
             <descendants>
@@ -539,8 +711,7 @@
             <texture id="donut" /> 
 
             <transformations>
-                <translation x="2.5" y="0" z="0.5" />
-                <scale sx="1.6" sy="1" sz="1.6" />           
+                <translation x="2.5" y="0.1" z="0.5" />         
             </transformations>
 
             <descendants>
@@ -554,7 +725,7 @@
             <texture id="null" />
 
             <transformations>
-                <translation x="0" y="0.5" z="0" />
+                <scale sx="1.6" sy="1.33" sz="1.6" />  
                 <rotation axis="x" angle="90" />
             </transformations>
 
@@ -569,7 +740,7 @@
             <texture id="null" />
 
             <transformations>
-                <translation x="0.25" y="3" z="3"/>
+                <translation x="1" y="3" z="5" />
             </transformations>
 
             <descendants>
@@ -580,27 +751,27 @@
         </node>
 
         <node id="ecra">
-            <material id="null" />
+            <material id="branco" />
 
             <texture id="ecra_tv" />
 
             <transformations>
-                <translation x="0.2" y="1" z="1"/>
-                <rotation axis="y" angle="-90" />
+                <translation x="0.25" y="0.6" z="1.9"/>
+                <rotation axis="y" angle="90" />
             </transformations>
 
             <descendants>
-                <leaf type="rectangle" x1="0" y1="0" x2="1.8" y2="1.8" />    
+                <leaf type="rectangle" x1="0" y1="0" x2="2.8" y2="1.8" />    
             </descendants>
         </node>
 
         <node id="parte_tras_tv">
-            <material id="null" />
+            <material id="branco" />
 
-            <texture id="ecra_tv" />
+            <texture id="tv" />
 
             <transformations>
-                <translation x="0.2" y="1" z="1"/>
+                <translation x="0.1" y="0.5" z="-1"/>
                 <scale sx="0.125" sy="2" sz="3"/>
             </transformations>
 
@@ -612,10 +783,10 @@
         <node id="suporte">
             <material id="null" />
 
-            <texture id="ecra_tv" />
+            <texture id="tv" />
 
             <transformations>
-                <translation x="0" y="0" z="1" />
+
             </transformations>
 
             <descendants>
@@ -627,11 +798,11 @@
         <node id="suporte_cima">
             <material id="null" />
 
-            <texture id="ecra_tv" />
+            <texture id="null" />
 
             <transformations>
-                <translation x="0" y="1" z="1" />
                 <scale sx="0.5" sy="1" sz="0.5"/>
+                <translation x="0.25" y="1" z="1" />
                 <rotation axis="x" angle="90" />
             </transformations>
 
@@ -643,11 +814,10 @@
         <node id="suporte_baixo">
             <material id="null" />
 
-            <texture id="ecra_tv" />
+            <texture id="null" />
 
             <transformations>
                 <scale sx="0.33" sy="0.33" sz="1" />
-                <translation x="0" y="0" z="0.5" />
             </transformations>
 
             <descendants>

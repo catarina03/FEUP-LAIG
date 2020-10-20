@@ -18,8 +18,7 @@ class MyComponent extends CGFobject{
         this.objects = [];
         this.transformation = null;
 
-        //this.currMaterial = null;
-        this.currMaterial = new CGFappearance(this.scene);
+        this.currMaterial = null;
         this.currTexture = null;
         
         this.currMatIndex = 0;
@@ -47,6 +46,9 @@ class MyComponent extends CGFobject{
         //Texture
         //this.scene.pushTexture(this.currTexture);
 
+        let newMaterial;
+        let newTexture;
+
         //Applies transformation
         if (this.transformation != null){
             this.scene.multMatrix(this.transformation);
@@ -55,31 +57,37 @@ class MyComponent extends CGFobject{
         //Applies Material and Texture
 
         if(this.currMaterial == "null") { 
-            this.currMaterial = parentMaterial;
+            newMaterial = parentMaterial;
 
             if (this.currTexture != "null" && this.currTexture != "clear"){
-                this.currMaterial.setTexture(this.currTexture);
+                newMaterial.setTexture(this.currTexture);
+                newTexture = this.currTexture;
             }
             else if (this.currTexture == "clear"){
-                this.currMaterial.setTexture(null);
+                newMaterial.setTexture(null);
+                newTexture = "clear";
             }
             else if (this.currTexture == "null"){
-                this.currTexture = parentTexture;
-                this.currMaterial.setTexture(this.currTexture);
+                newMaterial.setTexture(parentTexture);
+                newTexture = parentTexture;
             }       
 
-            this.currMaterial.apply();                                     
+            newMaterial.apply();                                     
         }  
         else {
+            newMaterial = this.currMaterial;
+
             if (this.currTexture != "null" && this.currTexture != "clear"){
                 this.currMaterial.setTexture(this.currTexture);
+                newTexture = this.currTexture;
             }
             else if (this.currTexture == "clear"){
                 this.currMaterial.setTexture(null);
+                newTexture = "clear";
             }
             else if (this.currTexture == "null"){
-                this.currTexture = parentTexture;
-                this.currMaterial.setTexture(this.currTexture);
+                this.currMaterial.setTexture(parentTexture);
+                newTexture = parentTexture;
             }   
 
             this.currMaterial.apply();
@@ -93,7 +101,7 @@ class MyComponent extends CGFobject{
 
         for (let obj in this.objects){
             //Recursive loop through all objects
-            this.objects[obj].display(this.currMaterial, this.currTexture);
+            this.objects[obj].display(newMaterial, newTexture);
         }
 
         //Texture
