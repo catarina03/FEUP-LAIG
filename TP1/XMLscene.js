@@ -136,11 +136,6 @@ class XMLscene extends CGFscene {
         if(this.displayAxis) this.axis.display();
 
         this.scale(this.zoom/2, this.zoom/2, this.zoom/2);
-        
-        for (var i = 0; i < this.lights.length; i++) {
-            this.lights[i].setVisible(true);
-            this.lights[i].enable();
-        }
 
         for(var i=0;i<this.lights.length;i++)
             this.lights[i].update();
