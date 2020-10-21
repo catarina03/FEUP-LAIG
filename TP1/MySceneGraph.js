@@ -31,8 +31,6 @@ class MySceneGraph {
         this.objects = [];
         this.materials =[];
         this.textures = [];
-        this.primitives = []; //just for testing
-        this.myNodes = []; //more testing
 
         this.idRoot = null; // The id of the root element.
 
@@ -402,17 +400,21 @@ class MySceneGraph {
         return null;
     }
 
+    /**
+     * Parses each texture block in node <textures>
+     * @param {texture block element} textureNode 
+     * @param {texture id} id 
+     * @param {message to be displayed in case of error} messageError 
+     */
+    parseEachTexture(textureNode, id, messageError) {
+        var path = this.reader.getString(textureNode, 'path');  //reads path
 
-    parseEachTexture(texturesNode, id, messageError) {
-        //reads path
-        var path = this.reader.getString(texturesNode, 'path');
-
-        if (path == null) //checks if reading was succesfull
+        if (path == null)  //checks if reading was succesfull
         {
             return "Not found file " + path + " of " + messageError;
         }
 
-        this.textures[id] = new CGFtexture(this.scene, path); //creates new texture
+        this.textures[id] = new CGFtexture(this.scene, path);  //creates new texture
         this.log("Parsed texture");
 
         return null;
@@ -635,7 +637,6 @@ class MySceneGraph {
             if ((textureIndex = nodeNames.indexOf("texture")) == -1)
                 return "tag <texture> missing";
             else {
-                //TO DO
                 var texStruct = this.parseNodeTexture(nodeID, grandChildren[textureIndex]);
             }
 
@@ -680,15 +681,17 @@ class MySceneGraph {
             this.nodes[nodeID] = children[i];
             this.objects[nodeID] = newComponent;
 
-            //console.log(newComponent);
-
             if (nodeID == this.idRoot){
                 this.root = newComponent;
             }
         }
     }
 
-
+    /**
+     * Parses the <texture> block in each <node> block
+     * @param {id of the node <node> being parsed} componentID 
+     * @param {node texture block element} textureNode 
+     */
     parseNodeTexture(componentID, textureNode) {
         var textureID = this.reader.getString(textureNode, 'id');
         var afs = 1;
@@ -740,10 +743,13 @@ class MySceneGraph {
     }
 
 
-
+    /**
+     * Builds the dependencies between nodes (parent/child nodes)
+     * @param {MyComponent object whose family will be built} object 
+     */
     buildFamily(object){
         var node = this.nodes[object.id];
-        var children = node.children; //nodes: <material>, <texture>, <transformations>, <descendants>
+        var children = node.children; //<material>, <texture>, <transformations>, <descendants>
         var grandChildren = []; //<noderef> or <leaf>
 
         for (let i = 0; i < children.length; i++){
@@ -763,7 +769,11 @@ class MySceneGraph {
         }
     }
 
-
+    /**
+     * Parses each <leaf> node
+     * @param {leaf block element} leaf 
+     * @param {vector of primitives where the leaf will be added} vector 
+     */
     parseLeaf(leaf, vector){
         var leafType = this.reader.getString(leaf, 'type');
 
@@ -815,7 +825,12 @@ class MySceneGraph {
         
     }
 
-
+    /**
+     * Parses the boolean value of the parameter "name" in the node "node"
+     * @param {block element} node 
+     * @param {parameter to be parsed} name 
+     * @param {message to be displayed in case of error} messageError 
+     */
     parseBoolean(node, name, messageError) {
         var boolVal = this.reader.getBoolean(node, name);
         if (!(boolVal != null && !isNaN(boolVal) && (boolVal == true || boolVal == false))) {

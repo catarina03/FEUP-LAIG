@@ -55,10 +55,11 @@
         <texture id="quadro_barco" path="./scenes/images/moldura_barco.jpg"/>
         <texture id="donut" path="./scenes/images/text_donut.jpg"/>
         <texture id="tv" path="./scenes/images/ecra_tv.png" />
-        <texture id="paper_box" path="./scenes/images/paper_box.png" />
-        <texture id="ecra_tv" path="./scenes/images/tv_screen.png" />
         <texture id="madeira_escura" path="./scenes/images/madeira_escura.jpg" />
         <texture id="tapete_cinza" path="./scenes/images/tapete_cinza.jpg"/>
+        <texture id="paper_box" path="./scenes/images/paper_box.PNG" />
+        <texture id="ecra_tv" path="./scenes/images/tv_screen.PNG" />
+
     </textures>
 
 
