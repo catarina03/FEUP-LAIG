@@ -252,11 +252,139 @@ class MySceneGraph {
      * @param {view block element} viewsNode
      */
     parseViews(viewsNode) {
-
-
         this.defaultView = this.reader.getString(viewsNode, 'default');
-        this.onXMLMinorError("To do: Parse views and create cameras.");
-       // return null;
+        this.views = [];
+
+        var children = viewsNode.children;
+        var nodeNames = []
+        var grandchildren = [];
+        var id;
+        var indexFrom, indexTo, indexUp;
+        var fx, fy, fz, tx, ty, tz, ux, uy, uz;
+        var near, far, angle, left, right, top, bottom;
+
+        for (var i = 0; i < children.length; i++) {
+            id = this.reader.getString(children[i], 'id');
+
+            if (id == null) {
+                this.onXMLMinorError("View has a null ID");
+                continue;
+            }     
+
+            grandchildren = children[i].children;
+
+            if (children[i].nodeName == "perspective") {
+                near = this.reader.getFloat(children[i], 'near');
+                far = this.reader.getFloat(children[i], 'far');
+                angle = this.reader.getFloat(children[i], 'angle');
+
+                if (far == null || near == null) {
+                    this.onXMLMinorError("unable to parse Camera values");
+                    continue;
+                }
+
+                for (var j = 0; j < grandchildren.length; j++) {
+                    nodeNames.push(grandchildren[j].nodeName);
+                }
+
+                indexFrom = nodeNames.indexOf("from");
+                indexTo = nodeNames.indexOf("to");
+
+                if (indexFrom == -1) {
+                    this.onXMLMinorError("Tag <from> missing");
+                    continue;
+                }
+
+                if (indexTo == -1) {
+                    this.onXMLMinorError("Tag <to> missing");
+                    continue;
+                }
+
+                tx = this.reader.getFloat(grandchildren[indexTo], 'x');
+                ty = this.reader.getFloat(grandchildren[indexTo], 'y');
+                tz = this.reader.getFloat(grandchildren[indexTo], 'z');
+                fx = this.reader.getFloat(grandchildren[indexFrom], 'x');
+                fy = this.reader.getFloat(grandchildren[indexFrom], 'y');
+                fz = this.reader.getFloat(grandchildren[indexFrom], 'z');
+                    
+                if (angle == null || fx == null || fy == null || fz == null || tx == null || ty == null || tz == null) {
+                    this.onXMLMinorError("can't parse perspective values");
+                    continue;
+                }
+
+                var view = new CGFcamera(angle *( Math.PI / 180), near, far, [fx, fy, fz], [tx, ty, tz]);
+
+                console.log(view);
+
+                this.views[id] = view;
+
+                console.log(this.views[id]);
+            }
+
+            if (children[i].nodeName == "ortho") {
+                near = this.reader.getFloat(children[i], 'near');
+                far = this.reader.getFloat(children[i], 'far');
+
+                if (far == null || near == null) {
+                    this.onXMLMinorError("unable to parse Camera values");
+                    continue;
+                }
+
+                left = this.reader.getFloat(children[i], 'left');
+                right = this.reader.getFloat(children[i], 'right');
+                top = this.reader.getFloat(children[i], 'top');
+                bottom = this.reader.getFloat(children[i], 'bottom');
+
+                if (left == null || right == null || top == null || bottom == null || near == null || far == null) {
+                    this.onXMLMinorError("unable to parse Ortho values");
+                    continue;
+                }
+
+                for (var j = 0; j < grandchildren.length; j++) {
+                    nodeNames.push(grandchildren[j].nodeName);
+                }
+
+                indexFrom = nodeNames.indexOf("from");
+                indexTo = nodeNames.indexOf("to");
+                indexUp = nodeNames.indexOf("up");
+
+                if (indexFrom == -1) {
+                    this.onXMLMinorError("Tag <from> missing");
+                    continue;
+                }
+
+                if (indexTo == -1) {
+                    this.onXMLMinorError("Tag <to> missing");
+                    continue;
+                }
+
+                if (indexUp == -1) {
+                    this.onXMLMinorError("Tag <up> missing");
+                    continue;
+                }    
+
+                ux = this.reader.getFloat(grandchildren[indexUp], 'x');
+                uy = this.reader.getFloat(grandchildren[indexUp], 'y');
+                uz = this.reader.getFloat(grandchildren[indexUp], 'z');
+                tx = this.reader.getFloat(grandchildren[indexTo], 'x');
+                ty = this.reader.getFloat(grandchildren[indexTo], 'y');
+                tz = this.reader.getFloat(grandchildren[indexTo], 'z');
+                fx = this.reader.getFloat(grandchildren[indexFrom], 'x');
+                fy = this.reader.getFloat(grandchildren[indexFrom], 'y');
+                fz = this.reader.getFloat(grandchildren[indexFrom], 'z');
+
+                if (fx == null || fy == null || fz == null || tx == null || ty == null || tz == null || ux == null || uy == null || uz == null ) {
+                    this.onXMLMinorError("unable to ortho values");
+                    continue;
+                }
+
+                var orthocam = new CGFcameraOrtho(left, right, bottom, top, near, far, [fx, fy, fz], [tx, ty, tz], [ux, uy, uz]);
+                this.views[id] = orthocam;
+            }
+            nodeNames = [];
+        }
+        this.log("Parsed views");
+        console.log(this.views);
     }
 
     /**

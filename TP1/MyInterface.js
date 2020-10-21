@@ -65,10 +65,22 @@ class MyInterface extends CGFinterface {
     }
 
     addCamerasGUI(){ 
+        /*
         this.gui.add(this.scene.graph,'currentView', 
                     Object.keys(this.scene.graph.views)).name('View Points').onChange((val)=> {
                         this.scene.camera=this.scene.graph.views[val];
                         this.setActiveCamera(this.scene.camera);
         });
+        */
+
+        var viewsFolder = this.gui.addFolder('Views');
+        viewsFolder.open();
+
+        const viewArray = Object.keys(this.scene.graph.views);
+
+        this.currView = this.scene.graph.defaultView;
+
+        viewsFolder.add(this, 'currView', viewArray).name('Camera').onChange(val => this.scene.chooseView(val));
+
     }
 }

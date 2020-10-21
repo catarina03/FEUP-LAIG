@@ -84,9 +84,7 @@ class XMLscene extends CGFscene {
     /** Handler called when the graph is finally loaded. 
      * As loading is asynchronous, this may be called already after the application has started the run loop
      */
-    onGraphLoaded() {
-       // this.initViews();
-         
+    onGraphLoaded() {         
         this.axis = new CGFaxis(this, this.graph.referenceLength);
 
         this.gl.clearColor(...this.graph.background);
@@ -94,25 +92,56 @@ class XMLscene extends CGFscene {
         this.setGlobalAmbientLight(...this.graph.ambient);
 
         this.initLights();
+        this.initViews();
 
-       // this.camera=this.graph.views[this.graph.defaultView];
-       // this.interface.setActiveCamera(this.camera);
+        // this.camera=this.graph.views[this.graph.defaultView];
+        // this.interface.setActiveCamera(this.camera);
 
-         this.interface.addLightsGUI();
-      //   this.interface.addCamerasGUI();
+        this.interface.addLightsGUI();
+        this.interface.addCamerasGUI();
 
         this.sceneInited = true;
     }
 
-/*
-     initViews(){
+
+    initViews(){
         this.camera = this.graph.views[this.graph.defaultView];
         this.interface.setActiveCamera(this.camera);
+
+        var i = 0;
+        // Lights index.
+
+        console.log("-------------------")
+        console.log(this.graph.views);
+
+        // Reads the lights from the scene graph.
+        for (var key in this.graph.views) {
+            
+            console.log("initing views");
+            console.log(this.graph.views[key]);
+
+            if (this.graph.lights.hasOwnProperty(key)) {
+                var graphLight = this.graph.lights[key];
+
+                this.lights[i].setPosition(...graphLight[1]);
+                this.lights[i].setAmbient(...graphLight[2]);
+                this.lights[i].setDiffuse(...graphLight[3]);
+                this.lights[i].setSpecular(...graphLight[4]);
+
+                this.lights[i].setVisible(true);
+                if (graphLight[0])
+                    this.lights[i].enable();
+                else
+                    this.lights[i].disable();
+
+                this.lights[i].update();
+
+
+            
+        }
+        
     }
 
-
-   
-*/
 
     /**
      * Displays the scene.
