@@ -57,6 +57,8 @@
         <texture id="tv" path="./scenes/images/ecra_tv.png" />
         <texture id="paper_box" path="./scenes/images/paper_box.png" />
         <texture id="ecra_tv" path="./scenes/images/tv_screen.png" />
+        <texture id="madeira_escura" path="./scenes/images/madeira_escura.jpg" />
+        <texture id="tapete_cinza" path="./scenes/images/tapete_cinza.jpg"/>
     </textures>
 
 
@@ -150,11 +152,15 @@
 
             <descendants>
                 <noderef id="estrutura" />
+              
                 <noderef id="mesa_pequena"/>
                 <noderef id="movel_tv"/>
                 <noderef id="moldura_barco"/>
             </descendants>
         </node>
+
+
+
             
         <node id="estrutura">
             <material id="rosa_parede"/>
@@ -173,6 +179,11 @@
             </descendants>
         </node>
 
+
+        
+        
+            
+
         <node id="chao">
             <material id="branco"/>
 
@@ -187,6 +198,7 @@
 
             <descendants>
                <leaf type="rectangle" x1="0" y1="0" x2="10" y2="10"/>
+               <noderef id="tapete" />
             </descendants>
         </node>
 
@@ -206,6 +218,29 @@
                <noderef id="face_frente_paralelepipedo" />
                <noderef id="face_atras_paralelepipedo" />
              </descendants>
+        </node>
+
+
+        <node id="tapete">
+            <material id="null"/>
+
+            <texture id="tapete_cinza">
+               
+            </texture>
+
+            <transformations>
+               
+                <translation x="8" y="3" z="0" />
+                <rotation axis="z" angle="90" />
+                    
+                
+                <scale sx="3" sy="4.5" sz="0.01"/>
+                 
+            </transformations>
+
+            <descendants>
+              <noderef id="paralelepipedo"/>
+            </descendants>
         </node>
 
 
@@ -514,7 +549,7 @@
         <node id="mesa_pequena">
             <material id="branco" />
 
-            <texture id="madeira_clara" />
+            <texture id="madeira_escura" />
 
             <transformations>
             </transformations>
