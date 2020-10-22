@@ -176,7 +176,7 @@
         <node id="chao">
             <material id="branco"/>
 
-            <texture id="null">
+            <texture id="verde_chao">
                 <amplification afs="2.0" aft="2.0"/>
             </texture>
 
