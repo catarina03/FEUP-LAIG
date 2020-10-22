@@ -508,42 +508,27 @@ class MySceneGraph {
      * @param {textures block element} texturesNode
      */
     parseTextures(texturesNode) {
+
         //For each texture in textures block, check ID and file URL
         var children = texturesNode.children;
 
         for (var i = 0; i < children.length; i++) {
             var id = this.reader.getString(children[i], 'id');
+            var path = this.reader.getString(children[i], 'path');
 
             if (typeof this.textures[id] != 'undefined') //ver se a textura ja existe
             {
-                this.onXMLError("texture: already exists a texture with such id" + id + ".")
+                this.onXMLError("texture: texture with id " + id + " already exists.")
             }
 
-            var returnValueTexture = this.parseEachTexture(children[i], id, "texture with ID" + id);
+            if (path == null)  //checks if path reading was succesfull
+            {
+                return "Not found file " + path + " of " + "texture with ID" + id;
+            }
 
-            if (returnValueTexture != null)
-                return returnValueTexture;
+            this.textures[id] = new CGFtexture(this.scene, path);  //creates new texture
+            this.log("Parsed texture " + id);
         }
-
-        return null;
-    }
-
-    /**
-     * Parses each texture block in node <textures>
-     * @param {texture block element} textureNode 
-     * @param {texture id} id 
-     * @param {message to be displayed in case of error} messageError 
-     */
-    parseEachTexture(textureNode, id, messageError) {
-        var path = this.reader.getString(textureNode, 'path');  //reads path
-
-        if (path == null)  //checks if reading was succesfull
-        {
-            return "Not found file " + path + " of " + messageError;
-        }
-
-        this.textures[id] = new CGFtexture(this.scene, path);  //creates new texture
-        this.log("Parsed texture");
 
         return null;
     }
@@ -571,7 +556,6 @@ class MySceneGraph {
                 this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
                 continue;
             }
-
             else{
                 attributeNames.push(...["emissive","ambient","diffuse","specular"]);
                 attributeTypes.push(...["color","color","color","color"]);
@@ -633,8 +617,7 @@ class MySceneGraph {
                     if(!Array.isArray(aux))return aux;
                     global.push(aux);
                 }
-                else
-                    return "material"+ attributeNames[j]+ "undefined for id =" + materialID;
+                else return "material"+ attributeNames[j]+ "undefined for id =" + materialID;
             }
 
             var provMaterial=new CGFappearance(this.scene);
@@ -702,7 +685,7 @@ class MySceneGraph {
 
             this.onXMLMinorError("To do: Parse nodes.");
 
-            // Transformations
+            // Parses transformations whithin component
             if ((transformationsIndex = nodeNames.indexOf("transformations")) == -1)
                 return "tag <transformations> missing";
             else {
@@ -716,10 +699,21 @@ class MySceneGraph {
                             var translationCoords = this.parseCoordinates3D(transformationsChildren[j], transformationID);
                             transformationMatrix = mat4.translate(transformationMatrix, transformationMatrix, translationCoords);
                             break;
+
                         case "rotation":
                             var rotationAxis = this.reader.getString(transformationsChildren[j], "axis");
-                            var rotationAngle = this.reader.getString(transformationsChildren[j], "angle");
+                            var rotationAngle = this.reader.getFloat(transformationsChildren[j], "angle");
                             var rotation;
+
+                            // Validates axis and angle
+                            if (isNaN(rotationAngle))
+                                return "unable to parse angle component (NaN) on tag <rotation> from the <node> node with index " + i;
+
+                            if (rotationAngle == null || rotationAxis == null)
+                                return "unable to parse axis and angle components (null) on tag <rotation> from the <node> node with index " + i;
+
+                            if (rotationAxis != "x" && rotationAxis != "y" && rotationAxis != "z")
+                                return "unable to parse axis component (should be x, y or z) on tag <rotate> from the <node> node with index " + i;
 
                             if (rotationAxis == "x") rotation = [1, 0, 0];
                             else if (rotationAxis == "y") rotation = [0, 1, 0];
@@ -727,6 +721,7 @@ class MySceneGraph {
 
                             transformationMatrix = mat4.rotate(transformationMatrix, transformationMatrix, rotationAngle * DEGREE_TO_RAD, rotation);
                             break;
+
                         case "scale":
                             var scaleCoords = this.parseScaleCoords(transformationsChildren[j], transformationID);
                             mat4.scale(transformationMatrix, transformationMatrix, scaleCoords);
@@ -831,10 +826,6 @@ class MySceneGraph {
             af_t: aft
         };
 
-        if (textureID == "null" || textureID == "clear"){
-            return texStruct;
-        }
-
         if (this.textures[textureID] == null)
             return textureID + " is not valid on materials of component " + componentID;
 
@@ -851,7 +842,7 @@ class MySceneGraph {
                     return "afs is can't be negative or 0 in texture " + textureID + " of component " + componentID;
             }
             else{
-                //warning
+                //default
                 afs = 1;
             }
 
@@ -862,7 +853,7 @@ class MySceneGraph {
                     return "aft is can't be negative or 0 in texture " + textureID + " of component " + componentID;
             }
             else{
-                //warning
+                //default
                 aft = 1;
             }
         }
@@ -872,7 +863,7 @@ class MySceneGraph {
 
 
     /**
-     * Builds the dependencies between nodes (parent/child nodes)
+     * Builds the dependencies between nodes (parent/child nodes) recursively
      * @param {MyComponent object whose family will be built} object 
      */
     buildFamily(object){
@@ -897,6 +888,7 @@ class MySceneGraph {
         }
     }
 
+    
     /**
      * Parses each <leaf> node
      * @param {leaf block element} leaf 
@@ -907,9 +899,20 @@ class MySceneGraph {
 
         if(leafType == "rectangle"){
             let x1 = this.reader.getFloat(leaf,'x1');
+            if (!(x1 != null && !isNaN(x1)))
+                return "unable to parse x1 of rectangle";
+
             let y1 = this.reader.getFloat(leaf,'y1');
+            if (!(y1 != null && !isNaN(y1)))
+                return "unable to parse y1 of rectangle";
+
             let x2 = this.reader.getFloat(leaf,'x2');
+            if (!(x2 != null && !isNaN(x2)))
+                return "unable to parse x2 of rectangle";
+
             let y2 = this.reader.getFloat(leaf,'y2');
+            if (!(y2 != null && !isNaN(y2)))
+                return "unable to parse y2 of rectangle";
 
             vector.push(new MyRectangle(this.scene, x1, y1, x2, y2));
         }
