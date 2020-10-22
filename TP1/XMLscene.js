@@ -135,11 +135,21 @@ class XMLscene extends CGFscene {
                     this.lights[i].disable();
 
                 this.lights[i].update();
-
-
             
+            }
+
         }
         
+    }
+
+
+    chooseView(val){
+        this.newViewID = val;
+        console.log(this.newViewID);
+        console.log(this.camera);
+        this.camera = this.graph.views[this.newViewID];
+        console.log(this.camera);
+        this.interface.setActiveCamera(this.camera);
     }
 
 
