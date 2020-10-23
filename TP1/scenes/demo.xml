@@ -59,6 +59,7 @@
         <texture id="tapete_cinza" path="./scenes/images/tapete_cinza.jpg"/>
         <texture id="paper_box" path="./scenes/images/paper_box.PNG" />
         <texture id="ecra_tv" path="./scenes/images/tv_screen.PNG" />
+        <texture id="bola_brincar" path="./scenes/images/bola_futebol.jpg"/>
 
     </textures>
 
@@ -200,6 +201,8 @@
             <descendants>
                <leaf type="rectangle" x1="0" y1="0" x2="10" y2="10"/>
                <noderef id="tapete" />
+               <noderef id="bola1"/>
+               <noderef id="bola2"/>
             </descendants>
         </node>
 
@@ -221,28 +224,6 @@
              </descendants>
         </node>
 
-
-        <node id="tapete">
-            <material id="null"/>
-
-            <texture id="tapete_cinza">
-               
-            </texture>
-
-            <transformations>
-               
-                <translation x="8" y="3" z="0" />
-                <rotation axis="z" angle="90" />
-                    
-                
-                <scale sx="3" sy="4.5" sz="0.01"/>
-                 
-            </transformations>
-
-            <descendants>
-              <noderef id="paralelepipedo"/>
-            </descendants>
-        </node>
 
 
         <node id="face_baixo_paralelepipedo">
@@ -501,6 +482,76 @@
 
             <descendants>
                 <leaf type="rectangle" x1="0" y1="0" x2="1" y2="1"/>
+            </descendants>
+        </node>
+
+        <node id="tapete">
+            <material id="null"/>
+
+            <texture id="tapete_cinza">
+               
+            </texture>
+
+            <transformations>
+               
+                <translation x="8" y="3" z="0" />
+                <rotation axis="z" angle="90" />
+                    
+                
+                <scale sx="3" sy="4.5" sz="0.01"/>
+                 
+            </transformations>
+
+            <descendants>
+              <noderef id="paralelepipedo"/>
+            </descendants>
+        </node>
+
+        <node id="bola1">
+            <material id="azul"/>
+
+            <texture id="clear">
+               
+            </texture>
+
+            <transformations>
+               
+                <translation x="1" y="5.5" z="0.82" />
+                <rotation axis="x" angle="90"/>
+                <rotation axis="y" angle="90"/>
+             
+                    
+                
+               
+                 
+            </transformations>
+
+            <descendants>
+            <leaf type="sphere" radius="0.35" slices="50" stacks="20"/>
+            </descendants>
+        </node>
+
+         <node id="bola2">
+            <material id="azul"/>
+
+            <texture id="clear">
+               
+            </texture>
+
+            <transformations>
+               
+                <translation x="1" y="3.5" z="0.82" />
+                <rotation axis="x" angle="90"/>
+                <rotation axis="y" angle="90"/>
+             
+                    
+                
+               
+                 
+            </transformations>
+
+            <descendants>
+            <leaf type="sphere" radius="0.35" slices="50" stacks="20"/>
             </descendants>
         </node>
 
