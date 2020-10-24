@@ -919,15 +919,12 @@ class MySceneGraph {
         else if (leafType == "triangle"){
             let x1 = this.reader.getFloat(leaf,'x1');
             let y1 = this.reader.getFloat(leaf,'y1');
-            let z1 = this.reader.getFloat(leaf,'z1');
             let x2 = this.reader.getFloat(leaf,'x2');
             let y2 = this.reader.getFloat(leaf,'y2');
-            let z2 = this.reader.getFloat(leaf,'z2');
             let x3 = this.reader.getFloat(leaf,'x3');
             let y3 = this.reader.getFloat(leaf,'y3');
-            let z3 = this.reader.getFloat(leaf,'z3');
 
-            vector.push(new MyTriangle(this.scene, x1, y1, z1, x2, y2, z2, x3, y3, z3));
+            vector.push(new MyTriangle(this.scene, x1, y1, x2, y2, x3, y3));
         }
         else if (leafType == "cylinder"){
             let height = this.reader.getFloat(leaf,'height');
