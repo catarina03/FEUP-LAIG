@@ -55,8 +55,12 @@
         <texture id="quadro_barco" path="./scenes/images/moldura_barco.jpg"/>
         <texture id="donut" path="./scenes/images/text_donut.jpg"/>
         <texture id="tv" path="./scenes/images/ecra_tv.png" />
+        <texture id="madeira_escura" path="./scenes/images/madeira_escura.jpg" />
+        <texture id="tapete_cinza" path="./scenes/images/tapete_cinza.jpg"/>
         <texture id="paper_box" path="./scenes/images/paper_box.PNG" />
         <texture id="ecra_tv" path="./scenes/images/tv_screen.PNG" />
+        <texture id="bola_brincar" path="./scenes/images/bola_futebol.jpg"/>
+
     </textures>
 
 
@@ -150,11 +154,15 @@
 
             <descendants>
                 <noderef id="estrutura" />
+              
                 <noderef id="mesa_pequena"/>
                 <noderef id="movel_tv"/>
                 <noderef id="moldura_barco"/>
             </descendants>
         </node>
+
+
+
             
         <node id="estrutura">
             <material id="rosa_parede"/>
@@ -173,6 +181,11 @@
             </descendants>
         </node>
 
+
+        
+        
+            
+
         <node id="chao">
             <material id="branco"/>
 
@@ -187,6 +200,10 @@
 
             <descendants>
                <leaf type="rectangle" x1="0" y1="0" x2="10" y2="10"/>
+               <noderef id="tapete" />
+               <noderef id="bola1"/>
+               <noderef id="bola2"/>
+
             </descendants>
         </node>
 
@@ -207,6 +224,7 @@
                <noderef id="face_atras_paralelepipedo" />
              </descendants>
         </node>
+
 
 
         <node id="face_baixo_paralelepipedo">
@@ -468,6 +486,76 @@
             </descendants>
         </node>
 
+        <node id="tapete">
+            <material id="null"/>
+
+            <texture id="tapete_cinza">
+               
+            </texture>
+
+            <transformations>
+               
+                <translation x="8" y="3" z="0" />
+                <rotation axis="z" angle="90" />
+                    
+                
+                <scale sx="3" sy="4.5" sz="0.01"/>
+                 
+            </transformations>
+
+            <descendants>
+              <noderef id="paralelepipedo"/>
+            </descendants>
+        </node>
+
+        <node id="bola1">
+            <material id="azul"/>
+
+            <texture id="clear">
+               
+            </texture>
+
+            <transformations>
+               
+                <translation x="1" y="5.5" z="0.82" />
+                <rotation axis="x" angle="90"/>
+                <rotation axis="y" angle="90"/>
+             
+                    
+                
+               
+                 
+            </transformations>
+
+            <descendants>
+            <leaf type="sphere" radius="0.35" slices="50" stacks="20"/>
+            </descendants>
+        </node>
+
+         <node id="bola2">
+            <material id="azul"/>
+
+            <texture id="clear">
+               
+            </texture>
+
+            <transformations>
+               
+                <translation x="1" y="3.5" z="0.82" />
+                <rotation axis="x" angle="90"/>
+                <rotation axis="y" angle="90"/>
+             
+                    
+                
+               
+                 
+            </transformations>
+
+            <descendants>
+            <leaf type="sphere" radius="0.35" slices="50" stacks="20"/>
+            </descendants>
+        </node>
+
         <node id="parede_zy">
             <material id="null" />
 
@@ -514,7 +602,7 @@
         <node id="mesa_pequena">
             <material id="branco" />
 
-            <texture id="madeira_clara" />
+            <texture id="madeira_escura" />
 
             <transformations>
             </transformations>
@@ -541,6 +629,11 @@
             <descendants>
                 <noderef id="tv"/>
                 <noderef id="movel" />
+                <noderef id="piramide1" />
+                <noderef id="piramide2" />
+                <noderef id="piramide3" />
+                <noderef id="piramide4" />
+                
             </descendants>
         </node>
 
@@ -577,6 +670,229 @@
                 <noderef id="paralelepipedo" />
             </descendants>
         </node>
+
+
+         <node id="piramide1">
+            <material id="branco" />
+
+            <texture id="madeira_escura" />
+
+            <transformations>
+            <translation x="1" y="2.75" z="2" />
+               
+            </transformations>
+
+            <descendants>
+                <noderef id="piramide" />
+            </descendants>
+        </node>
+
+
+         <node id="piramide2">
+            <material id="branco" />
+
+            <texture id="madeira_escura" />
+
+            <transformations>
+                 <translation x="1" y="2.75" z="6.5" />
+            </transformations>
+
+            <descendants>
+                <noderef id="piramide" />
+            </descendants>
+        </node>
+
+         <node id="piramide3">
+            <material id="branco" />
+
+            <texture id="madeira_escura" />
+
+            <transformations>
+                 <translation x="-1" y="2.75" z="6.5" />
+            </transformations>
+
+            <descendants>
+                <noderef id="piramide" />
+            </descendants>
+        </node>
+
+         <node id="piramide4">
+            <material id="branco" />
+
+            <texture id="madeira_escura" />
+
+            <transformations>
+                 <translation x="-1" y="2.75" z="2" />
+            </transformations>
+
+            <descendants>
+                <noderef id="piramide" />
+            </descendants>
+        </node>
+
+
+        <node id="piramide">
+            <material id="null" />
+
+            <texture id="null" />
+
+            <transformations>
+
+            <translation x="1" y="0" z="1" />
+             <scale sx="0.5" sy="0.5" sz="0.5"/>
+             
+               
+            </transformations>
+
+            <descendants>
+                <noderef id="base_piramide" />
+                <noderef id="face_direita_piramide"/>
+                <noderef id="face_esquerda_piramide"/>
+                <noderef id="face_frente_piramide"/>
+                <noderef id="face_atras_piramide"/>
+               
+            </descendants>
+        </node>
+
+
+
+         <node id="base_piramide">
+            <material id="branco" />
+
+            <texture id="null" />
+
+            <transformations>
+                <translation x="0.03" y="0.45" z="0.01" />
+                
+                 <scale sx="0.95" sy="0.0025" sz="0.97"/>
+
+            </transformations>
+
+            <descendants>
+             <noderef id="paralelepipedo" />
+              
+            </descendants>
+        </node>
+        
+
+        <node id="face_piramide">
+          <material id="null" />
+
+            <texture id="null" />
+
+            <transformations>
+                <translation x="2" y="-1.0" z="1" />
+                 <rotation axis="x" angle="-14.0" />
+                 <rotation axis="z" angle="90" />
+                <scale sx="3" sy="4" sz="3"/>
+
+            </transformations>
+
+            <descendants>
+            <leaf type="triangle" x1="0.5" y1="0.5" x2="0.5" y2="0.25" x3="1.17" y3="0.375" />
+              
+            </descendants>
+        </node>
+
+
+        <node id="face_direita_piramide">
+            <material id="null" />
+
+            <texture id="null" />
+
+            <transformations>
+
+                 <translation x="0.35" y="0" z="1" />
+                
+                
+                
+                <rotation axis="y" angle="90" />
+                <scale sx="1" sy="1" sz="1"/>
+
+            </transformations>
+
+            <descendants>
+            <noderef id="face_piramide" />
+              
+            </descendants>
+        </node>
+
+
+
+
+        <node id="face_esquerda_piramide">
+            <material id="branco" />
+
+            <texture id="null" />
+
+            <transformations>
+                
+                 
+                  <translation x="0.65" y="0" z="0" />
+                 <rotation axis="y" angle="270" />
+                
+                 <scale sx="1" sy="1" sz="1"/>
+
+            </transformations>
+
+            <descendants>
+             <noderef id="face_piramide" />
+              
+            </descendants>
+        </node>
+
+
+
+
+        <node id="face_frente_piramide">
+            <material id="branco" />
+
+            <texture id="null" />
+
+            <transformations>
+                <translation x="0" y="0" z="0.35" />
+                
+                 <scale sx="1" sy="1" sz="1"/>
+
+            </transformations>
+
+            <descendants>
+             <noderef id="face_piramide" />
+              
+            </descendants>
+        </node>
+
+
+
+
+        <node id="face_atras_piramide">
+            <material id="branco" />
+
+            <texture id="null" />
+
+            <transformations>
+                <translation x="1" y="0" z="0.65" />
+                
+                 
+                 <rotation axis="y" angle="-180" />
+                 <scale sx="1" sy="1" sz="1"/>
+
+            </transformations>
+
+            <descendants>
+             <noderef id="face_piramide" />
+              
+            </descendants>
+        </node>
+
+
+
+
+
+
+
+
+
 
         <node id="perna1">
             <material id="null" />
