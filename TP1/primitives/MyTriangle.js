@@ -11,7 +11,7 @@ class MyTriangle extends CGFobject{
 
         this.v1 =vec3.fromValues(x1,y1,z1);
         this.v2 =vec3.fromValues(x2,y2,z2);
-        this.v3 =  vec3.fromValues(x3,y3,z3);
+        this.v3 =vec3.fromValues(x3,y3,z3);
 
         this.initBuffers();
     };

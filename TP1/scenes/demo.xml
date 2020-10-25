@@ -154,10 +154,10 @@
 
             <descendants>
                 <noderef id="estrutura" />
-              
+                <noderef id="moldura_barco"/>
                 <noderef id="mesa_pequena"/>
                 <noderef id="movel_tv"/>
-                <noderef id="moldura_barco"/>
+               
             </descendants>
         </node>
 
