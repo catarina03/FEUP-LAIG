@@ -11,10 +11,15 @@
 ## Project information
 
 - Scene
-  - consists in a tematic living room inspired by the Simpsons
-  - scenes/demo.xml
+  - consists in a tematic living room inspired by the Simpsons, it has:
+    - 2 pink walls and characteristic green floor
+    - A wooden table with a donut box containig 3 of Homer's donuts
+    - A piece of wooden furniture with 4 pyramids on top, along with 2 balls on the inside
+    - A modern tv
+    - A rug
+    - The classic boat art on the wall
+  - relative path: scenes/demo.xml
 ----
 ## Issues/Problems
 
 - Couldn´t implement afs and aft
-- Some issues regarding the heredity of textures

@@ -933,35 +933,71 @@ class MySceneGraph {
         }
         else if (leafType == "triangle"){
             let x1 = this.reader.getFloat(leaf,'x1');
+            if (!(x1 != null && !isNaN(x1)))
+                return "unable to parse x1 of triangle";
             let y1 = this.reader.getFloat(leaf,'y1');
-            let x2 = this.reader.getFloat(leaf,'x2');
-            let y2 = this.reader.getFloat(leaf,'y2');
-            let x3 = this.reader.getFloat(leaf,'x3');
-            let y3 = this.reader.getFloat(leaf,'y3');
+            if (!(y1 != null && !isNaN(y1)))
+                return "unable to parse y1 of triangle";
+            let x2 = this.reader.getFloat(leaf,'x2');            
+            if (!(x2 != null && !isNaN(x2)))
+                return "unable to parse x2 of triangle";
+            let y2 = this.reader.getFloat(leaf,'y2');            
+            if (!(y2 != null && !isNaN(y2)))
+                return "unable to parse y2 of triangle";
+            let x3 = this.reader.getFloat(leaf,'x3');            
+            if (!(x3 != null && !isNaN(x3)))
+                return "unable to parse x3 of triangle";
+            let y3 = this.reader.getFloat(leaf,'y3');            
+            if (!(y3 != null && !isNaN(y3)))
+                return "unable to parse y3 of triangle";
 
             vector.push(new MyTriangle(this.scene, x1, y1, x2, y2, x3, y3));
         }
         else if (leafType == "cylinder"){
             let height = this.reader.getFloat(leaf,'height');
+            if (!(height != null && !isNaN(height)))
+                return "unable to parse x1 of cylinder";
             let topRadius = this.reader.getFloat(leaf,'topRadius');
+            if (!(topRadius != null && !isNaN(topRadius)))
+                return "unable to parse x1 of cylinder";
             let bottomRadius = this.reader.getFloat(leaf,'bottomRadius');
+            if (!(bottomRadius != null && !isNaN(bottomRadius)))
+                return "unable to parse x1 of cylinder";
             let stacks = this.reader.getFloat(leaf,'stacks');
+            if (!(stacks != null && !isNaN(stacks)))
+                return "unable to parse x1 of cylinder";
             let slices = this.reader.getFloat(leaf,'slices');
+            if (!(slices != null && !isNaN(slices)))
+                return "unable to parse x1 of cylinder";
 
             vector.push(new MyCylinder(this.scene, bottomRadius, topRadius, height, slices, stacks));
         }
         else if (leafType == "sphere"){
             let radius = this.reader.getFloat(leaf,'radius');
+            if (!(radius != null && !isNaN(radius)))
+                return "unable to parse radius of sphere";
             let stacks = this.reader.getFloat(leaf,'stacks');
+            if (!(stacks != null && !isNaN(stacks)))
+                return "unable to parse stacks of sphere";
             let slices = this.reader.getFloat(leaf,'slices');
+            if (!(slices != null && !isNaN(slices)))
+                return "unable to parse slices of sphere";
 
             vector.push(new MySphere(this.scene, radius, slices, stacks));
         }
         else if (leafType == "torus"){
             let inner = this.reader.getFloat(leaf,'inner');
+            if (!(inner != null && !isNaN(inner)))
+                return "unable to parse inner of torus";
             let outer = this.reader.getFloat(leaf,'outer');
+            if (!(outer != null && !isNaN(outer)))
+                return "unable to parse outer of torus";
             let slices = this.reader.getFloat(leaf,'slices');
+            if (!(slices != null && !isNaN(slices)))
+                return "unable to parse slices of torus";
             let loops = this.reader.getFloat(leaf,'loops');
+            if (!(loops != null && !isNaN(loops)))
+                return "unable to parse loops of torus";
 
             vector.push(new MyTorus(this.scene, inner, outer, slices, loops));
         }
