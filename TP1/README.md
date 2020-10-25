@@ -10,11 +10,11 @@
 ----
 ## Project information
 
-- (items describing main strong points)
 - Scene
-  - (Brief description of the created scene)
-  - (relative link to the scene)
+  - consists in a tematic living room inspired by the Simpsons
+  - scenes/demo.xml
 ----
 ## Issues/Problems
 
-- (items describing unimplemented features, bugs, problems, etc.)
+- Couldn´t implement afs and aft
+- Some issues regarding the heredity of textures
