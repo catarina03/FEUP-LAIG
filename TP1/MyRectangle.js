@@ -1,13 +1,15 @@
 /**
  * MyRectangle
- * @constructor
- * @param scene - Reference to MyScene object
- * @param x1 - x coordinate corner 1
- * @param y1 - y coordinate corner 1
- * @param x2 - x coordinate corner 2
- * @param y2 - y coordinate corner 2
  */
 class MyRectangle extends CGFobject {
+	/**
+	 * constructor
+	 * @param scene - Reference to MyScene object
+	 * @param x1 - x coordinate corner 1
+	 * @param y1 - y coordinate corner 1
+	 * @param x2 - x coordinate corner 2
+	 * @param y2 - y coordinate corner 2
+	 */
 	constructor(scene, x1, y1, x2, y2) {
 		super(scene);
 		this.x1 = x1;
@@ -18,6 +20,10 @@ class MyRectangle extends CGFobject {
 		this.initBuffers();
 	}
 	
+	/**
+    * @method initBuffers
+    * Initializes the rectangle buffers
+    */
 	initBuffers() {
 		this.vertices = [
 			this.x1, this.y1, 0,	//0

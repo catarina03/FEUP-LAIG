@@ -1,3 +1,6 @@
+/**
+ * MySphere
+ */
 class MySphere extends CGFobject {
   /**
    * @method constructor

@@ -1,4 +1,15 @@
+/**
+ * MyTorus
+ */
 class MyTorus extends CGFobject{
+    /**
+     * Constructor
+     * @param {XMLScene} scene - Refernce to MyScene object
+     * @param {number} inner - inner radius
+     * @param {number} outer - outer radius
+     * @param {number} slices - number of slices
+     * @param {number} loops - number of loops
+     */
     constructor(scene, inner, outer, slices, loops) {
         super(scene);
         this.r = inner;
@@ -9,6 +20,10 @@ class MyTorus extends CGFobject{
     this.initBuffers();
     }
 
+    /**
+    * @method initBuffers
+    * Initializes the torus buffers
+    */
     initBuffers(){
 
     this.vertices = [];
@@ -53,6 +68,12 @@ class MyTorus extends CGFobject{
     this.initGLBuffers();
 }
 
+
+/**
+ * Updates texture coordinates
+ * @param {number} Sfactor - Texture coordinates
+ * @param {number} Tfactor - Texture coordinates
+ */
 updateTexCoords(Sfactor,Tfactor) {
 		this.updateTexCoordsGLBuffers();
 	}

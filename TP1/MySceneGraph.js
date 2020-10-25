@@ -564,8 +564,10 @@ class MySceneGraph {
             // Get id of the current material.
             var materialID = this.reader.getString(children[i], 'id');
                 
-            if (materialID == null)
-                return "no ID defined for material";
+            if (materialID == null){
+                this.onXMLMinorError("no ID defined for material");
+                continue;
+            }
                 
             if(materialID==""){
                 this.onXMLMinorError("ignored material in the position"+(i+1)+ ":ID is missing");
@@ -573,8 +575,10 @@ class MySceneGraph {
             }
                 
             // Checks for repeated IDs.
-            if (this.materials[materialID] != null)
-                return "(ID must be unique for each light (conflict: ID = " + materialID + ")";
+            if (this.materials[materialID] != null){
+                this.onXMLMinorError("A material with the ID = " + materialID + " already exists");
+                continue; 
+            }
 
             //Continue here
             var materialSpecs = children[i].children;
@@ -585,20 +589,20 @@ class MySceneGraph {
 
             // Determines the values for each field.
             // Shininess.
-            var shininessIndex = nodeNames.indexOf("shininess");
-            if (shininessIndex == -1)
-                return "no shininess value defined for material with ID = " + materialID;
-            var shininess = this.reader.getFloat(materialSpecs[shininessIndex], 'value');
+            let shininess;
+            let shininessIndex = nodeNames.indexOf("shininess");
+            if (shininessIndex == -1){
+                this.onXMLMinorError("no shininess value defined for material with ID = " + materialID);
+                shininess = 20; 
+            }
+            else{
+                shininess = this.reader.getFloat(materialSpecs[shininessIndex], 'value');
+            }
 
-            if (shininess == null)
-                return "unable to parse shininess value for material with ID = " + materialID;
-            else if (isNaN(shininess))
-                return "'shininess' is a non numeric value";
-            else if (shininess <= 0)
-                return "'shininess' must be positive";
-
-            if(!(shininess != null && !isNaN(shininess)))
-                return "unable to parse shininess for the material with ID = "+ materialID + shininess ;
+            if(!(shininess != null && !isNaN(shininess && shininess > 0))){
+                this.onXMLMinorError("unable to parse shininess for the material with ID = "+ materialID);
+                shininess = 20;
+            }
         
             global.push(shininess);
             grandChildren=children[i].children;
@@ -614,10 +618,16 @@ class MySceneGraph {
                 
                 if(attributeIndex != -1) {
                     var aux=this.parseColor(grandChildren[attributeIndex],"attribute \"" + attributeNames[j] + "\" of the Material with ID = " + materialID);
-                    if(!Array.isArray(aux))return aux;
+                    if(!Array.isArray(aux)){
+                        this.onXMLMinorError("error parsing " + attributeNames[j] + " of material " + materialID); 
+                        aux = [0.1, 0.1, 0.1, 1];  //default 
+                    }
                     global.push(aux);
                 }
-                else return "material"+ attributeNames[j]+ "undefined for id =" + materialID;
+                else{
+                    this.onXMLMinorError("material"+ attributeNames[j]+ "undefined for id =" + materialID);
+                    global.push([0.1, 0.1, 0.1, 1]);  //default
+                } 
             }
 
             var provMaterial=new CGFappearance(this.scene);
@@ -798,7 +808,6 @@ class MySceneGraph {
             newComponent.aft = texStruct.aft;
             newComponent.primitives = leaves;
             newComponent.children = noderefs;
-            newComponent.currMatIndex = materialID;
             newComponent.currMaterial = componentMaterial;
 
             this.nodes[nodeID] = children[i];
@@ -826,9 +835,9 @@ class MySceneGraph {
             af_t: aft
         };
 
-        if (this.textures[textureID] == null)
-            return textureID + " is not valid on materials of component " + componentID;
-
+        if (this.textures[textureID] == null && !(textureID == "null") && !(textureID == "clear"))
+            this.onXMLMinorError(textureID + " is not valid on textures of component " + componentID);
+            
         var amplification = textureNode.children;
         if (amplification.length > 0){
             afs = this.reader.getFloat(amplification[0], 'afs');
@@ -836,25 +845,31 @@ class MySceneGraph {
 
             //setting afs and aft 
             if (afs != null) {
-                if (isNaN(afs))
-                    return "afs isn't a number in texture " + textureID + " of component " + componentID;
-                if (afs <= 0)
-                    return "afs is can't be negative or 0 in texture " + textureID + " of component " + componentID;
+                if (isNaN(afs)){
+                    this.onXMLMinorError("afs isn't a number in texture " + textureID + " of component " + componentID);
+                    afs = 1;  //default
+                }
+                if (afs <= 0){
+                    this.onXMLMinorError("afs is can't be negative or 0 in texture " + textureID + " of component " + componentID);
+                    afs = 1;  //default
+                }
             }
             else{
-                //default
-                afs = 1;
+                afs = 1;  //default
             }
 
             if (aft != null) {
-                if (isNaN(aft))
-                    return "aft isn't a number in texture " + textureID + " of component " + componentID;
-                if (aft <= 0)
-                    return "aft is can't be negative or 0 in texture " + textureID + " of component " + componentID;
+                if (isNaN(aft)){
+                    this.onXMLMinorError("aft isn't a number in texture " + textureID + " of component " + componentID);
+                    aft = 1;  //default
+                }
+                if (aft <= 0){
+                    this.onXMLMinorError("aft is can't be negative or 0 in texture " + textureID + " of component " + componentID);
+                    aft = 1;  //default
+                }
             }
             else{
-                //default
-                aft = 1;
+                aft = 1;  //default
             }
         }
 

@@ -1,11 +1,12 @@
 /**
- * MyNode
- * @constructor
- * @param scene - Reference to MyScene object
- * @param id - ID of the component
+ * MyComponent
  */
-
 class MyComponent extends CGFobject{
+    /**
+     * constructor
+     * @param scene - Reference to MyScene object
+     * @param id - ID of the component
+     */
     constructor(scene, id, component) {
         super(scene);
 
@@ -13,15 +14,12 @@ class MyComponent extends CGFobject{
 
         this.component = component;
 
-        this.children = [];
         this.primitives = [];
         this.objects = [];
         this.transformation = null;
 
         this.currMaterial = null;
         this.currTexture = null;
-        
-        this.currMatIndex = 0;
 
         this.afs = null;
         this.aft = null;
@@ -35,16 +33,13 @@ class MyComponent extends CGFobject{
         return this.children;
     }
 
-
-    //nextMaterial()
-
+    /**
+     * Displays objects recursively
+     * @param parentMaterial - Material to be inherited
+     * @param parentTexture - Texture to be inherited
+     */
     display(parentMaterial, parentTexture){
-        //push transformation, material and texture to the corresponding stacks
         this.scene.pushMatrix();
-        //Material
-        //this.currMaterial=this.scene.pushMaterial(this.component.materials[this.currMatIndex]);
-        //Texture
-        //this.scene.pushTexture(this.currTexture);
 
         let newMaterial;
         let newTexture;
@@ -54,8 +49,8 @@ class MyComponent extends CGFobject{
             this.scene.multMatrix(this.transformation);
         }
 
-        //Applies Material and Texture
 
+        //Applies Material and Texture
         if(this.currMaterial == "null") { 
             newMaterial = parentMaterial;
 
@@ -68,9 +63,18 @@ class MyComponent extends CGFobject{
                 newTexture = "clear";
             }
             else if (this.currTexture == "null"){
-                newMaterial.setTexture(parentTexture);
-                newTexture = parentTexture;
-            }       
+                if (parentTexture instanceof CGFtexture){
+                    newMaterial.setTexture(parentTexture);
+                    newTexture = parentTexture;
+                }
+                else{
+                    newMaterial.setTexture(null);
+                    newTexture = "null";
+                }
+            }
+            else{
+                newMaterial.setTexture(null);
+            }
 
             newMaterial.apply();                                     
         }  
@@ -86,14 +90,23 @@ class MyComponent extends CGFobject{
                 newTexture = "clear";
             }
             else if (this.currTexture == "null"){
-                this.currMaterial.setTexture(parentTexture);
-                newTexture = parentTexture;
+                if (parentTexture instanceof CGFtexture){
+                    newMaterial.setTexture(parentTexture);
+                    newTexture = parentTexture;
+                }
+                else{
+                    newMaterial.setTexture(null);
+                    newTexture = "null";
+                }
             }   
+            else{
+                newMaterial.setTexture(null);
+            }
 
             this.currMaterial.apply();
         }
 
-        //console.log(this.currTexture);
+
 
         for (let i = 0; i < this.primitives.length; i++){
             this.primitives[i].display();
@@ -104,11 +117,6 @@ class MyComponent extends CGFobject{
             this.objects[obj].display(newMaterial, newTexture);
         }
 
-        //Texture
-        //this.scene.popTexture(this.currTexture);
-        //Material
-        //Pops tranformation
-        //this.scene.popMaterial();
         this.scene.popMatrix();
     }
 

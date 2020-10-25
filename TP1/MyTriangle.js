@@ -1,10 +1,17 @@
-/*
-  MyTriangle
-  @constructor
- 
+/**
+ * MyTriangle 
  */
-
 class MyTriangle extends CGFobject{
+    /**
+     * MyTriangle constructor
+     * @param {XMLScene} scene - Reference to MyScene object
+     * @param {number} x1 - Vertex coordinates
+     * @param {number} y1 - Vertex coordinates
+     * @param {number} x2 - Vertex coordinates
+     * @param {number} y2 - Vertex coordinates
+     * @param {number} x3 - Vertex coordinates
+     * @param {number} y3 - Vertex coordinates
+     */
     constructor(scene, x1,y1,x2,y2,x3,y3) {
 
         super(scene);
@@ -16,9 +23,11 @@ class MyTriangle extends CGFobject{
         this.initBuffers();
     };
 
+    /**
+    * @method initBuffers
+    * Initializes the triangle buffers
+    */
     initBuffers(){
-
-        
         this.vertices = [];
         
         //vertices
@@ -68,6 +77,11 @@ class MyTriangle extends CGFobject{
 
     };
 
+    /**
+     * Updates texture coordinates
+     * @param {number} Sfactor - texture coordinates
+     * @param {number} Tfactor - texture coordinates
+     */
     updateTexCoords(Sfactor,Tfactor){
         
         this.texCoords = [

@@ -1,14 +1,16 @@
-/**
- * MyCylinder
- * @constructor
- * @param scene - Reference to MyScene object
- * @param bottom_radius - radius of the bottom circle
- * @param top_radius - radius of the top circle
- * @param height - height of the cylinder
- * @param slices - number of slices
- * @param stacks - number of stacks
- */
+ /**
+  * MyCylinder
+  */
 class MyCylinder extends CGFobject{
+    /**
+     * constructor
+     * @param scene - Reference to MyScene object
+     * @param bottom_radius - radius of the bottom circle
+     * @param top_radius - radius of the top circle
+     * @param height - height of the cylinder
+     * @param slices - number of slices
+     * @param stacks - number of stacks
+     */
     constructor(scene, bottom_radius, top_radius, height, slices, stacks) {
         super(scene);
         
@@ -32,6 +34,11 @@ class MyCylinder extends CGFobject{
         this.cylinder_surface.display();
     }
 
+    /**
+     * Updates texture coordinates
+     * @param {number} Sfactor - texture coordinates
+     * @param {number} Tfactor - texture coordinates
+     */
     updateTexCoords(Sfactor,Tfactor){
         this.cylinder_surface.updateTexCoords(1,1);
     }
@@ -40,12 +47,14 @@ class MyCylinder extends CGFobject{
  
 /**
  * MyCircle
- * @constructor
- * @param scene - Reference to MyScene object
- * @param radius - radius of auxiliar circle
- * @param slices - number of slices of auxiliar circle
  */
 class MyCircle extends CGFobject{
+    /**
+     * constructor
+     * @param scene - Reference to MyScene object
+     * @param radius - radius of auxiliar circle
+     * @param slices - number of slices of auxiliar circle
+     */
     constructor(scene, radius, slices) {
         super(scene);
         this.radius = radius;
@@ -53,6 +62,10 @@ class MyCircle extends CGFobject{
         this.initBuffers();
     }
 
+    /**
+    * @method initBuffers
+    * Initializes the cylinder buffers
+    */
     initBuffers(){
         var angle = 2.0 * Math.PI / this.slices;
 
@@ -98,6 +111,11 @@ class MyCircle extends CGFobject{
         this.initGLBuffers();
     }
 
+    /**
+     * Updates texture coordinates
+     * @param {number} Sfactor - texture coordinates
+     * @param {number} Tfactor - texture coordinates
+     */
     updateTexCoords(Sfactor,Tfactor) {
 	    this.updateTexCoordsGLBuffers();
 	}
@@ -106,15 +124,17 @@ class MyCircle extends CGFobject{
 
 /**
  * MyCilinderSurface
- * @constructor
- * @param scene - Reference to MyScene object
- * @param bottom_radius - bottom radius of auxiliar surface
- * @param top_radius - top radius of auxiliar surface
- * @param height - height of auxiliar surface
- * @param slices - number of slices of auxiliar surface
- * @param stacks - number of stacks of auxiliar surface
  */
 class MyCylinderSurface extends CGFobject{
+    /**
+    * constructor
+    * @param scene - Reference to MyScene object
+    * @param bottom_radius - bottom radius of auxiliar surface
+    * @param top_radius - top radius of auxiliar surface
+    * @param height - height of auxiliar surface
+    * @param slices - number of slices of auxiliar surface
+    * @param stacks - number of stacks of auxiliar surface
+    */
     constructor(scene, bottom_radius, top_radius, height, slices, stacks) {
         super(scene);
         this.bottom_radius=bottom_radius;
@@ -125,6 +145,10 @@ class MyCylinderSurface extends CGFobject{
         this.initBuffers();
     }
 
+    /**
+    * @method initBuffers
+    * Initializes the cylinder buffers
+    */
     initBuffers(){
         var angle = 2.0 * Math.PI / this.slices;
 
@@ -170,6 +194,11 @@ class MyCylinderSurface extends CGFobject{
         this.initGLBuffers();
     }
  
+    /**
+    * Updates texture coordinates
+    * @param {number} Sfactor - Texture coordinates
+    * @param {number} Tfactor - Texture coordinates
+    */
     updateTexCoords(Sfactor,Tfactor){
        this.updateTexCoordsGLBuffers();
     }

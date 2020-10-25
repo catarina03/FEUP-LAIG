@@ -53,6 +53,9 @@ class MyInterface extends CGFinterface {
         return this.activeKeys[keyCode] || false;
     }
 
+    /**
+     * Adds lights to the User Interface
+     */
     addLightsGUI(){
         var keyNames=Object.keys(this.scene.graph.lights);
 
@@ -64,15 +67,10 @@ class MyInterface extends CGFinterface {
             lightsFolder.add(this.scene.lights[i],'enabled').name(keyNames[i]); 
     }
 
+    /**
+     * Adds cameras to the User Interface
+     */
     addCamerasGUI(){ 
-        /*
-        this.gui.add(this.scene.graph,'currentView', 
-                    Object.keys(this.scene.graph.views)).name('View Points').onChange((val)=> {
-                        this.scene.camera=this.scene.graph.views[val];
-                        this.setActiveCamera(this.scene.camera);
-        });
-        */
-
         var viewsFolder = this.gui.addFolder('Views');
         viewsFolder.open();
 
