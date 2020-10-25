@@ -13,7 +13,6 @@ class MyTriangle extends CGFobject{
      * @param {number} y3 - Vertex coordinates
      */
     constructor(scene, x1,y1,x2,y2,x3,y3) {
-
         super(scene);
 
         this.v1 =vec3.fromValues(x1,y1,0);
@@ -22,6 +21,7 @@ class MyTriangle extends CGFobject{
 
         this.initBuffers();
     };
+
 
     /**
     * @method initBuffers
@@ -64,7 +64,6 @@ class MyTriangle extends CGFobject{
 
        this.sinAlpha=Math.sqrt(1 - this.cosAlpha * this.cosAlpha);
 
-
        this.texCoords=[
             0, 1,
             1, 1,
@@ -74,8 +73,8 @@ class MyTriangle extends CGFobject{
         this.primitiveType = this.scene.gl.TRIANGLES;
         this.initGLBuffers();
 
-
     };
+
 
     /**
      * Updates texture coordinates
@@ -83,14 +82,12 @@ class MyTriangle extends CGFobject{
      * @param {number} Tfactor - texture coordinates
      */
     updateTexCoords(Sfactor,Tfactor){
-        
         this.texCoords = [
              0,0,
              this.a/Sfactor,0,
              (this.c*this.cosAlpha)/ Sfactor,(this.c*this.sinAlpha)/Tfactor
 
         ];
-
 
         this.updateTexCoordsGLBuffers();
     }
