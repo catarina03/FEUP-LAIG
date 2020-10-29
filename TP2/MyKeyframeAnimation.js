@@ -6,15 +6,15 @@ class MyKeyframeAnimation extends MyAnimation {
      * @constructor
      * @param {number} startTime - in seconds
      * @param {number} endTime - in seconds
-     * @param {vec3} startTransformations 
-     * @param {vec3} endTransformations 
+     * @param {matrix} startTransformations 
+     * @param {matrix} endTransformations 
      */
     constructor(startTime, endTime, startTransformations, endTransformations) {
         super(startTime, endTime, startTransformations, endTransformations);
 
         this.keyframe = [];
 
-        this.currentState = null;
+        this.currentState = null;//current state is calculated by interpolation 
     }
 
     /**
