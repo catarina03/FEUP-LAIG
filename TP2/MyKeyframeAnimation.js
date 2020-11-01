@@ -9,10 +9,12 @@ class MyKeyframeAnimation extends MyAnimation {
      * @param {matrix} startTransformations 
      * @param {matrix} endTransformations 
      */
-    constructor(startTime, endTime, startTransformations, endTransformations) {
-        super(startTime, endTime, startTransformations, endTransformations);
+    constructor(scene, startTime, endTime) {
+        super(scene, startTime, endTime, startTransformations, endTransformations);
 
-        this.keyframe = [];
+        this.keyframes = [];
+
+        this.stage = 0;
 
         this.currentState = null;//current state is calculated by interpolation 
     }
@@ -27,9 +29,30 @@ class MyKeyframeAnimation extends MyAnimation {
             //screen.scale
         //else current state is matrix
             //scene.multMatrix
+        
+        this.scene.multMatrix(this.animationMatrix);
     }
 
     update(currentTime){
+        if (!this.finished){
+
+            if(this.stage == 0){
+                deltaTime = this.currentTime;
+            }
+            else{
+                deltaTime = this.currentTime - this.keyframes[stage-1].instant;
+            }
+
+            if(this.stage == 0){
+                currentValue = value * this.timeElapsed/this.keyframe[this.stage + 1].instant;
+            }
+            else{
+                currentValue = this.keyframe[this.stage].instant + value * this.timeElapsed/this.keyframe[this.stage + 1].instant;
+            }
+        }
+
+
+
         //Check if animation is active, else return null
 
         //Calculate animations elapsed time using delta time
@@ -45,6 +68,10 @@ class MyKeyframeAnimation extends MyAnimation {
             //Ttotal - time of next keyframe
         
         //Update current state (matrix or vec3) and other variables
+
+
+
+        this.timeElapsed += currentTime;
     }
 
 
