@@ -7,6 +7,7 @@ var ILLUMINATION_INDEX = 2;
 var LIGHTS_INDEX = 3;
 var TEXTURES_INDEX = 4;
 var MATERIALS_INDEX = 5;
+var ANIMATIONS_INDEX = 6;
 var NODES_INDEX = 6;
 
 /**
@@ -31,6 +32,7 @@ class MySceneGraph {
         this.objects = [];
         this.materials =[];
         this.textures = [];
+        this.animations = [];
 
         this.idRoot = null; // The id of the root element.
 
@@ -188,6 +190,20 @@ class MySceneGraph {
             if ((error = this.parseMaterials(nodes[index])) != null)
                 return error;
         }
+
+        // <animations>
+        if ((index = nodeNames.indexOf("animations")) != -1){
+            if (index != ANIMATIONS_INDEX)
+            this.onXMLMinorError("tag <animations> out of order");
+            
+            NODES_INDEX = 7;
+            console.log(NODES_INDEX);
+            
+            //Parse animations block
+            if ((error = this.parseAnimations(nodes[index])) != null)
+            return error;
+        }
+            
 
         // <nodes>
         if ((index = nodeNames.indexOf("nodes")) == -1)
@@ -648,6 +664,115 @@ class MySceneGraph {
         this.log("Parsed materials");
 
         return null;
+    }
+
+
+    parseAnimations(animationsNode){
+        let children = animationsNode.children; //<animation>
+
+        for (let i = 0; i < children.length; i++){
+
+            if (children[i].nodeName != "animation"){
+                this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
+                continue;
+            }
+
+            let animationID = this.reader.getString(children[i], 'id');
+
+            if (animationID == null) {
+                this.onXMLMinorError("animation has a null ID");
+                continue;
+            } 
+
+            let keyframeArray = [];
+
+            let keyframes = children.children;
+
+            //Parsing each keyframe
+            for (let j = 0; j < keyframes; j++){
+
+                //Checking tag
+                if (keyframes[i].nodeName != "keyframe") {
+                    this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
+                    continue;
+                }
+    
+                //Gets instant
+                let keyframeInstant = this.reader.getFloat(children[i], "instant");
+    
+                //Gets children which are the transformations
+                keyframeTransformations = keyframes[i].children;
+
+                let translationVec = vec3(0, 0, 0);
+                let rotationXVec = vec3(0, 0, 0);
+                let rotationYVec = vec3(0, 0, 0);
+                let rotationZVec = vec3(0, 0, 0);
+                let scaleVec = vec3(0, 0, 0);
+                let angle, axis;
+
+                for (let k = 0; k < keyframeTransformations; k++){
+                    switch (keyframeTransformations[k].nodeName){
+                        case "translation":
+                            let x = this.reader.getFloat(keyframeTransformations[k], "x");
+                            let y = this.reader.getFloat(keyframeTransformations[k], "y");
+                            let z = this.reader.getFloat(keyframeTransformations[k], "z");
+
+                            let intermidiateTranslation = vec3(x, y, z);
+                            add(translationVec, translationVec, intermidiateTranslation);
+                            break;
+
+                        case "rotation":
+                            if ((axis = this.reader.getFloat(keyframeTransformations[k], "axis")) == "x"){
+                                angle = this.reader.getFloat(keyframeTransformations[k], "angle");
+
+                                let intermidiateRotation = vec3(angle, 0, 0);
+                                add(rotationXVec, rotationXVec, intermidiateRotation);
+                            }
+                            else if ((axis = this.reader.getFloat(keyframeTransformations[k], "axis")) == "y"){
+                                angle = this.reader.getFloat(keyframeTransformations[k], "angle");
+
+                                let intermidiateRotation = vec3(0, angle, 0);
+                                add(rotationYVec, rotationYVec, intermidiateRotation);
+                            }
+                            else if ((axis = this.reader.getFloat(keyframeTransformations[k], "axis")) == "z"){
+                                angle = this.reader.getFloat(keyframeTransformations[k], "angle");
+
+                                let intermidiateRotation = vec3(0, 0, angle);
+                                add(rotationZVec, rotationZVec, intermidiateRotation);
+                            }
+                            break;
+
+                        case "scale":
+                            let sx = this.reader.getFloat(keyframeTransformations[k], "sx");    
+                            let sy = this.reader.getFloat(keyframeTransformations[k], "sy");
+                            let sz = this.reader.getFloat(keyframeTransformations[k], "sz");
+
+                            let intermidiateScale = vec3(sx, sy, sz);
+                            add(scaleVec, scaleVec, intermidiateScale);
+                            break;
+
+                        default:
+                            this.onXMLMinorError("Unkown keyframe transformation tag");
+                            break;
+
+                    }
+
+                    let allRotation = vec3(rotationX, rotationYVec, rotationZVec);
+                    keyframeArray[keyframeInstant] = vec3(translationVec, allRotation, scaleVec);
+
+
+
+                }
+      
+
+
+
+            }
+
+        }
+
+        //add all keyframes to make an animation
+
     }
 
 

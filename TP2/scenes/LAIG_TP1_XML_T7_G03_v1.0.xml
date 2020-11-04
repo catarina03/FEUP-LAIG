@@ -147,6 +147,38 @@
 			
     </materials>
 
+    <animations>
+
+        <animation id="ballAnimation">
+
+            <keyframe instant="0">
+                <translation x="0" y="0" z="0" />
+                <rotation axis="x" angle="0" />
+                <rotation axis="y" angle="0" />
+                <rotation axis="z" angle="0" />
+                <scale sx="1" sy="1" sz="1" />
+            </keyframe>
+
+            <keyframe instant="3">
+                <translate x="2" y="5" z="0" />
+                <rotation axis="x" angle="0" />
+                <rotation axis="y" angle="0" />
+                <rotation axis="z" angle="0" />
+                <scale sx="1" sy="1" sz="1" />
+            </keyframe>
+
+            <keyframe instant="6">
+                <translate x="0" y="0" z="0" />
+                <rotation axis="x" angle="0" />
+                <rotation axis="y" angle="0" />
+                <rotation axis="z" angle="0" />
+                <scale sx="1" sy="1" sz="1" />
+            </keyframe>
+
+        </animation>
+
+    </animations>
+
 
     <nodes>
 
@@ -513,15 +545,13 @@
                 <translation x="1" y="5.5" z="0.82" />
                 <rotation axis="x" angle="90"/>
                 <rotation axis="y" angle="90"/>
-             
-                    
-                
-               
                  
             </transformations>
 
+            <animationref id="ballAnimation" />
+
             <descendants>
-            <leaf type="sphere" radius="0.35" slices="50" stacks="20"/>
+                <leaf type="sphere" radius="0.35" slices="50" stacks="20"/>
             </descendants>
         </node>
 
