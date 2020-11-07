@@ -12,8 +12,8 @@ class MyAnimation {
       
         this.startTime = startTime;
         this.endTime=endTime;
-        this.startTransformations=startTransformations;
-        this.endTransformations=endTransformations;
+        this.startTransformations=startTransformations;//array de 3 vec3
+        this.endTransformations=endTransformations;//array de 3 vec3
 
         this.finished=false;
 
