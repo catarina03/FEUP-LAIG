@@ -17,6 +17,7 @@ class MyComponent extends CGFobject{
         this.primitives = [];
         this.objects = [];
         this.transformation = null;
+        this.animation = null;
 
         this.currMaterial = null;
         this.currTexture = null;
@@ -106,7 +107,9 @@ class MyComponent extends CGFobject{
             this.currMaterial.apply();
         }
 
-
+        if (this.animation != null){
+            this.animation.apply();
+        }
 
         for (let i = 0; i < this.primitives.length; i++){
             this.primitives[i].display();
