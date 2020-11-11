@@ -20,6 +20,8 @@ class MyKeyframeAnimation extends MyAnimation {
         this.currentRotz = 0.0;
         this.currentScale = vec3.fromValues(1.0,1.0,1.0);
 
+        this.timeElapsed = 0;
+
         this.startTime = 0;
         this.stage = 0;
 
@@ -50,7 +52,7 @@ class MyKeyframeAnimation extends MyAnimation {
 
 
 
-         // auxiliares para guardar o valor intermedio das keyframes
+         // auxiliares para guardar o "value"
 
             let translX;
             let translY;
@@ -67,76 +69,80 @@ class MyKeyframeAnimation extends MyAnimation {
             let scaleZ;
 
 
+
+            
+            if(this.stage==0){//neste stage nao e suposto ocorrer nada
+                              // a animaçao so começa quando chegarmos à keyframe 0,até la
+                              // o objeto está invisivel 
+               deltaTime = 0;
+
+               // currentValue = value * this.timeElapsed/this.keyframes[this.stage + 1].instant;(feito na interpolaçao mais abaixo)
+               //calculo do value:
+
+
+
+                 }
+
+
           
             if(this.stage > 0){
                 deltaTime = this.currentTime - this.keyframes[stage-1].instant;
 
-                //calculo dos valores entre a keyframe anterior e a keyframe seguinte
-                translX = this.keyframes[this.stage].transformations[0][0] - this.keyframes[this.stage-1 ].transformations[0][0];
-                translY = this.keyframes[this.stage].transformations[0][1] - this.keyframes[this.stage-1 ].transformations[0][1];
-                translZ = this.keyframes[this.stage].transformations[0][2] - this.keyframes[this.stage-1 ].transformations[0][2];
+                //calculo dos valores entre a keyframe anterior e a keyframe seguinte(aka value)
+                translX = this.keyframes[this.stage].transformations[0][0] - this.keyframes[this.stage-1].transformations[0][0];
+                translY = this.keyframes[this.stage].transformations[0][1] - this.keyframes[this.stage-1].transformations[0][1];
+                translZ = this.keyframes[this.stage].transformations[0][2] - this.keyframes[this.stage-1].transformations[0][2];
 
-                rotX = this.keyframes[this.stage].transformations[1] - this.keyframes[this.stage-1 ].transformations[1];
-                rotY = this.keyframes[this.stage].transformations[2] - this.keyframes[this.stage-1 ].transformations[2];
-                rotZ = this.keyframes[this.stage].transformations[3] - this.keyframes[this.stage-1 ].transformations[3];
+                rotX = this.keyframes[this.stage].transformations[1] - this.keyframes[this.stage -1].transformations[1];
+                rotY = this.keyframes[this.stage].transformations[2] - this.keyframes[this.stage -1].transformations[2];
+                rotZ = this.keyframes[this.stage].transformations[3] - this.keyframes[this.stage -1].transformations[3];
                 
-                scaleX = this.keyframes[this.stage].transformations[4][0] - this.keyframes[this.stage-1 ].transformations[4][0];
-                scaleY = this.keyframes[this.stage].transformations[4][1] - this.keyframes[this.stage-1 ].transformations[4][1];
-                scaleZ = this.keyframes[this.stage].transformations[4][2] - this.keyframes[this.stage-1 ].transformations[4][2];
+                scaleX = this.keyframes[this.stage].transformations[4][0] - this.keyframes[this.stage -1].transformations[4][0];
+                scaleY = this.keyframes[this.stage].transformations[4][1] - this.keyframes[this.stage -1].transformations[4][1];
+                scaleZ = this.keyframes[this.stage].transformations[4][2] - this.keyframes[this.stage -1].transformations[4][2];
                
             }
 
+          //se o elapsed time for igual ou inferior ao tempo correspondente 
+          //entao fazer a interpolaçao
 
 
-
-
-
-
-            if(this.stage==0){
-                 deltaTime = this.currentTime;
-                 currentValue = value * this.timeElapsed/this.keyframes[this.stage + 1].instant;
-
-                
-
-
-
-
-
-            }
-
-
-     
-
-
-            //se o elapsed time for igual ou inferior ao tempo correspondente 
-            //entao fazer a interpolaçao
-
-
-            //se o elapsed time for superior ao tempo correspondente
-            //ao intervalo entre a keyframe atual e a seguinte
-            //entao fazer stage++
+          //se o elapsed time(duraçao atual da animaçao) for superior ao tempo correspondente
+          //ao inicio da proxima keyframe entao fazer stage++,ou seja,passar ao proximo stage
+          
         
 
-          if(this.timeElapsed > (this.keyframes[this.stage+1].instant-this.keyframes[this.stage].instant)){//se o stage atual ja acabou
+          if(this.timeElapsed > (this.keyframes[this.stage+1].instant)){//se o stage atual ja acabou
               this.stage++;
-              this.timeElapsed=0;
+             
           }
 
-          else{//estamos a meio dum stage logo e necessario fazer a interpolaçao
+          else if(stage>0){//estamos no decorrer dum stage logo e necessario fazer a interpolaçao
                
 
-               currentValue = this.keyframes[this.stage].instant + value * this.timeElapsed/this.keyframes[this.stage + 1].instant;
+              // currentValue = this.keyframes[this.stage].instant + value * this.timeElapsed/this.keyframes[this.stage + 1].instant;
+              
+              this.currentTransl[0] += (currentTime / deltaTime) * translX;
+              this.currentTransl[1] += (currentTime / deltaTime) * translY;
+              this.currentTransl[2] += ( currentTime / deltaTime) * translZ;
 
+              this.currentRotx += (currentTime / deltaTime) * rotX;
+              this.currentRoty += (currentTime / deltaTime) * rotY;
+              this.currentRotz += (currentTime / deltaTime) * rotZ;
+
+              this.currentScale[0] += (currentTime / deltaTime) * scaleX;
+              this.currentScale[1] += (currentTime / deltaTime) * scaleY;
+              this.currentScale[2] += (currentTime / deltaTime) * scaleZ;
 
 
           }
 
 
-        this.timeElapsed += deltaTime;
+        this.timeElapsed += deltaTime;//time elapsed é o tempo desde o inicio da animaçao ate agora
     }
 
 
-//animaçao nao esta ativa
+// caso a animaçao nao esteja ativa
    else{
        this.finished=true;
        return null; 
@@ -145,5 +151,12 @@ class MyKeyframeAnimation extends MyAnimation {
     
 
     }
+
+
+
+
+
+
+
 
 }
