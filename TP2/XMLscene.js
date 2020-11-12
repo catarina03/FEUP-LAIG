@@ -40,6 +40,8 @@ class XMLscene extends CGFscene {
 
         this.defaultAppearance=new CGFappearance(this);
 
+        //this.initialTime = 0;
+
     }
 
     /**
@@ -100,6 +102,13 @@ class XMLscene extends CGFscene {
         this.interface.addCamerasGUI();
 
         this.sceneInited = true;
+    }
+
+
+    update(time){
+        if (this.sceneInited){
+            this.graph.root.updateAnimation(time);
+        }       
     }
 
 

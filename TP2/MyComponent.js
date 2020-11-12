@@ -34,6 +34,26 @@ class MyComponent extends CGFobject{
         return this.children;
     }
 
+    updateAnimation(time){
+        if (this.animation != null){
+            if (this.animation.finished){
+                return;
+            }
+            else{
+                this.animation.update(time);
+            }
+
+            for (let child of this.children){
+                if (child instanceof MyComponent){
+                    child.updateAnimation(time);
+                }
+            }
+            
+            
+        }
+
+    }
+
     /**
      * Displays objects recursively
      * @param parentMaterial - Material to be inherited
