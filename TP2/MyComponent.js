@@ -42,14 +42,14 @@ class MyComponent extends CGFobject{
             else{
                 this.animation.update(time);
             }
+        }
 
-            for (let child of this.children){
-                if (child instanceof MyComponent){
-                    child.updateAnimation(time);
-                }
-            }
-            
-            
+        console.log("ANIMATION");
+        console.log(this.id);
+        console.log(this.objects);
+
+        for (let obj in this.objects){
+            this.objects[obj].updateAnimation(time);
         }
 
     }
