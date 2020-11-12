@@ -10,7 +10,7 @@ class MyKeyframeAnimation extends MyAnimation {
      * @param {array of vec3 and rotation angles} endTransformations 
      */
     constructor(scene, startTime, endTime) {
-        super(scene, startTime, endTime, startTransformations, endTransformations);
+        super(scene, startTime, endTime);
         
         this.keyframes = [];//array de objetos mykeyframe
         
@@ -20,7 +20,8 @@ class MyKeyframeAnimation extends MyAnimation {
         this.currentRotz = 0.0;
         this.currentScale = vec3.fromValues(1.0,1.0,1.0);
 
-        this.startTime = 0;
+        this.startTime = startTime;
+        this.endTime = endTime;
         this.stage = 0;
 
         this.currentState = null;//current state is calculated by interpolation and its equal to

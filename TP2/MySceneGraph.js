@@ -677,6 +677,7 @@ class MySceneGraph {
                 continue;
             }
 
+            //Parses ID
             let animationID = this.reader.getString(children[i], 'id');
 
             if (animationID == null) {
@@ -684,61 +685,73 @@ class MySceneGraph {
                 continue;
             } 
 
+            // Checks for repeated IDs.
+            if (this.animations[animationID] != null)
+                return "ID must be unique for each animation (conflict: ID = " + animationID + ")";
+
             let keyframeArray = [];
 
-            let keyframes = children.children;
+            let keyframes = children[i].children;
 
             //Parsing each keyframe
-            for (let j = 0; j < keyframes; j++){
-
+            for (let j = 0; j < keyframes.length; j++){
                 //Checking tag
-                if (keyframes[i].nodeName != "keyframe") {
+                if (keyframes[j].nodeName != "keyframe") {
                     this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
                     continue;
                 }
     
                 //Gets instant
-                let keyframeInstant = this.reader.getFloat(children[i], "instant");
+                let keyframeInstant = this.reader.getFloat(keyframes[j], "instant");
     
                 //Gets children which are the transformations
-                keyframeTransformations = keyframes[i].children;
+                let keyframeTransformations = keyframes[j].children;
 
-                let translationVec = vec3(0, 0, 0);
-                let rotationXVec = vec3(0, 0, 0);
-                let rotationYVec = vec3(0, 0, 0);
-                let rotationZVec = vec3(0, 0, 0);
-                let scaleVec = vec3(0, 0, 0);
+                console.log("-----------------")
+                console.log(keyframes[j])
+                console.log("-----------------")
+
+                let translationVec = vec3.fromValues(0, 0, 0);
+                let rotationXVec = vec3.fromValues(0, 0, 0);
+                let rotationYVec = vec3.fromValues(0, 0, 0);
+                let rotationZVec = vec3.fromValues(0, 0, 0);
+                let scaleVec = vec3.fromValues(0, 0, 0);
                 let angle, axis;
 
-                for (let k = 0; k < keyframeTransformations; k++){
+                for (let k = 0; k < keyframeTransformations.length; k++){
+
+                    console.log("-----------------")
+                    console.log(keyframeTransformations[k])
+                    console.log("-----------------")
+
                     switch (keyframeTransformations[k].nodeName){
                         case "translation":
                             let x = this.reader.getFloat(keyframeTransformations[k], "x");
                             let y = this.reader.getFloat(keyframeTransformations[k], "y");
                             let z = this.reader.getFloat(keyframeTransformations[k], "z");
 
-                            let intermidiateTranslation = vec3(x, y, z);
-                            add(translationVec, translationVec, intermidiateTranslation);
+                            let intermidiateTranslation = vec3.fromValues(x, y, z);
+                            vec3.add(translationVec, translationVec, intermidiateTranslation);
                             break;
 
                         case "rotation":
                             if ((axis = this.reader.getFloat(keyframeTransformations[k], "axis")) == "x"){
                                 angle = this.reader.getFloat(keyframeTransformations[k], "angle");
 
-                                let intermidiateRotation = vec3(angle, 0, 0);
-                                add(rotationXVec, rotationXVec, intermidiateRotation);
+                                let intermidiateRotation = vec3.fromValues(angle, 0, 0);
+                                vec3.add(rotationXVec, rotationXVec, intermidiateRotation);
                             }
                             else if ((axis = this.reader.getFloat(keyframeTransformations[k], "axis")) == "y"){
                                 angle = this.reader.getFloat(keyframeTransformations[k], "angle");
 
-                                let intermidiateRotation = vec3(0, angle, 0);
-                                add(rotationYVec, rotationYVec, intermidiateRotation);
+                                let intermidiateRotation = vec3.fromValues(0, angle, 0);
+                                vec3.add(rotationYVec, rotationYVec, intermidiateRotation);
                             }
                             else if ((axis = this.reader.getFloat(keyframeTransformations[k], "axis")) == "z"){
                                 angle = this.reader.getFloat(keyframeTransformations[k], "angle");
 
-                                let intermidiateRotation = vec3(0, 0, angle);
-                                add(rotationZVec, rotationZVec, intermidiateRotation);
+                                let intermidiateRotation = vec3.fromValues(0, 0, angle);
+                                vec3.add(rotationZVec, rotationZVec, intermidiateRotation);
                             }
                             break;
 
@@ -747,31 +760,44 @@ class MySceneGraph {
                             let sy = this.reader.getFloat(keyframeTransformations[k], "sy");
                             let sz = this.reader.getFloat(keyframeTransformations[k], "sz");
 
-                            let intermidiateScale = vec3(sx, sy, sz);
-                            add(scaleVec, scaleVec, intermidiateScale);
+                            let intermidiateScale = vec3.fromValues(sx, sy, sz);
+                            vec3.add(scaleVec, scaleVec, intermidiateScale);
                             break;
 
                         default:
                             this.onXMLMinorError("Unkown keyframe transformation tag");
                             break;
-
                     }
 
-                    let allRotation = vec3(rotationX, rotationYVec, rotationZVec);
-                    keyframeArray[keyframeInstant] = vec3(translationVec, allRotation, scaleVec);
-
-
+                    console.log(translationVec)
 
                 }
-      
 
+                console.log(translationVec)
+                
+                console.log("---------------------------")
 
+                let allRotation = vec3.fromValues(rotationXVec, rotationYVec, rotationZVec);
+
+                let newKeyframe = new MyKeyframe(keyframeInstant, vec3.fromValues(translationVec, allRotation, scaleVec))
+                keyframeArray.push(newKeyframe)
+                console.log(keyframeArray)
 
             }
 
-        }
+            let animation = new MyKeyframeAnimation(this.scene, keyframeArray[0].instant, keyframeArray[keyframeArray.length-1].instant);
+            animation.keyframes = keyframeArray;
 
-        //add all keyframes to make an animation
+            //console.log(animation);
+            //console.log(keyframeArray);
+
+
+    
+            this.animations[animationID] = animation;
+
+            //add all keyframes to make an animation
+            
+        }
 
     }
 
@@ -813,6 +839,7 @@ class MySceneGraph {
             }
 
             var transformationsIndex = nodeNames.indexOf("transformations");
+            var animationsIndex = nodeNames.indexOf("animationref");
             var materialIndex = nodeNames.indexOf("material");
             var textureIndex = nodeNames.indexOf("texture");
             var descendantsIndex = nodeNames.indexOf("descendants");
@@ -864,6 +891,24 @@ class MySceneGraph {
                     }                    
                 }                
             }
+
+            let animation = null;
+            if ((animationsIndex = nodeNames.indexOf("animationref")) != -1){               
+                //Parses animantion within component
+                var animationID = this.reader.getString(grandChildren[animationsIndex], 'id');
+    
+                // Validates id
+                if (animationID == null)
+                    return "id is not a valid animation (null) on component " + nodeID;
+
+    
+                if (this.animations[animationID] == null)
+                    return animationID + " is not a valid animation on component " + nodeID;
+
+                animation = this.animations[animationID];
+            }
+
+
 
             // Material
             // Retrieves material ID
@@ -934,9 +979,16 @@ class MySceneGraph {
             newComponent.primitives = leaves;
             newComponent.children = noderefs;
             newComponent.currMaterial = componentMaterial;
+            newComponent.animation = animation;
 
             this.nodes[nodeID] = children[i];
             this.objects[nodeID] = newComponent;
+
+            if (nodeID == "bola1"){
+                console.log(newComponent)
+            }
+
+            console.log(this.animations);
 
             if (nodeID == this.idRoot){
                 this.root = newComponent;

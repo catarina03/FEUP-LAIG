@@ -7,13 +7,13 @@ class MyAnimation {
      * @param {matrix} startTransformations - translation,rotationx,rotationy,rotationz,scale
      * @param {matrix} endTransformations - translation,rotationx,rotationy,rotationz,scale
      */
-    constructor(scene, startTime,endTime,startTransformations,endTransformations) {
+    constructor(scene, startTime, endTime, startTransformations, endTransformations) {
         this.scene = scene;
       
         this.startTime = startTime;
-        this.endTime=endTime;
-        this.startTransformations=startTransformations;//array de 3 vec3
-        this.endTransformations=endTransformations;//array de 3 vec3
+        this.endTime = endTime;
+        this.startTransformations = startTransformations;//array de 3 vec3
+        this.endTransformations = endTransformations;//array de 3 vec3
 
         this.finished=false;
 
