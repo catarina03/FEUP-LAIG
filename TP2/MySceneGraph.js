@@ -775,11 +775,12 @@ class MySceneGraph {
 
                 console.log(translationVec)
                 
-                console.log("---------------------------")
+                console.log("TRANSLATION VEC ---------------------------")
 
                 let allRotation = vec3.fromValues(rotationXVec, rotationYVec, rotationZVec);
 
-                let newKeyframe = new MyKeyframe(keyframeInstant, vec3.fromValues(translationVec, allRotation, scaleVec))
+                //let newKeyframe = new MyKeyframe(keyframeInstant, vec3.fromValues(translationVec, allRotation, scaleVec))
+                let newKeyframe = new MyKeyframe(keyframeInstant, [translationVec, allRotation, scaleVec])
                 keyframeArray.push(newKeyframe)
                 console.log(keyframeArray)
 
