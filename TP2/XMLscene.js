@@ -119,14 +119,8 @@ class XMLscene extends CGFscene {
         var i = 0;
         // Lights index.
 
-        console.log("-------------------")
-        console.log(this.graph.views);
-
         // Reads the lights from the scene graph.
         for (var key in this.graph.views) {
-            
-            console.log("initing views");
-            console.log(this.graph.views[key]);
 
             if (this.graph.lights.hasOwnProperty(key)) {
                 var graphLight = this.graph.lights[key];
@@ -145,9 +139,7 @@ class XMLscene extends CGFscene {
                 this.lights[i].update();
                 
             }
-
-        }
-        
+        } 
     }
 
 

@@ -167,6 +167,7 @@ class MySceneGraph {
             if ((error = this.parseLights(nodes[index])) != null)
                 return error;
         }
+
         // <textures>
         if ((index = nodeNames.indexOf("textures")) == -1)
             return "tag <textures> missing";
@@ -194,16 +195,14 @@ class MySceneGraph {
         // <animations>
         if ((index = nodeNames.indexOf("animations")) != -1){
             if (index != ANIMATIONS_INDEX)
-            this.onXMLMinorError("tag <animations> out of order");
+                this.onXMLMinorError("tag <animations> out of order");
             
             NODES_INDEX = 7;
-            console.log(NODES_INDEX);
             
             //Parse animations block
             if ((error = this.parseAnimations(nodes[index])) != null)
-            return error;
+                return error;
         }
-            
 
         // <nodes>
         if ((index = nodeNames.indexOf("nodes")) == -1)
@@ -219,7 +218,7 @@ class MySceneGraph {
 
         this.buildFamily(this.root);
             
-        this.log("all parsed");
+        this.log("All parsed");
     }
 
     /**
@@ -329,12 +328,7 @@ class MySceneGraph {
                 }
 
                 var view = new CGFcamera(angle *( Math.PI / 180), near, far, [fx, fy, fz], [tx, ty, tz]);
-
-                console.log(view);
-
                 this.views[id] = view;
-
-                console.log(this.views[id]);
             }
 
             if (children[i].nodeName == "ortho") {
@@ -399,8 +393,7 @@ class MySceneGraph {
             }
             nodeNames = [];
         }
-        this.log("Parsed views");
-        console.log(this.views);
+        this.log("Parsed Views");
     }
 
     /**
@@ -515,7 +508,7 @@ class MySceneGraph {
         else if (numLights > 8)
             this.onXMLMinorError("too many lights defined; WebGL imposes a limit of 8 lights");
 
-        this.log("Parsed lights");
+        this.log("Parsed Lights");
         return null;
     }
 
@@ -691,14 +684,15 @@ class MySceneGraph {
 
             let keyframeArray = [];
 
-            let keyframes = children[i].children;
+            let keyframes = children[i].children;    //<keyframe>
 
             //Parsing each keyframe
             for (let j = 0; j < keyframes.length; j++){
+
                 //Checking tag
                 if (keyframes[j].nodeName != "keyframe") {
                     this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
-                    continue;
+                    continue;  //?
                 }
     
                 //Gets instant
@@ -707,23 +701,12 @@ class MySceneGraph {
                 //Gets children which are the transformations
                 let keyframeTransformations = keyframes[j].children;
 
-                console.log("-----------------")
-                console.log(keyframes[j])
-                console.log("-----------------")
-
                 let translationVec = vec3.fromValues(0, 0, 0);
                 let rotationVec = vec3.fromValues(0, 0, 0);
-                let rotationXVec = vec3.fromValues(0, 0, 0);
-                let rotationYVec = vec3.fromValues(0, 0, 0);
-                let rotationZVec = vec3.fromValues(0, 0, 0);
                 let scaleVec = vec3.fromValues(0, 0, 0);
                 let angle, axis;
 
                 for (let k = 0; k < keyframeTransformations.length; k++){
-
-                    console.log("-----------------")
-                    console.log(keyframeTransformations[k])
-                    console.log("-----------------")
 
                     switch (keyframeTransformations[k].nodeName){
                         case "translation":
@@ -769,39 +752,18 @@ class MySceneGraph {
                             this.onXMLMinorError("Unkown keyframe transformation tag");
                             break;
                     }
-
-                    console.log(translationVec)
-
                 }
 
-                console.log(translationVec)
-                
-                console.log("TRANSLATION VEC ---------------------------")
-
-                //let allRotation = [rotationXVec, rotationYVec, rotationZVec];
-                //console.log("ALL ROTATION: " + allRotation)
-
-                //let newKeyframe = new MyKeyframe(keyframeInstant, vec3.fromValues(translationVec, allRotation, scaleVec))
                 let newKeyframe = new MyKeyframe(keyframeInstant, [translationVec, rotationVec, scaleVec])
                 keyframeArray.push(newKeyframe)
-                console.log(keyframeArray)
 
             }
 
-            let animation = new MyKeyframeAnimation(this.scene, keyframeArray[0].instant, keyframeArray[keyframeArray.length-1].instant);
+            let animation = new MyKeyframeAnimation(this.scene, animationID);
             animation.keyframes = keyframeArray;
 
-            //console.log(animation);
-            //console.log(keyframeArray);
-
-
-    
             this.animations[animationID] = animation;
-
-            //add all keyframes to make an animation
-            
         }
-
     }
 
 
@@ -848,9 +810,7 @@ class MySceneGraph {
             var descendantsIndex = nodeNames.indexOf("descendants");
             var error;
 
-            this.onXMLMinorError("To do: Parse nodes.");
-
-            // Parses transformations whithin component
+            // Transformations
             if ((transformationsIndex = nodeNames.indexOf("transformations")) == -1)
                 return "tag <transformations> missing";
             else {
@@ -895,6 +855,7 @@ class MySceneGraph {
                 }                
             }
 
+            // Animation
             let animation = null;
             if ((animationsIndex = nodeNames.indexOf("animationref")) != -1){               
                 //Parses animantion within component
@@ -910,7 +871,6 @@ class MySceneGraph {
 
                 animation = this.animations[animationID];
             }
-
 
 
             // Material
@@ -987,18 +947,13 @@ class MySceneGraph {
             this.nodes[nodeID] = children[i];
             this.objects[nodeID] = newComponent;
 
-            if (nodeID == "bola1"){
-                console.log(newComponent)
-            }
-
-            console.log(this.animations);
-
             if (nodeID == this.idRoot){
                 this.root = newComponent;
             }
         }
     }
 
+    
     /**
      * Parses the <texture> block in each <node> block
      * @param {id of the node <node> being parsed} componentID 

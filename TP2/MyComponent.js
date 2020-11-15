@@ -44,14 +44,9 @@ class MyComponent extends CGFobject{
             }
         }
 
-        //console.log("ANIMATION");
-        //console.log(this.id);
-        //console.log(this.objects);
-
         for (let obj in this.objects){
             this.objects[obj].updateAnimation(time);
         }
-
     }
 
     /**
@@ -128,7 +123,6 @@ class MyComponent extends CGFobject{
         }
 
         if (this.animation != null){
-            console.log(this.animation);
             this.animation.apply();
         }
 
