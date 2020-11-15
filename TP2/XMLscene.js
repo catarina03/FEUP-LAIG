@@ -42,6 +42,16 @@ class XMLscene extends CGFscene {
 
         //this.initialTime = 0;
 
+        //SPRITESHEETS
+        this.fontTexture = new CGFtexture(this, "scenes/images/font_sprite2.png");
+
+        this.shader = new CGFshader(this.gl, "shaders/shader.vert", "shaders/shader.frag");
+        this.shader.setUniformsValues({ uSampler: 0 });
+
+        this.spritetext = new MySpriteText(this, this.fontTexture, 25, 5,"ola");
+        this.spritetext.shader = this.shader;
+
+
     }
 
     /**

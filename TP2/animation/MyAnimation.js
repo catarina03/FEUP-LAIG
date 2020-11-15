@@ -5,7 +5,7 @@ class MyAnimation {
      * @param {number} startTime - in seconds
      * @param {string} id - ID of MyAnimation 
      */
-    constructor(scene,  id) {
+    constructor(scene, id) {
         this.scene = scene;
         this.id = id;
       

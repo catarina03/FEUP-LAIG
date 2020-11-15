@@ -1,4 +1,4 @@
-class MySpriteAnimation extends MySpritesheet{
+class MySpriteAnimation extends MySpriteSheet{
 
 
 
