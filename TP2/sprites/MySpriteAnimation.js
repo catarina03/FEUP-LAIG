@@ -1,0 +1,15 @@
+class MySpriteAnimation extends MySpritesheet{
+
+
+
+
+
+
+
+
+
+
+
+
+    
+}

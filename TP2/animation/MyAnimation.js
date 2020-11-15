@@ -3,17 +3,16 @@ class MyAnimation {
      * Abstract animation constructor.
      * classe base para aplicar a animaçoes
      * @param {number} startTime - in seconds
-     * @param {number} endTime - in seconds
-     * @param {matrix} startTransformations - translation,rotationx,rotationy,rotationz,scale
-     * @param {matrix} endTransformations - translation,rotationx,rotationy,rotationz,scale
+     * @param {string} id - ID of MyAnimation 
      */
-    constructor(scene, startTime,endTime,startTransformations,endTransformations) {
+    constructor(scene,  id) {
         this.scene = scene;
+        this.id = id;
       
-        this.startTime = startTime;
-        this.endTime=endTime;
-        this.startTransformations=startTransformations;//array de 3 vec3
-        this.endTransformations=endTransformations;//array de 3 vec3
+        //this.startTime = startTime;
+        //this.endTime = endTime;
+        //this.startTransformations = startTransformations;//array de 3 vec3
+        //this.endTransformations = endTransformations;//array de 3 vec3
 
         this.finished=false;
 
