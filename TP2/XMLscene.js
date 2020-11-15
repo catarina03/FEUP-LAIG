@@ -40,6 +40,8 @@ class XMLscene extends CGFscene {
 
         this.defaultAppearance=new CGFappearance(this);
 
+        //this.initialTime = 0;
+
     }
 
     /**
@@ -103,6 +105,13 @@ class XMLscene extends CGFscene {
     }
 
 
+    update(time){
+        if (this.sceneInited){
+            this.graph.root.updateAnimation(time);
+        }       
+    }
+
+
     initViews(){
         this.camera = this.graph.views[this.graph.defaultView];
         this.interface.setActiveCamera(this.camera);
@@ -110,14 +119,8 @@ class XMLscene extends CGFscene {
         var i = 0;
         // Lights index.
 
-        console.log("-------------------")
-        console.log(this.graph.views);
-
         // Reads the lights from the scene graph.
         for (var key in this.graph.views) {
-            
-            console.log("initing views");
-            console.log(this.graph.views[key]);
 
             if (this.graph.lights.hasOwnProperty(key)) {
                 var graphLight = this.graph.lights[key];
@@ -136,9 +139,7 @@ class XMLscene extends CGFscene {
                 this.lights[i].update();
                 
             }
-
-        }
-        
+        } 
     }
 
 
