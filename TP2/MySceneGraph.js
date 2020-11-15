@@ -712,6 +712,7 @@ class MySceneGraph {
                 console.log("-----------------")
 
                 let translationVec = vec3.fromValues(0, 0, 0);
+                let rotationVec = vec3.fromValues(0, 0, 0);
                 let rotationXVec = vec3.fromValues(0, 0, 0);
                 let rotationYVec = vec3.fromValues(0, 0, 0);
                 let rotationZVec = vec3.fromValues(0, 0, 0);
@@ -735,23 +736,23 @@ class MySceneGraph {
                             break;
 
                         case "rotation":
-                            if ((axis = this.reader.getFloat(keyframeTransformations[k], "axis")) == "x"){
+                            if ((axis = this.reader.getString(keyframeTransformations[k], "axis")) == "x"){
                                 angle = this.reader.getFloat(keyframeTransformations[k], "angle");
 
                                 let intermidiateRotation = vec3.fromValues(angle, 0, 0);
-                                vec3.add(rotationXVec, rotationXVec, intermidiateRotation);
+                                vec3.add(rotationVec, rotationVec, intermidiateRotation);
                             }
-                            else if ((axis = this.reader.getFloat(keyframeTransformations[k], "axis")) == "y"){
+                            else if ((axis = this.reader.getString(keyframeTransformations[k], "axis")) == "y"){
                                 angle = this.reader.getFloat(keyframeTransformations[k], "angle");
 
                                 let intermidiateRotation = vec3.fromValues(0, angle, 0);
-                                vec3.add(rotationYVec, rotationYVec, intermidiateRotation);
+                                vec3.add(rotationVec, rotationVec, intermidiateRotation);
                             }
-                            else if ((axis = this.reader.getFloat(keyframeTransformations[k], "axis")) == "z"){
+                            else if ((axis = this.reader.getString(keyframeTransformations[k], "axis")) == "z"){
                                 angle = this.reader.getFloat(keyframeTransformations[k], "angle");
 
                                 let intermidiateRotation = vec3.fromValues(0, 0, angle);
-                                vec3.add(rotationZVec, rotationZVec, intermidiateRotation);
+                                vec3.add(rotationVec, rotationVec, intermidiateRotation);
                             }
                             break;
 
@@ -777,10 +778,11 @@ class MySceneGraph {
                 
                 console.log("TRANSLATION VEC ---------------------------")
 
-                let allRotation = vec3.fromValues(rotationXVec, rotationYVec, rotationZVec);
+                //let allRotation = [rotationXVec, rotationYVec, rotationZVec];
+                //console.log("ALL ROTATION: " + allRotation)
 
                 //let newKeyframe = new MyKeyframe(keyframeInstant, vec3.fromValues(translationVec, allRotation, scaleVec))
-                let newKeyframe = new MyKeyframe(keyframeInstant, [translationVec, allRotation, scaleVec])
+                let newKeyframe = new MyKeyframe(keyframeInstant, [translationVec, rotationVec, scaleVec])
                 keyframeArray.push(newKeyframe)
                 console.log(keyframeArray)
 

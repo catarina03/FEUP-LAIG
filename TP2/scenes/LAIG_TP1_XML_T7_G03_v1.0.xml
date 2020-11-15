@@ -166,12 +166,29 @@
                 <rotation axis="z" angle="0" />
                 <scale sx="1" sy="1" sz="1" />
             </keyframe>
-
-            <keyframe instant="6">
-                <translation x="0" y="0" z="0" />
+            
+            <keyframe instant="4.5">
+                <translation x="2" y="5" z="0" />
                 <rotation axis="x" angle="0" />
                 <rotation axis="y" angle="0" />
                 <rotation axis="z" angle="0" />
+                <scale sx="2" sy="2" sz="2" />
+            </keyframe>
+
+            <keyframe instant="6">
+                <translation x="2" y="5" z="0" />
+                <rotation axis="x" angle="0" />
+                <rotation axis="y" angle="0" />
+                <rotation axis="z" angle="0" />
+                <scale sx="1" sy="1" sz="1" />
+            </keyframe>
+
+
+            <keyframe instant="9">
+                <translation x="0" y="0" z="0" />
+                <rotation axis="x" angle="360" />
+                <rotation axis="y" angle="0" />
+                <rotation axis="z" angle="360" />
                 <scale sx="1" sy="1" sz="1" />
             </keyframe>
 
@@ -534,9 +551,9 @@
         </node>
 
         <node id="bola1">
-            <material id="azul"/>
+            <material id="branco"/>
 
-            <texture id="clear">
+            <texture id="bola_brincar">
                
             </texture>
 

@@ -10,10 +10,13 @@ class MyKeyframe {
                                                //with translation and scaling as vec3
 
         this.Transl = transformations[0];
-        this.Rotx = null; //transformations[1][0];
-        this.Roty = null; //transformations[1][1];
-        this.Rotz = null; //transformations[1][2];
-        this.Scale =  null; //transformations[2];                                        
+        this.Rotation = transformations[1];
+
+        this.Rotx = transformations[1][0];
+        this.Roty = transformations[1][1];
+        this.Rotz = transformations[1][2];
+
+        this.Scale =  transformations[2];                                        
 
         
     }                                          
