@@ -9,12 +9,12 @@ class MySpriteSheet extends CGFobject {
 
         this.shader = null; //new CGFshader(this.scene.gl, "../shaders/shader.vert", "../shaders/shader.frag");
 
-
-
-
     }
 
 
+    activateCell(line, column){
+        //this.shader.setUniformsValues({line: line, column: column, sizeM: this.sizeM, sizeN: this.sizeN})
+    }
 
 
 

@@ -43,7 +43,19 @@ class XMLscene extends CGFscene {
         //this.initialTime = 0;
 
         //SPRITESHEETS
+        this.appearance = new CGFappearance(this);
+		this.appearance.setAmbient(0.3, 0.3, 0.3, 1);
+		this.appearance.setDiffuse(0.7, 0.7, 0.7, 1);
+		this.appearance.setSpecular(0.0, 0.0, 0.0, 1);
+		this.appearance.setShininess(120);
+
         this.fontTexture = new CGFtexture(this, "scenes/images/font_sprite2.png");
+        //this.fontTexture = new CGFtexture(this, "scenes/images/texture_map.jpg");
+        this.fontTexture.bind(0);
+
+		this.appearance.setTexture(this.fontTexture);
+        this.appearance.setTextureWrap('REPEAT', 'REPEAT');
+        
 
         this.shader = new CGFshader(this.gl, "shaders/shader.vert", "shaders/shader.frag");
         this.shader.setUniformsValues({ uSampler: 0 });
@@ -195,7 +207,9 @@ class XMLscene extends CGFscene {
             this.defaultAppearance.apply();
 
             // Displays the scene (MySceneGraph function).
-            this.graph.displayScene();
+            //this.graph.displayScene();
+            this.appearance.apply();
+            this.spritetext.display();
         }
         else
         {

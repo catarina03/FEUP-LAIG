@@ -9,6 +9,8 @@ uniform mat4 uMVMatrix; // Model View matrix - Matrix onde são aplicadas as tra
 uniform mat4 uPMatrix;  // Projection matrix - Matrix com info da camara
 uniform mat4 uNMatrix;	// Normal transformation matrix - Processa a normal associada ao vértice
 
+
+
 varying vec2 vTextureCoord; // Tex-coords output from VS to be input to FS
 
 uniform float normScale;  // valor recebido de programa de escala da normal
