@@ -3,17 +3,9 @@ class MySpriteText extends MySpriteSheet{
         super(scene, texture, sizeM, sizeN);
         
         this.text = text;
+        this.sideSize = 3;
 
-        //this.shader = null;
-
-
-        console.log(scene)
-        console.log(-this.sizeM/2)
-        console.log(this.sizeM/2)
-        console.log(-this.sizeN/2)
-        console.log(this.sizeN/2)
-
-        this.rectangle = new MyRectangle(scene, -this.sizeM/2, -this.sizeN/2, this.sizeM/2, this.sizeN/2)
+        //this.baseGeometry = [];
         
         this.characterMap = {'0':0, '1':1, '2':2, '3':3, '4':4, '5':5, '6':6, '7':7, '8':8, '9':9, 
         '!':10, '?':11, '@':12, '#':13, '$':14, '%':15, '&':16, '\'':17, '"':18, '(':19, 
@@ -28,7 +20,28 @@ class MySpriteText extends MySpriteSheet{
         'Ç':100, 'ç':101, '¡':102, '¿':103, '©':104, '®':105, '™':106, '·':107, '§':108, '†':109, 
         '‡':110, '‐':111, '‒':112, '¶':113, '÷':114, '°':115, '¤':116, '¢':117, 'ß':118, 'Þ':119, 
         ':':120, ';':121, '^':122, '~':123, '♂':124, '♀':125, '♥':126, '♪':127, '♫':128, '☼':129};
+
+        //this.geometryInit(this.text.length);
+        this.baseGeometry = new MyRectangle(this.scene, -this.sideSize/2, -this.sideSize/2, this.sideSize/2, this.sideSize/2)
+        this.scene.fontShader.setUniformsValues({textLength: this.text.length});
+
     }
+
+
+    /*
+    geometryInit(length){
+        console.log("LENGTH: " + length)
+        for (let i = 0; i < length; i++){
+            console.log("SQUARE " + i)
+            console.log("X1: " + (-(length*3)/2 + i*3))
+            console.log("X2: " + (-length*3/2 + (i+1)*3))
+
+            this.baseGeometry[i] = new MyRectangle(this.scene, -length*this.sideSize/2 + i*this.sideSize, -this.sideSize/2, -length*this.sideSize/2 + (i+1)*this.sideSize, this.sideSize/2)
+        }
+
+        this.scene.fontShader.setUniformsValues({textLength: this.text.length});
+    }
+    */
 
     
     getCharacterPosition(character){
@@ -38,19 +51,39 @@ class MySpriteText extends MySpriteSheet{
 
     display(){
 
-        for (let char in this.text){
-            let position = this.getCharacterPosition(this.text[char])
-            let column = position % (this.sizeM * 2)
-            let line = position / (this.sizeM * 2)
-            this.activateCell(line, column)
+        for (let i = 0; i < this.text.length; i++){
+            let position = this.getCharacterPosition(this.text[i])
+            let column = position % this.sizeM
+            let row = Math.floor(position / this.sizeM)
+
+            //console.log(this.text[i])
+            //console.log("COLUMN: " + column)
+            //console.log("ROW: " + row)
+
+            this.activateCellMN(row, column, this.sideSize)
+
+            this.scene.pushMatrix();
+
+            this.scene.appearance.setTexture(this.scene.fontTexture);
+
+            this.scene.setActiveShader(this.scene.fontShader); // activate selected shader
+            //this.shader.bind(0); // bind RTTtexture
+
+            console.log("X coordinate for i =" + i)
+            console.log((-this.text.length*this.sideSize/2 + i*this.sideSize + this.sideSize/2));
+            this.scene.translate(-this.text.length*this.sideSize/2 + i*this.sideSize + this.sideSize/2, 0, 0)
+
+            //this.scene.appearance.apply();
+            this.scene.appearance.apply();
+
+            //console.log("BASE GEOMETRY LENGTH: " + this.baseGeometry.length)
+            this.baseGeometry.display();
+
+            this.scene.setActiveShader(this.scene.defaultShader);
+
+            this.scene.popMatrix();
         }
 
-        this.scene.setActiveShader(this.shader); // activate selected shader
-        this.shader.bind(0); // bind RTTtexture
-
-        this.rectangle.display();
-
-        this.scene.setActiveShader(this.scene.defaultShader);
 
 
 

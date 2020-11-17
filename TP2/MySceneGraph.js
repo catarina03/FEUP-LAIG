@@ -6,9 +6,10 @@ var VIEWS_INDEX = 1;
 var ILLUMINATION_INDEX = 2;
 var LIGHTS_INDEX = 3;
 var TEXTURES_INDEX = 4;
-var MATERIALS_INDEX = 5;
-var ANIMATIONS_INDEX = 6;
-var NODES_INDEX = 6;
+var SPRITESHEETS_INDEX = 5;
+var MATERIALS_INDEX = 6;
+var ANIMATIONS_INDEX = 7;
+var NODES_INDEX = 8;
 
 /**
  * MySceneGraph class, representing the scene graph.
@@ -33,6 +34,7 @@ class MySceneGraph {
         this.materials =[];
         this.textures = [];
         this.animations = [];
+        this.spritesheets = [];
 
         this.idRoot = null; // The id of the root element.
 
@@ -180,6 +182,18 @@ class MySceneGraph {
                 return error;
         }
 
+        // <spritesheets>
+        if ((index = nodeNames.indexOf("spritesheets")) == -1)
+            return "tag <spritesheets> missing"
+        else {
+            if (index != SPRITESHEETS_INDEX)
+                this.onXMLMinorError("tag <spritesheets> out of order");
+
+            //Parse spritesheets block
+            if ((error = this.parseSpritesheets(nodes[index])) != null)
+                return error;
+        }
+
         // <materials>
         if ((index = nodeNames.indexOf("materials")) == -1)
             return "tag <materials> missing";
@@ -197,11 +211,12 @@ class MySceneGraph {
             if (index != ANIMATIONS_INDEX)
                 this.onXMLMinorError("tag <animations> out of order");
             
-            NODES_INDEX = 7;
-            
             //Parse animations block
             if ((error = this.parseAnimations(nodes[index])) != null)
                 return error;
+        }
+        else{
+            NODES_INDEX = 7;
         }
 
         // <nodes>
@@ -542,6 +557,68 @@ class MySceneGraph {
         return null;
     }
 
+    parseSpritesheets(spritesheetsNode){
+        let children = spritesheetsNode.children;    //<spritesheet>
+
+        for (let i = 0; i < children.length; i++){
+            if (children[i].nodeName != "spritesheet"){
+                this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
+                continue;
+            }
+
+            // Reads ID
+            let spritesheetID = this.reader.getString(children[i], 'id');       
+            
+            // Checks if ID is not null
+            if (spritesheetID == null || spritesheetID == ""){
+                this.onXMLMinorError("No ID defined for spritesheet in position " + i);
+                continue;
+            }
+                
+            // Checks for repeated IDs.
+            if (this.spritesheets[spritesheetID] != null){
+                this.onXMLMinorError("A spritesheet with the ID = " + spritesheetID + " already exists");
+                continue; 
+            }
+
+            //Reads path
+            let path = this.reader.getString(children[i], 'path');   
+
+            // Checks if path is not null
+            if (path == null || path == ""){
+                this.onXMLMinorError("No path defined for spritesheet in position " + i);
+                continue;
+            }
+
+            // Reads sizes
+            let sizeM = this.reader.getFloat(children[i], 'sizeM');  
+            let sizeN = this.reader.getFloat(children[i], 'sizeN');  
+
+            // Checks if sizes are valid
+            if (sizeM < 0 || sizeN < 0){
+                this.onXMLMinorError("Size on spritesheet " + i + " should be bigger than 0");
+                continue;
+            }
+
+            let texture = new CGFtexture(this.scene, path);
+            texture.bind(i+1);
+
+            let appearance = new CGFappearance(this.scene);
+            appearance.setAmbient(0.3, 0.3, 0.3, 1);
+            appearance.setDiffuse(0.7, 0.7, 0.7, 1);
+            appearance.setSpecular(0.0, 0.0, 0.0, 1);
+            appearance.setShininess(120);
+
+            appearance.setTexture(texture);
+            appearance.setTextureWrap('REPEAT', 'REPEAT');
+
+            this.animations[spritesheetID] = new MySpriteSheet(this.scene, texture, sizeM, sizeN);
+            
+            this.animations[spritesheetID].binderID = i;
+            this.animations[spritesheetID].appearance = appearance;
+        }
+    }
+
 
     /**
      * Parses the <materials> node.
@@ -857,19 +934,63 @@ class MySceneGraph {
 
             // Animation
             let animation = null;
+            let spritetext = null;
             if ((animationsIndex = nodeNames.indexOf("animationref")) != -1){               
                 //Parses animantion within component
                 var animationID = this.reader.getString(grandChildren[animationsIndex], 'id');
     
                 // Validates id
-                if (animationID == null)
+                if (animationID == null || animationID == "")
                     return "id is not a valid animation (null) on component " + nodeID;
-
     
                 if (this.animations[animationID] == null)
                     return animationID + " is not a valid animation on component " + nodeID;
 
                 animation = this.animations[animationID];
+
+                // Parses children of animation block
+                let animationChildren = grandChildren[animationsIndex].children;
+                for (let j = 0; j < animationChildren.length; j++) {
+
+                    // Validates child type
+                    if (animationChildren[j].nodeName != "leaf"){
+                        this.onXMLMinorError("Invalid tag name of animationref in " + nodeID + ", should be <leaf>");
+                        continue;
+                    }
+
+                    // Gets animation type
+                    let animationType = this.reader.getString(animationChildren[j], 'type');
+
+                    switch(animationType){
+                        case "spritetext":
+                            let text = this.reader.getString(animationChildren[j], 'text');
+
+                            //let fontTexture = new CGFtexture(this.scene, "scenes/images/font_sprite2.png");
+                            //fontTexture.bind(0);
+
+                            //let shader = new CGFshader(this.scene.gl, "shaders/shader.vert", "shaders/shader.frag");
+                            
+                            spritetext = new MySpriteText(this.scene, this.scene.fontTexture, 26, 5, text);
+
+                            //this.scene.fontShader.setUniformsValues({textLength: text.length});
+
+                            
+                
+                            //let appearance = new CGFappearance(this.scene);
+                            //appearance.setAmbient(0.3, 0.3, 0.3, 1);
+                            //appearance.setDiffuse(0.7, 0.7, 0.7, 1);
+                            //appearance.setSpecular(0.0, 0.0, 0.0, 1);
+                            //appearance.setShininess(120);
+                            //appearance.setTexture(fontTexture);
+                            //appearance.setTextureWrap('REPEAT', 'REPEAT');
+                            //spritetext.appearance = appearance;
+                                            
+                            break;
+                        default:
+                            this.onXMLMinorError("Invalid type of animation of animationref in " + nodeID);
+                            break;
+                    }
+                }
             }
 
 
@@ -943,9 +1064,13 @@ class MySceneGraph {
             newComponent.children = noderefs;
             newComponent.currMaterial = componentMaterial;
             newComponent.animation = animation;
+            if (spritetext != null)
+                newComponent.spritetext = spritetext;
 
             this.nodes[nodeID] = children[i];
             this.objects[nodeID] = newComponent;
+
+            console.log(newComponent)
 
             if (nodeID == this.idRoot){
                 this.root = newComponent;

@@ -11,15 +11,16 @@ uniform mat4 uNMatrix;	// Normal transformation matrix - Processa a normal assoc
 
 varying vec2 vTextureCoord; // Tex-coords output from VS to be input to FS
 
-uniform int line;
-uniform int column;
-uniform int sizeM;
-uniform int sizeN;
+uniform float row;
+uniform float column;
+uniform float sizeM;
+uniform float sizeN;
+uniform float textLength;
+uniform float sideSize;
 
 void main(void)
 {
     gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);
 
-    vTextureCoord = aTextureCoord * vec2(0.5, 0.5);// * (1.0/10.0)) + vec2(0.1, 0.2);
-    //gl_PointSize = PointSize;
+    vTextureCoord = aTextureCoord * vec2(1.0/sizeM, 1.0/sizeN) + vec2(column/sizeM, row/sizeN);
 }

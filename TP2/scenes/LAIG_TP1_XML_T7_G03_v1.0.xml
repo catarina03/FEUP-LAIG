@@ -64,6 +64,13 @@
     </textures>
 
 
+    <spritesheets>
+
+        <spritesheet id="font" path="scenes/images/font_sprite2.png" sizeM="26" sizeN="5" />
+
+    </spritesheets>
+
+
     <materials>
         <material id="branco"  >
             <shininess value ="1" />
@@ -148,6 +155,8 @@
     </materials>
 
     <animations>
+
+        <animation id="laigx2"/>    <!-- ?????? -->
 
         <animation id="ballAnimation">
 
@@ -604,6 +613,10 @@
                 <translation x="0" y="0" z="10" />
                 <rotation axis="y" angle="90"/>
             </transformations>
+
+            <animationref id="laigx2">
+                <leaf type="spritetext" text="LAIG" />
+            </animationref>
 
             <descendants>
                <leaf type="rectangle" x1="0" y1="0" x2="10" y2="10"/>

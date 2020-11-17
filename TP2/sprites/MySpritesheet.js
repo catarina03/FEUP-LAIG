@@ -5,15 +5,17 @@ class MySpriteSheet extends CGFobject {
 
         this.texture=texture;
         this.sizeM=sizeM;    //number of collumns
-        this.sizeN=sizeN;    //number of lines
+        this.sizeN=sizeN;    //number of rows
 
-        this.shader = null; //new CGFshader(this.scene.gl, "../shaders/shader.vert", "../shaders/shader.frag");
+        this.binderID = null;
 
+        //this.shader = null; //new CGFshader(this.scene.gl, "../shaders/shader.vert", "../shaders/shader.frag");
+        this.appearance = null;
     }
 
 
-    activateCell(line, column){
-        //this.shader.setUniformsValues({line: line, column: column, sizeM: this.sizeM, sizeN: this.sizeN})
+    activateCellMN(row_cell, column_cell, sideSize_cell){
+        this.scene.fontShader.setUniformsValues({row: row_cell, column: column_cell, sizeM: this.sizeM, sizeN: this.sizeN, sideSize: sideSize_cell})
     }
 
 
