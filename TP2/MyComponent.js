@@ -35,6 +35,7 @@ class MyComponent extends CGFobject{
     }
 
     updateAnimation(time){
+        //Updates this component's animation
         if (this.animation != null){
             if (this.animation.finished){
                 return;
@@ -46,6 +47,10 @@ class MyComponent extends CGFobject{
 
         for (let obj in this.objects){
             this.objects[obj].updateAnimation(time);
+        }
+        for (let spriteanim in this.primitives){
+            if (this.primitives[spriteanim] instanceof MySpriteAnimation)
+                this.primitives[spriteanim].update(time)
         }
     }
 
@@ -64,7 +69,6 @@ class MyComponent extends CGFobject{
         if (this.transformation != null){
             this.scene.multMatrix(this.transformation);
         }
-
 
         //Applies Material and Texture
         if(this.currMaterial == "null") { 
@@ -124,7 +128,7 @@ class MyComponent extends CGFobject{
 
         if (this.animation != null){
             this.animation.apply();
-        }
+        }        
 
         for (let i = 0; i < this.primitives.length; i++){
             this.primitives[i].display();

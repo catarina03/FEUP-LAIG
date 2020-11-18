@@ -64,6 +64,13 @@
     </textures>
 
 
+    <spritesheets>
+
+        <spritesheet id="font" path="scenes/images/font_sprite2.png" sizeM="26" sizeN="5" />
+
+    </spritesheets>
+
+
     <materials>
         <material id="branco"  >
             <shininess value ="1" />
@@ -214,8 +221,27 @@
                 <noderef id="mesa_pequena"/>
                 <noderef id="movel_tv"/>
                 <noderef id="moldura_barco"/>
+                <noderef id="sprite_test" />
             </descendants>
         </node>
+
+
+        <node id="sprite_test">
+            <material id="null"/>
+
+            <texture id="null">
+            </texture>
+
+            <transformations>
+                <translation x="3" y="7" z="0.01" />
+            </transformations>
+
+            <descendants>
+                <leaf type="spriteanim" ssid="font" startCell="0" endCell="9" duration="1" />
+            </descendants>
+        </node>
+
+        
 
         <node id="estrutura">
             <material id="rosa_parede"/>
@@ -237,7 +263,7 @@
         <node id="chao">
             <material id="branco"/>
 
-            <texture id="verde_chao">
+            <texture id="null">
                 <amplification afs="2.0" aft="2.0"/>
             </texture>
 
@@ -251,7 +277,6 @@
                <noderef id="tapete" />
                <noderef id="bola1"/>
                <noderef id="bola2"/>
-
             </descendants>
         </node>
 
@@ -584,14 +609,10 @@
                 <rotation axis="x" angle="90"/>
                 <rotation axis="y" angle="90"/>
              
-                    
-                
-               
-                 
             </transformations>
 
             <descendants>
-            <leaf type="sphere" radius="0.35" slices="50" stacks="20"/>
+                <leaf type="sphere" radius="0.35" slices="50" stacks="20"/>
             </descendants>
         </node>
 
@@ -606,7 +627,8 @@
             </transformations>
 
             <descendants>
-               <leaf type="rectangle" x1="0" y1="0" x2="10" y2="10"/>
+                <noderef id="text" />
+                <leaf type="rectangle" x1="0" y1="0" x2="10" y2="10"/>
             </descendants>
         </node>
 
@@ -621,7 +643,20 @@
             <descendants>
                 <leaf type="rectangle" x1="0" y1="0" x2="10" y2="10"/>
             </descendants>
+        </node>
 
+        <node id="text">
+            <material id="null" />
+
+            <texture id="null" />
+
+            <transformations>
+                <translation x="5" y="12" z="0.1" />
+            </transformations>
+
+            <descendants>
+                <leaf type="spritetext" text="LAIG" />
+            </descendants>
         </node>
 
         <node id="moldura_barco">

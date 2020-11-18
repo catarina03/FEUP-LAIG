@@ -42,6 +42,38 @@ class XMLscene extends CGFscene {
 
         //this.initialTime = 0;
 
+        //SPRITETEXT
+        
+        this.appearance = new CGFappearance(this);
+		this.appearance.setAmbient(0.3, 0.3, 0.3, 1);
+		this.appearance.setDiffuse(0.7, 0.7, 0.7, 1);
+		this.appearance.setSpecular(0.0, 0.0, 0.0, 1);
+        this.appearance.setShininess(120);
+        
+        this.fontTexture = new CGFtexture(this, "scenes/images/font_sprite2.png");
+        this.fontTexture.bind(0);
+
+		//this.appearance.setTexture(this.fontTexture);
+        this.appearance.setTextureWrap('REPEAT', 'REPEAT');
+        
+        this.fontShader = new CGFshader(this.gl, "shaders/shader.vert", "shaders/shader.frag");
+        this.fontShader.setUniformsValues({ uSampler: 0});
+
+        this.fontSpritesheet = new MySpriteSheet(this, this.fontTexture, 26, 5);
+        this.fontSpritesheet.binderID = 0;
+        this.fontSpritesheet.shader = this.fontShader;
+        this.fontSpritesheet.appearance = this.appearance;
+        this.fontSpritesheet.texture = this.fontTexture;
+
+
+        /*
+        let word = "LAIG LAIG"
+        this.spritetext = new MySpriteText(this, this.fontTexture, 26, 5, word);
+        this.shader.setUniformsValues({textLength: word.length});
+        this.spritetext.shader = this.shader;
+        */
+
+
     }
 
     /**
@@ -186,6 +218,8 @@ class XMLscene extends CGFscene {
 
             // Displays the scene (MySceneGraph function).
             this.graph.displayScene();
+            //this.appearance.apply();
+            //this.spritetext.display();
         }
         else
         {
