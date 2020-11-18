@@ -1,4 +1,4 @@
-class Patch extends CGFobject{//primitiva generica para produzir superficies curvas a partir do numero de pontos,partes e dos pontos de controlo
+class MyPatch extends CGFobject{//primitiva generica para produzir superficies curvas a partir do numero de pontos,partes e dos pontos de controlo
 
 
 

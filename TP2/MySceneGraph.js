@@ -35,6 +35,7 @@ class MySceneGraph {
         this.textures = [];
         this.animations = [];
         this.spritesheets = [];
+       
 
         this.idRoot = null; // The id of the root element.
 
@@ -939,6 +940,7 @@ class MySceneGraph {
 
             // Animation
             let animation = null;
+
             if ((animationsIndex = nodeNames.indexOf("animationref")) != -1){               
                 //Parses animantion within component
                 var animationID = this.reader.getString(grandChildren[animationsIndex], 'id');
@@ -953,7 +955,6 @@ class MySceneGraph {
                 animation = this.animations[animationID];
 
             }
-
 
             // Material
             // Retrieves material ID
@@ -1223,19 +1224,90 @@ class MySceneGraph {
 
             vector.push(new MyTorus(this.scene, inner, outer, slices, loops));
         }
-        else if (leafType == "spritetext"){
-            let text = this.reader.getString(leaf, 'text');
-            if (text == ""){
-                return "there is no text in text section of spritetext"
+
+        else if (leafType=="plane"){
+            let npartsU= this.reader.getInteger(leaf,'npartsU');
+            if (!(npartsU != null && !isNaN(npartsU)))
+                return "unable to parse npartsU of plane";
+            
+            let npartsV= this.reader.getInteger(leaf,'npartsV');
+            if (!(npartsV != null && !isNaN(npartsU)))
+                 return "unable to parse npartsV of plane";
+
+
+        vector.push(new MyPlane(this.scene,npartsU,npartsV));
+
+      }
+
+
+      else if (leafType=="patch"){
+
+      
+
+        let npointsU= this.reader.getInteger(leaf,'npointsU');
+        if (!(npointsU != null && !isNaN(npointsU)))
+            return "unable to parse npointssU of patch";
+        
+        let npointsV= this.reader.getInteger(leaf,'npointsV');
+         if (!(npointsV != null && !isNaN(npointsV)))
+            return "unable to parse npointsV of patch";
+
+        let npartsU= this.reader.getInteger(leaf,'npartsU');
+        if (!(npartsU != null && !isNaN(npartsU)))
+            return "unable to parse npartsU of patch";
+        
+        let npartsV= this.reader.getInteger(leaf,'npartsV');
+        if (!(npartsV != null && !isNaN(npartsU)))
+             return "unable to parse npartsV of patch";
+
+
+        
+        
+         let controlPointsxml = leaf.children;//os controlpoints acedidos pelo xml
+         
+                                        //array 3D,recebe arrays 2D de pontos em U sendo cada
+                                         //array la dentro um control vertex em V
+
+                                         //  o número de pontos de controlo dentro da
+                                        // primitiva patch é npointsU * npointsV   
+
+        let w = 1.0;//corresponde ao weight / peso
+        let pointsU = [];
+
+        //parsing dos control points:
+        for(let j = 0; j < npointsU; j++) {
+            let pointsV = [];
+            for(let k = 0; k < npointsV; k++) {
+                pointsV.push([
+                    this.reader.getFloat( controlPointsxml[j*npointsV+k], 'x'),
+                    this.reader.getFloat( controlPointsxml[j*npointsV+k], 'y'),
+                    this.reader.getFloat( controlPointsxml[j*npointsV+k], 'z'),
+                    w
+                ]);
+            }
+            pointsU.push(pointsV);
+        }
+    let controlPoints=pointsU;
+    vector.push(new MyPatch(this.scene,npartsU,npartsV,npointsU,npointsV,controlPoints));
+
+  }
+
+
+
+       else if (leafType == "spritetext"){
+          let text = this.reader.getString(leaf, 'text');
+          if (text == ""){
+             return "there is no text in text section of spritetext"
             }     
 
-            let spritetext = new MySpriteText(this.scene, this.scene.fontTexture, 26, 5, text);
-            //spritetext.spritesheet = this.scene.fontSpritesheet;
-            spritetext.shader = this.scene.fontShader;
-            spritetext.appearance = this.scene.appearance;
+          let spritetext = new MySpriteText(this.scene, this.scene.fontTexture, 26, 5, text);
+        //spritetext.spritesheet = this.scene.fontSpritesheet;
+         spritetext.shader = this.scene.fontShader;
+         spritetext.appearance = this.scene.appearance;
 
-            vector.push(spritetext);
-        }
+    vector.push(spritetext);
+}
+
         else if (leafType = "spriteanim"){
             let ssid = this.reader.getString(leaf, 'ssid');
 
