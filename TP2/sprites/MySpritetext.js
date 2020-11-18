@@ -45,14 +45,14 @@ class MySpriteText extends MySpriteSheet{
 
             this.spritesheet.appearance.setTexture(this.spritesheet.texture);
 
-            this.scene.setActiveShader(this.spritesheet.shader); // activate selected shader
+            this.scene.setActiveShaderSimple(this.spritesheet.shader); // activate selected shader
 
             this.scene.translate(-this.text.length*this.sideSize/2 + i*this.sideSize + this.sideSize/2, 0, 0);
 
             this.spritesheet.appearance.apply();
             this.baseGeometry.display();
 
-            this.scene.setActiveShader(this.scene.defaultShader);
+            this.scene.setActiveShaderSimple(this.scene.defaultShader);
 
             this.scene.popMatrix();
         }
