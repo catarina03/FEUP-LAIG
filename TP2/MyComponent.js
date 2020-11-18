@@ -18,7 +18,8 @@ class MyComponent extends CGFobject{
         this.objects = [];
         this.transformation = null;
         this.animation = null;
-        this.spritetext = null;
+        //this.spritetext = null;
+        //this.spriteanim = null;
 
         this.currMaterial = null;
         this.currTexture = null;
@@ -36,6 +37,7 @@ class MyComponent extends CGFobject{
     }
 
     updateAnimation(time){
+        //Updates this component's animation
         if (this.animation != null){
             if (this.animation.finished){
                 return;
@@ -45,8 +47,24 @@ class MyComponent extends CGFobject{
             }
         }
 
+        /*
+        //Updates this component's sprite animation
+        if (this.spriteanim != null){
+            if (this.spriteanim.finished){
+                return
+            }
+            else{
+                this.spriteanim.update(time);
+            }
+        }
+        */
+
         for (let obj in this.objects){
             this.objects[obj].updateAnimation(time);
+        }
+        for (let spriteanim in this.primitives){
+            if (this.primitives[spriteanim] instanceof MySpriteAnimation)
+                this.primitives[spriteanim].update(time)
         }
     }
 
@@ -131,13 +149,7 @@ class MyComponent extends CGFobject{
 
         if (this.animation != null){
             this.animation.apply();
-        }
-
-        
-        if (this.spritetext != null){
-            this.spritetext.display();
-        }
-        
+        }        
 
         for (let i = 0; i < this.primitives.length; i++){
             this.primitives[i].display();

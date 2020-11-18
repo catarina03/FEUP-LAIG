@@ -600,6 +600,8 @@ class MySceneGraph {
                 continue;
             }
 
+            let shader = new CGFshader(this.scene.gl, "shaders/shader.vert", "shaders/shader.frag");
+
             let texture = new CGFtexture(this.scene, path);
             texture.bind(i+1);
 
@@ -612,10 +614,12 @@ class MySceneGraph {
             appearance.setTexture(texture);
             appearance.setTextureWrap('REPEAT', 'REPEAT');
 
-            this.animations[spritesheetID] = new MySpriteSheet(this.scene, texture, sizeM, sizeN);
+            this.spritesheets[spritesheetID] = new MySpriteSheet(this.scene, texture, sizeM, sizeN);
             
-            this.animations[spritesheetID].binderID = i;
-            this.animations[spritesheetID].appearance = appearance;
+            this.spritesheets[spritesheetID].binderID = i;
+            this.spritesheets[spritesheetID].appearance = appearance;
+            this.spritesheets[spritesheetID].texture = texture;
+            this.spritesheets[spritesheetID].shader = shader;
         }
     }
 
@@ -932,9 +936,11 @@ class MySceneGraph {
                 }                
             }
 
+
             // Animation
             let animation = null;
             let spritetext = null;
+            let spriteanim = null;
             if ((animationsIndex = nodeNames.indexOf("animationref")) != -1){               
                 //Parses animantion within component
                 var animationID = this.reader.getString(grandChildren[animationsIndex], 'id');
@@ -948,6 +954,9 @@ class MySceneGraph {
 
                 animation = this.animations[animationID];
 
+
+
+                /*
                 // Parses children of animation block
                 let animationChildren = grandChildren[animationsIndex].children;
                 for (let j = 0; j < animationChildren.length; j++) {
@@ -986,11 +995,43 @@ class MySceneGraph {
                             //spritetext.appearance = appearance;
                                             
                             break;
+
+                        case "spriteanim":
+                            let ssid = this.reader.getString(animationChildren[j], 'ssid');
+
+                            // Validates ssid
+                            if (ssid == null || ssid == "")
+                                return "id is not a valid animation (null) on component " + nodeID;
+
+                            if (this.spritesheets[ssid] == null)
+                                return ssid + " is not a valid animation on component " + nodeID;
+
+                            let startCell = this.reader.getFloat(animationChildren[j], 'startCell');
+                            let endCell = this.reader.getFloat(animationChildren[j], 'endCell');
+                            let duration = this.reader.getFloat(animationChildren[j], 'duration');
+
+                            if (NaN(startCell) || NaN(endCell)){
+                                this.onXMLMinorError("startCell and endCell of spritesheet " + ssid + " in " + nodeID + " should be a number");
+                                continue;
+                            }
+
+                            if (NaN(duration)){
+                                this.onXMLMinorError("duration of spritesheet " + ssid + " in " + nodeID + " should be a number");
+                                continue;
+                            }
+
+                            spriteanim = new MySpriteAnimation(this.scene, this.spritesheets[ssid], duration, startCell, endCell);
+
+
+
+                            break;
                         default:
                             this.onXMLMinorError("Invalid type of animation of animationref in " + nodeID);
                             break;
                     }
+
                 }
+                   */
             }
 
 
@@ -1020,12 +1061,14 @@ class MySceneGraph {
 
             }
 
+
             // Texture
             if ((textureIndex = nodeNames.indexOf("texture")) == -1)
                 return "tag <texture> missing";
             else {
                 var texStruct = this.parseNodeTexture(nodeID, grandChildren[textureIndex]);
             }
+
 
             // Descendants
             if ((descendantsIndex = nodeNames.indexOf("descendants")) == -1)
@@ -1064,8 +1107,6 @@ class MySceneGraph {
             newComponent.children = noderefs;
             newComponent.currMaterial = componentMaterial;
             newComponent.animation = animation;
-            if (spritetext != null)
-                newComponent.spritetext = spritetext;
 
             this.nodes[nodeID] = children[i];
             this.objects[nodeID] = newComponent;
@@ -1170,6 +1211,7 @@ class MySceneGraph {
      * @param {vector of primitives where the leaf will be added} vector 
      */
     parseLeaf(leaf, vector){
+
         var leafType = this.reader.getString(leaf, 'type');
 
         if(leafType == "rectangle"){
@@ -1260,6 +1302,41 @@ class MySceneGraph {
                 return "unable to parse loops of torus";
 
             vector.push(new MyTorus(this.scene, inner, outer, slices, loops));
+        }
+        else if (leafType == "spritetext"){
+            let text = this.reader.getString(leaf, 'text');
+            if (text == ""){
+                return "there is no text in text section of spritetext"
+            }     
+            vector.push(new MySpriteText(this.scene, this.scene.fontTexture, 26, 5, text));
+        }
+        else if (leafType = "spriteanim"){
+            let ssid = this.reader.getString(leaf, 'ssid');
+
+            // Validates ssid
+            if (ssid == null || ssid == "")
+                return "ssid is null on spriteanim";
+
+            if (this.spritesheets[ssid] == null || this.spritesheets[ssid] == undefined)
+                return ssid + " is not a valid spritesheet";
+
+            let startCell = this.reader.getFloat(leaf, 'startCell');
+            let endCell = this.reader.getFloat(leaf, 'endCell');
+            let duration = this.reader.getFloat(leaf, 'duration');
+
+            if (isNaN(startCell) || isNaN(endCell)){
+                return "startCell and endCell of spritesheet " + ssid + " should be a number";
+            }
+
+            if (isNaN(duration)){
+                return "duration of spritesheet " + ssid + " should be a number";
+            }
+
+            vector.push(new MySpriteAnimation(this.scene, this.spritesheets[ssid], duration, startCell, endCell));
+
+        }
+        else{
+            return "Invalid type of leaf";
         }
         
     }
