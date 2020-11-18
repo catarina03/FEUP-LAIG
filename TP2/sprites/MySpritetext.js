@@ -4,8 +4,6 @@ class MySpriteText extends MySpriteSheet{
         
         this.text = text;
         this.sideSize = 3;
-        
-        this.spritesheet = null;
 
         this.characterMap = {'0':0, '1':1, '2':2, '3':3, '4':4, '5':5, '6':6, '7':7, '8':8, '9':9, 
         '!':10, '?':11, '@':12, '#':13, '$':14, '%':15, '&':16, '\'':17, '"':18, '(':19, 
@@ -34,29 +32,28 @@ class MySpriteText extends MySpriteSheet{
 
     display(){
 
+        this.scene.setActiveShaderSimple(this.shader); // activate selected shader
+        
         for (let i = 0; i < this.text.length; i++){
             let position = this.getCharacterPosition(this.text[i])
             let column = position % this.sizeM
             let row = Math.floor(position / this.sizeM)
-            this.activateCellMN(row, column, this.sideSize)
 
+            this.activateCellMN(row, column, this.sideSize)
             
             this.scene.pushMatrix();
 
-            this.spritesheet.appearance.setTexture(this.spritesheet.texture);
-
-            this.scene.setActiveShaderSimple(this.spritesheet.shader); // activate selected shader
+            this.appearance.setTexture(this.texture);
 
             this.scene.translate(-this.text.length*this.sideSize/2 + i*this.sideSize + this.sideSize/2, 0, 0);
 
-            this.spritesheet.appearance.apply();
+            this.appearance.apply();
             this.baseGeometry.display();
-
-            this.scene.setActiveShaderSimple(this.scene.defaultShader);
 
             this.scene.popMatrix();
         }
-
+        
+        this.scene.setActiveShaderSimple(this.scene.defaultShader);
 
 
 

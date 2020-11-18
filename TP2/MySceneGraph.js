@@ -939,8 +939,6 @@ class MySceneGraph {
 
             // Animation
             let animation = null;
-            let spritetext = null;
-            let spriteanim = null;
             if ((animationsIndex = nodeNames.indexOf("animationref")) != -1){               
                 //Parses animantion within component
                 var animationID = this.reader.getString(grandChildren[animationsIndex], 'id');
@@ -1232,7 +1230,9 @@ class MySceneGraph {
             }     
 
             let spritetext = new MySpriteText(this.scene, this.scene.fontTexture, 26, 5, text);
-            spritetext.spritesheet = this.scene.fontSpritesheet;
+            //spritetext.spritesheet = this.scene.fontSpritesheet;
+            spritetext.shader = this.scene.fontShader;
+            spritetext.appearance = this.scene.appearance;
 
             vector.push(spritetext);
         }

@@ -15,7 +15,7 @@ class MySpriteSheet extends CGFobject {
 
 
     activateCellMN(row_cell, column_cell, sideSize_cell){
-        this.scene.fontShader.setUniformsValues({row: row_cell, column: column_cell, sizeM: this.sizeM, sizeN: this.sizeN, sideSize: sideSize_cell})
+        this.shader.setUniformsValues({row: row_cell, column: column_cell, sizeM: this.sizeM, sizeN: this.sizeN, sideSize: sideSize_cell})
     }
 
 
