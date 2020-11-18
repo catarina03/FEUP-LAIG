@@ -237,7 +237,7 @@
             </transformations>
 
             <descendants>
-                <leaf type="spriteanim" ssid="font" startCell="4" endCell="10" duration="1" />
+                <leaf type="spriteanim" ssid="font" startCell="0" endCell="9" duration="1" />
             </descendants>
         </node>
 
@@ -263,7 +263,7 @@
         <node id="chao">
             <material id="branco"/>
 
-            <texture id="verde_chao">
+            <texture id="null">
                 <amplification afs="2.0" aft="2.0"/>
             </texture>
 
@@ -277,7 +277,6 @@
                <noderef id="tapete" />
                <noderef id="bola1"/>
                <noderef id="bola2"/>
-
             </descendants>
         </node>
 
@@ -613,7 +612,7 @@
             </transformations>
 
             <descendants>
-            <leaf type="sphere" radius="0.35" slices="50" stacks="20"/>
+                <leaf type="sphere" radius="0.35" slices="50" stacks="20"/>
             </descendants>
         </node>
 
@@ -628,7 +627,7 @@
             </transformations>
 
             <descendants>
-                <leaf type="spritetext" text="LAIG" />
+                <noderef id="text" />
                 <leaf type="rectangle" x1="0" y1="0" x2="10" y2="10"/>
             </descendants>
         </node>
@@ -644,7 +643,20 @@
             <descendants>
                 <leaf type="rectangle" x1="0" y1="0" x2="10" y2="10"/>
             </descendants>
+        </node>
 
+        <node id="text">
+            <material id="null" />
+
+            <texture id="null" />
+
+            <transformations>
+                <translation x="5" y="12" z="0.1" />
+            </transformations>
+
+            <descendants>
+                <leaf type="spritetext" text="LAIG" />
+            </descendants>
         </node>
 
         <node id="moldura_barco">

@@ -954,84 +954,6 @@ class MySceneGraph {
 
                 animation = this.animations[animationID];
 
-
-
-                /*
-                // Parses children of animation block
-                let animationChildren = grandChildren[animationsIndex].children;
-                for (let j = 0; j < animationChildren.length; j++) {
-
-                    // Validates child type
-                    if (animationChildren[j].nodeName != "leaf"){
-                        this.onXMLMinorError("Invalid tag name of animationref in " + nodeID + ", should be <leaf>");
-                        continue;
-                    }
-
-                    // Gets animation type
-                    let animationType = this.reader.getString(animationChildren[j], 'type');
-
-                    switch(animationType){
-                        case "spritetext":
-                            let text = this.reader.getString(animationChildren[j], 'text');
-
-                            //let fontTexture = new CGFtexture(this.scene, "scenes/images/font_sprite2.png");
-                            //fontTexture.bind(0);
-
-                            //let shader = new CGFshader(this.scene.gl, "shaders/shader.vert", "shaders/shader.frag");
-                            
-                            spritetext = new MySpriteText(this.scene, this.scene.fontTexture, 26, 5, text);
-
-                            //this.scene.fontShader.setUniformsValues({textLength: text.length});
-
-                            
-                
-                            //let appearance = new CGFappearance(this.scene);
-                            //appearance.setAmbient(0.3, 0.3, 0.3, 1);
-                            //appearance.setDiffuse(0.7, 0.7, 0.7, 1);
-                            //appearance.setSpecular(0.0, 0.0, 0.0, 1);
-                            //appearance.setShininess(120);
-                            //appearance.setTexture(fontTexture);
-                            //appearance.setTextureWrap('REPEAT', 'REPEAT');
-                            //spritetext.appearance = appearance;
-                                            
-                            break;
-
-                        case "spriteanim":
-                            let ssid = this.reader.getString(animationChildren[j], 'ssid');
-
-                            // Validates ssid
-                            if (ssid == null || ssid == "")
-                                return "id is not a valid animation (null) on component " + nodeID;
-
-                            if (this.spritesheets[ssid] == null)
-                                return ssid + " is not a valid animation on component " + nodeID;
-
-                            let startCell = this.reader.getFloat(animationChildren[j], 'startCell');
-                            let endCell = this.reader.getFloat(animationChildren[j], 'endCell');
-                            let duration = this.reader.getFloat(animationChildren[j], 'duration');
-
-                            if (NaN(startCell) || NaN(endCell)){
-                                this.onXMLMinorError("startCell and endCell of spritesheet " + ssid + " in " + nodeID + " should be a number");
-                                continue;
-                            }
-
-                            if (NaN(duration)){
-                                this.onXMLMinorError("duration of spritesheet " + ssid + " in " + nodeID + " should be a number");
-                                continue;
-                            }
-
-                            spriteanim = new MySpriteAnimation(this.scene, this.spritesheets[ssid], duration, startCell, endCell);
-
-
-
-                            break;
-                        default:
-                            this.onXMLMinorError("Invalid type of animation of animationref in " + nodeID);
-                            break;
-                    }
-
-                }
-                   */
             }
 
 
@@ -1111,7 +1033,7 @@ class MySceneGraph {
             this.nodes[nodeID] = children[i];
             this.objects[nodeID] = newComponent;
 
-            console.log(newComponent)
+            //console.log(newComponent)
 
             if (nodeID == this.idRoot){
                 this.root = newComponent;
@@ -1308,7 +1230,11 @@ class MySceneGraph {
             if (text == ""){
                 return "there is no text in text section of spritetext"
             }     
-            vector.push(new MySpriteText(this.scene, this.scene.fontTexture, 26, 5, text));
+
+            let spritetext = new MySpriteText(this.scene, this.scene.fontTexture, 26, 5, text);
+            spritetext.spritesheet = this.scene.fontSpritesheet;
+
+            vector.push(spritetext);
         }
         else if (leafType = "spriteanim"){
             let ssid = this.reader.getString(leaf, 'ssid');

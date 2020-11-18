@@ -18,8 +18,6 @@ class MyComponent extends CGFobject{
         this.objects = [];
         this.transformation = null;
         this.animation = null;
-        //this.spritetext = null;
-        //this.spriteanim = null;
 
         this.currMaterial = null;
         this.currTexture = null;
@@ -47,18 +45,6 @@ class MyComponent extends CGFobject{
             }
         }
 
-        /*
-        //Updates this component's sprite animation
-        if (this.spriteanim != null){
-            if (this.spriteanim.finished){
-                return
-            }
-            else{
-                this.spriteanim.update(time);
-            }
-        }
-        */
-
         for (let obj in this.objects){
             this.objects[obj].updateAnimation(time);
         }
@@ -83,13 +69,6 @@ class MyComponent extends CGFobject{
         if (this.transformation != null){
             this.scene.multMatrix(this.transformation);
         }
-
-
-        /*
-        if (this.spritetext != null){
-            this.spritetext.display();
-        }
-        */
 
         //Applies Material and Texture
         if(this.currMaterial == "null") { 

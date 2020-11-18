@@ -22,7 +22,7 @@ class MySpriteSheet extends CGFobject {
     activateCellP(position, sideSize_cell){
         let column = position % this.sizeM
         let row = Math.floor(position / this.sizeM)
-        console.log(column + " - " + row)
+
         this.shader.setUniformsValues({row: row, column: column, sizeM: this.sizeM, sizeN: this.sizeN, sideSize: sideSize_cell})
     }
 
