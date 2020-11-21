@@ -69,6 +69,7 @@
     <spritesheets>
 
         <spritesheet id="font" path="scenes/images/font_sprite2.png" sizeM="26" sizeN="5" />
+        <spritesheet id="duffman" path="scenes/images/duffman_sprites.png" sizeM="3" sizeN="2" />
 
     </spritesheets>
 
@@ -232,6 +233,7 @@
                 <noderef id="movel_tv"/>
                 <noderef id="moldura_barco"/>
                 <noderef id="sprite_test" />
+                <noderef id="duffman" />
             </descendants>
         </node>
 
@@ -251,7 +253,22 @@
             </descendants>
         </node>
 
-        
+
+        <node id="duffman">
+            <material id="null"/>
+
+            <texture id="null">
+            </texture>
+
+            <transformations>
+                <translation x="3" y="7" z="7" />
+            </transformations>
+
+            <descendants>
+                <leaf type="spriteanim" ssid="duffman" startCell="0" endCell="5" duration="2" />
+            </descendants>
+        </node>
+
 
         <node id="estrutura">
             <material id="rosa_parede"/>
