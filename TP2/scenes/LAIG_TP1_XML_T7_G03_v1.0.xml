@@ -70,6 +70,7 @@
 
         <spritesheet id="font" path="scenes/images/font_sprite2.png" sizeM="26" sizeN="5" />
         <spritesheet id="duffman" path="scenes/images/duffman_sprites.png" sizeM="3" sizeN="2" />
+        <spritesheet id="homer" path="scenes/images/homer_sprites.png" sizeM="3" sizeN="2" />
 
     </spritesheets>
 
@@ -167,6 +168,33 @@
 
     <animations>
 
+        <animation id="homerAnimation">
+            <keyframe instant="0">
+                <translation x="0" y="0" z="0" />
+                <rotation axis="x" angle="0" />
+                <rotation axis="y" angle="0" />
+                <rotation axis="z" angle="0" />
+                <scale sx="1" sy="1" sz="1" />
+            </keyframe>
+
+            <keyframe instant="24">
+                <translation x="0" y="0" z="0" />
+                <rotation axis="x" angle="0" />
+                <rotation axis="y" angle="0" />
+                <rotation axis="z" angle="0" />
+                <scale sx="1" sy="1" sz="1" />
+            </keyframe>
+
+            <keyframe instant="25">
+                <translation x="0" y="0" z="-0.2" />
+                <rotation axis="x" angle="0" />
+                <rotation axis="y" angle="0" />
+                <rotation axis="z" angle="0" />
+                <scale sx="1" sy="1" sz="1" />
+            </keyframe>
+        </animation>
+
+
         <animation id="ballAnimation">
             <keyframe instant="0">
                 <translation x="0" y="0" z="0" />
@@ -176,35 +204,19 @@
                 <scale sx="1" sy="1" sz="1" />
             </keyframe>
 
-            <keyframe instant="3">
-                <translation x="2" y="5" z="0" />
-                <rotation axis="x" angle="0" />
+            <keyframe instant="1">
+                <translation x="-5" y="0" z="-2" />
+                <rotation axis="x" angle="180" />
                 <rotation axis="y" angle="0" />
-                <rotation axis="z" angle="0" />
-                <scale sx="1" sy="1" sz="1" />
-
-            </keyframe>
-            <keyframe instant="4.5">
-                <translation x="2" y="5" z="0" />
-                <rotation axis="x" angle="0" />
-                <rotation axis="y" angle="0" />
-                <rotation axis="z" angle="0" />
-                <scale sx="2" sy="2" sz="2" />
-            </keyframe>
-
-            <keyframe instant="6">
-                <translation x="2" y="5" z="0" />
-                <rotation axis="x" angle="0" />
-                <rotation axis="y" angle="0" />
-                <rotation axis="z" angle="0" />
+                <rotation axis="z" angle="90" />
                 <scale sx="1" sy="1" sz="1" />
             </keyframe>
 
-            <keyframe instant="9">
-                <translation x="0" y="0" z="0" />
-                <rotation axis="x" angle="360" />
+            <keyframe instant="2">
+                <translation x="-7.5" y="0" z="-3" />
+                <rotation axis="x" angle="180" />
                 <rotation axis="y" angle="0" />
-                <rotation axis="z" angle="360" />
+                <rotation axis="z" angle="90" />
                 <scale sx="1" sy="1" sz="1" />
             </keyframe>
         </animation>
@@ -303,6 +315,22 @@
 
 
         <animation id="duffmanAnimation">
+            <keyframe instant="0">
+                <translation x="-10" y="3" z="10" />
+                <rotation axis="x" angle="0" />
+                <rotation axis="y" angle="0" />
+                <rotation axis="z" angle="0" />
+                <scale sx="1" sy="1" sz="1" />
+            </keyframe>
+
+            <keyframe instant="1">
+                <translation x="-10" y="3" z="10" />
+                <rotation axis="x" angle="0" />
+                <rotation axis="y" angle="0" />
+                <rotation axis="z" angle="0" />
+                <scale sx="0" sy="0" sz="0" />
+            </keyframe>
+
             <keyframe instant="3">
                 <translation x="-10" y="3" z="10" />
                 <rotation axis="x" angle="0" />
@@ -350,6 +378,7 @@
                 <rotation axis="z" angle="0" />
                 <scale sx="0.33" sy="0.33" sz="0.33" />
             </keyframe>
+            <!--
 
             <keyframe instant="13">
                 <translation x="0" y="4" z="7" />
@@ -358,6 +387,7 @@
                 <rotation axis="z" angle="0" />
                 <scale sx="0.33" sy="0.33" sz="0.33" />
             </keyframe>
+            
 
             <keyframe instant="14">
                 <translation x="0" y="4" z="7" />
@@ -366,6 +396,8 @@
                 <rotation axis="z" angle="0" />
                 <scale sx="0.33" sy="0.33" sz="0.33" />
             </keyframe>
+
+            -->
 
             <keyframe instant="15">
                 <translation x="1" y="3" z="8" />
@@ -399,8 +431,8 @@
                 <scale sx="1" sy="1" sz="1" />
             </keyframe>
 
-            <keyframe instant="21">
-                <translation x="10" y="3" z="8" />
+            <keyframe instant="25">
+                <translation x="30" y="3" z="8" />
                 <rotation axis="x" angle="-90" />
                 <rotation axis="y" angle="0" />
                 <rotation axis="z" angle="-90" />
@@ -426,11 +458,12 @@
 
             <descendants>
                 <noderef id="estrutura" />
-              
                 <noderef id="mesa_pequena"/>
+                <noderef id="bola1"/>
                 <noderef id="movel_tv"/>
                 <noderef id="moldura_barco"/>
                 <noderef id="sprite_test" />
+                <noderef id="homer" />
                 <noderef id="duffman" />
             </descendants>
         </node>
@@ -448,6 +481,26 @@
 
             <descendants>
                 <leaf type="spriteanim" ssid="font" startCell="0" endCell="9" duration="1" />
+            </descendants>
+        </node>
+
+
+
+        <node id="homer">
+            <material id="null"/>
+
+            <texture id="null">
+            </texture>
+
+            <transformations>
+                <translation x="11.5" y="3" z="0.01" />
+                <scale sx="2" sy="2" sz="2" />
+            </transformations>
+
+            <animationref id="homerAnimation" /> 
+
+            <descendants>
+                <leaf type="spriteanim" ssid="homer" startCell="0" endCell="5" duration="5" />
             </descendants>
         </node>
 
@@ -503,8 +556,6 @@
             <descendants>
                <leaf type="rectangle" x1="0" y1="0" x2="15" y2="10"/>
                <noderef id="tapete" />
-               <noderef id="bola1"/>
-               <noderef id="bola2"/>
             </descendants>
         </node>
 
@@ -809,37 +860,13 @@
             </texture>
 
             <transformations>
-               
-                <translation x="1" y="5.5" z="0.82" />
-                <rotation axis="x" angle="90"/>
-                <rotation axis="y" angle="90"/>
-                 
+                <translation x="10" y="0.5" z="5" />
             </transformations>
 
             <animationref id="ballAnimation" />
 
             <descendants>
-                <leaf type="sphere" radius="0.35" slices="50" stacks="20"/>
-            </descendants>
-        </node>
-
-         <node id="bola2">
-            <material id="azul"/>
-
-            <texture id="clear">
-               
-            </texture>
-
-            <transformations>
-               
-                <translation x="1" y="3.5" z="0.82" />
-                <rotation axis="x" angle="90"/>
-                <rotation axis="y" angle="90"/>
-             
-            </transformations>
-
-            <descendants>
-                <leaf type="sphere" radius="0.35" slices="50" stacks="20"/>
+                <leaf type="sphere" radius="0.5" slices="50" stacks="20"/>
             </descendants>
         </node>
 
