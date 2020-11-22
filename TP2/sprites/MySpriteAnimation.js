@@ -48,12 +48,12 @@ class MySpriteAnimation extends MySpriteSheet{
 
         this.spritesheet.appearance.setTexture(this.spritesheet.texture);
 
-        this.scene.setActiveShader(this.spritesheet.shader); // activate selected shader
+        this.scene.setActiveShaderSimple(this.spritesheet.shader); // activate selected shader
 
         this.spritesheet.appearance.apply();
         this.baseGeometry.display();
 
-        this.scene.setActiveShader(this.scene.defaultShader);
+        this.scene.setActiveShaderSimple(this.scene.defaultShader);
 
         this.scene.popMatrix();
     }

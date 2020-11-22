@@ -256,7 +256,7 @@
             <descendants>
                 <noderef id="parede_zy"/>
                 <noderef id="chao"/>
-                <noderef id="parede_yx"/>
+               <noderef id="parede_yx"/>
             </descendants>
         </node>
 
