@@ -36,8 +36,6 @@ class MydefBarrel extends CGFobject {
         
       
         this.secondhalf = new MyPatch(scene,slices,stacks,4,4,this.controlpointsecond);
-
-        this.display();
     }
 
    generateControlPoints() {
