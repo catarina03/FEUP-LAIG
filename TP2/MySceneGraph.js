@@ -1239,6 +1239,33 @@ class MySceneGraph {
 
       }
 
+      else if(leafType=="defbarrel"){
+
+        let base= this.reader.getFloat(leaf,'base');
+        if (!(base != null && !isNaN(base)))
+            return "unable to parse base of defbarrel";
+        
+        let middle= this.reader.getFloat(leaf,'middle');
+        if (!(middle != null && !isNaN(middle)))
+             return "unable to parse middle of defbarrel";
+
+        let height= this.reader.getFloat(leaf,'height');
+         if (!(height != null && !isNaN(height)))
+            return "unable to parse height of defbarrel";
+            
+        let slices= this.reader.getInteger(leaf,'slices');
+        if (!(slices != null && !isNaN(slices)))
+             return "unable to parse slices of defbarrel"; 
+             
+        let stacks= this.reader.getInteger(leaf,'stacks');
+        if (!(stacks != null && !isNaN(stacks)))
+            return "unable to parse stacks of defbarrel"; 
+
+        vector.push(new MydefBarrel(this.scene,base,middle,height,slices,stacks));
+
+
+
+      }
 
       else if (leafType=="patch"){
 

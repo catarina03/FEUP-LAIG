@@ -16,7 +16,7 @@ class MyPatch extends CGFobject{//primitiva generica para produzir superficies c
         initBuffers() {             //grau=nº pontos - 1
           let nurbsSurface = new CGFnurbsSurface(this.npointsU-1,this.npointsV-1,this.controlPoints);
 
-          this.nurbsObj = new CGFnurbsObject(this.scene,this.npointsU,this.npointsV,nurbsSurface);
+          this.nurbsObj = new CGFnurbsObject(this.scene,this.npartsU,this.npartsV,nurbsSurface);
           
         }
 
