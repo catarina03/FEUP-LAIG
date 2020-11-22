@@ -60,6 +60,7 @@
         <texture id="paper_box" path="./scenes/images/paper_box.PNG" />
         <texture id="ecra_tv" path="./scenes/images/tv_screen.PNG" />
         <texture id="bola_brincar" path="./scenes/images/bola_futebol.jpg"/>
+        <texture id="barrel" path="./scenes/images/barrel.jpg" />
 
     </textures>
 
@@ -222,6 +223,25 @@
                 <noderef id="movel_tv"/>
                 <noderef id="moldura_barco"/>
                 <noderef id="sprite_test" />
+                <noderef id="barrel" />
+            </descendants>
+        </node>
+
+
+        <node id="barrel">
+            <material id="null"/>
+
+            <texture id="barrel">
+            </texture>
+
+            <transformations>
+                <translation x="1.5" y="0" z="2" />
+                <rotation axis="y" angle="-450" />
+                <rotation axis="x" angle="-90" />
+            </transformations>
+
+            <descendants>
+                <leaf type="defbarrel" base="0.75" middle="1.2" height="3" slices="10" stacks="10" />
             </descendants>
         </node>
 
