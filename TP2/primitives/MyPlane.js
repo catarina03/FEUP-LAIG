@@ -1,13 +1,10 @@
 class MyPlane extends CGFobject {
-     
     /**
      * @constructor
      * @param {XMLScene} scene    represents the CGFscene
      * @param {number}   nrDivsU  divisions in U          
      * @param {number}   nrDivsV  divisions in V          
      */
-
-
     constructor(scene,npartsU,npartsV) {
 		super(scene);
         this.scene = scene;
@@ -38,17 +35,13 @@ class MyPlane extends CGFobject {
     };
 
 
-
     display() {
         this.nurbsObj.display();
     }
 
 
-
-
     updateTexCoords(Sfactor,Tfactor) {
 		this.updateTexCoordsGLBuffers();
 	}
-
 
 }

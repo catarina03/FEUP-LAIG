@@ -1,10 +1,17 @@
 class MySpriteAnimation extends MySpriteSheet{
+    /**
+     * Constructor
+     * @param {*} scene - refers to MyScene Object
+     * @param {*} MySpriteSheet - spritesheet used
+     * @param {*} duration - durantion of each frame
+     * @param {*} startCell - number of the starting cell
+     * @param {*} endCell - number of the finishing cell
+     */
     constructor(scene, MySpriteSheet, duration, startCell, endCell){
         super(scene);
 
         this.spritesheet = MySpriteSheet;
         this.sideSize = 3;
-
 
         this.duration = duration;
 
@@ -16,10 +23,13 @@ class MySpriteAnimation extends MySpriteSheet{
         this.timeLastUpdate = 0;
 
         this.baseGeometry = new MyRectangle(this.scene, -this.sideSize/2, -this.sideSize/2, this.sideSize/2, this.sideSize/2)
-        
     }
 
 
+    /**
+     * Updates active cell
+     * @param {*} currentTime - current time when function is called
+     */
     update(currentTime){
         //Calculates animation start time
         if (this.timeElapsed == 0){
@@ -42,7 +52,9 @@ class MySpriteAnimation extends MySpriteSheet{
     }
 
 
-
+    /**
+     * Displays spriteanimation
+     */
     display(){
 
         this.scene.gl.enable(this.scene.gl.BLEND);    // enables blending
@@ -63,9 +75,6 @@ class MySpriteAnimation extends MySpriteSheet{
 
         this.scene.gl.disable(this.scene.gl.BLEND);  
     }
-
-
-
 
     
 }

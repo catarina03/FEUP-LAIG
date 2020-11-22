@@ -1,8 +1,9 @@
 class MyKeyframe {
-
-
-    
-
+    /**
+     * Constructor
+     * @param {*} instant - keyframe instant
+     * @param {*} transformations - trasformation matrix
+     */
     constructor(instant, transformations) {    
         this.instant = instant;  //time do inicio da keyframe
 
@@ -17,12 +18,6 @@ class MyKeyframe {
         this.Rotz = transformations[1][2];
 
         this.Scale =  transformations[2];                                        
-
-        
     }                                          
-
-
-
-
 
 }

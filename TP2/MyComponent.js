@@ -34,6 +34,11 @@ class MyComponent extends CGFobject{
         return this.children;
     }
 
+
+    /**
+     * Updates the animation time
+     * @param {*} time 
+     */
     updateAnimation(time){
         //Updates this component's animation
         if (this.animation != null){
@@ -54,6 +59,7 @@ class MyComponent extends CGFobject{
         }
     }
 
+    
     /**
      * Displays objects recursively
      * @param parentMaterial - Material to be inherited

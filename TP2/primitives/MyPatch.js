@@ -4,9 +4,9 @@
 class MyPatch extends CGFobject{    //primitiva generica para produzir superficies curvas a partir do numero de pontos,partes e dos pontos de controlo
   /**
    * @constructor
-   * @param {XMLScene} scene           represents the CGFscene
-   * @param {number}   nPartsU         
-   * @param {number}   nPartsV         
+   * @param {XMLScene} scene           refers to MyScene object
+   * @param {number}   nPartsU         parts U
+   * @param {number}   nPartsV         parts V
    * @param {number}   nPointsU        control points U
    * @param {number}   nPointsV        control points V
    * @param {array}    controlPoints   Array with ControlPoints 

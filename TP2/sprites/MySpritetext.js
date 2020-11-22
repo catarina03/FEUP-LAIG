@@ -1,4 +1,12 @@
 class MySpriteText extends MySpriteSheet{
+    /**
+     * Constructor
+     * @param {*} scene - refers to MyScene object
+     * @param {*} texture - texture to be used as spritesheet
+     * @param {*} sizeM - number of columns
+     * @param {*} sizeN - number of rows
+     * @param {*} text - text to be written
+     */
     constructor(scene, texture, sizeM, sizeN, text){
         super(scene, texture, sizeM, sizeN);
         
@@ -21,7 +29,6 @@ class MySpriteText extends MySpriteSheet{
 
         this.baseGeometry = new MyRectangle(this.scene, -this.sideSize/2, -this.sideSize/2, this.sideSize/2, this.sideSize/2)
         this.scene.fontShader.setUniformsValues({textLength: this.text.length});
-
     }
 
     
@@ -30,9 +37,10 @@ class MySpriteText extends MySpriteSheet{
     }
 
 
+    /**
+     * Displays spritetext
+     */
     display(){
-
-        
         this.scene.gl.enable(this.scene.gl.BLEND);    // enables blending
         this.scene.gl.blendFunc(this.scene.gl.SRC_ALPHA, this.scene.gl.ONE_MINUS_SRC_ALPHA);    // defines the blending function
 
@@ -60,15 +68,7 @@ class MySpriteText extends MySpriteSheet{
         this.scene.setActiveShaderSimple(this.scene.defaultShader);
 
         this.scene.gl.disable(this.scene.gl.BLEND);  
-
     }
-
-
-
-
-
-
-
 
     
 }
