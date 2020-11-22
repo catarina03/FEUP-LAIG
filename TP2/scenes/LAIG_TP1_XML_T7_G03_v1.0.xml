@@ -63,6 +63,7 @@
         <texture id="bola_brincar" path="./scenes/images/bola_futebol.jpg"/>
         <texture id="duff_beer" path="./scenes/images/duff.jpg"/>
         <texture id="beer" path="./scenes/images/beer.jpg"/>
+        <texture id="barrel" path="./scenes/images/barrel.jpg" />
     </textures>
 
 
@@ -177,16 +178,8 @@
                 <scale sx="1" sy="1" sz="1" />
             </keyframe>
 
-            <keyframe instant="24">
-                <translation x="0" y="0" z="0" />
-                <rotation axis="x" angle="0" />
-                <rotation axis="y" angle="0" />
-                <rotation axis="z" angle="0" />
-                <scale sx="1" sy="1" sz="1" />
-            </keyframe>
-
             <keyframe instant="25">
-                <translation x="0" y="0" z="-0.2" />
+                <translation x="0" y="0" z="0" />
                 <rotation axis="x" angle="0" />
                 <rotation axis="y" angle="0" />
                 <rotation axis="z" angle="0" />
@@ -223,7 +216,6 @@
 
 
         <animation id="beer_falling">
-        <!-- 2 unidade na coordenada z por segundo -->
             <keyframe instant="1">
                 <translation x="7" y="6.5" z="5" />
                 <rotation axis="x" angle="0" />
@@ -378,26 +370,6 @@
                 <rotation axis="z" angle="0" />
                 <scale sx="0.33" sy="0.33" sz="0.33" />
             </keyframe>
-            <!--
-
-            <keyframe instant="13">
-                <translation x="0" y="4" z="7" />
-                <rotation axis="x" angle="-90" />
-                <rotation axis="y" angle="45" />
-                <rotation axis="z" angle="0" />
-                <scale sx="0.33" sy="0.33" sz="0.33" />
-            </keyframe>
-            
-
-            <keyframe instant="14">
-                <translation x="0" y="4" z="7" />
-                <rotation axis="x" angle="0" />
-                <rotation axis="y" angle="45" />
-                <rotation axis="z" angle="0" />
-                <scale sx="0.33" sy="0.33" sz="0.33" />
-            </keyframe>
-
-            -->
 
             <keyframe instant="15">
                 <translation x="1" y="3" z="8" />
@@ -462,14 +434,33 @@
                 <noderef id="bola1"/>
                 <noderef id="movel_tv"/>
                 <noderef id="moldura_barco"/>
-                <noderef id="sprite_test" />
+                <!-- <noderef id="timer" /> -->
                 <noderef id="homer" />
+                <noderef id="barrel" />
                 <noderef id="duffman" />
             </descendants>
         </node>
 
 
-        <node id="sprite_test">
+        <node id="barrel">
+            <material id="null"/>
+
+            <texture id="barrel">
+            </texture>
+
+            <transformations>
+                <translation x="1.5" y="0" z="1" />
+                <rotation axis="y" angle="-450" />
+                <rotation axis="x" angle="-90" />
+            </transformations>
+
+            <descendants>
+                <leaf type="defbarrel" base="0.75" middle="1.2" height="3" slices="10" stacks="10" />
+            </descendants>
+        </node>
+
+
+        <node id="timer">
             <material id="null"/>
 
             <texture id="null">
@@ -537,7 +528,7 @@
             <descendants>
                 <noderef id="parede_zy"/>
                 <noderef id="chao"/>
-                <noderef id="parede_yx"/>
+               <noderef id="parede_yx"/>
             </descendants>
         </node>
 

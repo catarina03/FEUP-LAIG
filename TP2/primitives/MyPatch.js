@@ -1,4 +1,4 @@
-class Patch extends CGFobject{//primitiva generica para produzir superficies curvas a partir do numero de pontos,partes e dos pontos de controlo
+class MyPatch extends CGFobject{//primitiva generica para produzir superficies curvas a partir do numero de pontos,partes e dos pontos de controlo
 
 
 
@@ -16,7 +16,7 @@ class Patch extends CGFobject{//primitiva generica para produzir superficies cur
         initBuffers() {             //grau=nº pontos - 1
           let nurbsSurface = new CGFnurbsSurface(this.npointsU-1,this.npointsV-1,this.controlPoints);
 
-          this.nurbsObj = new CGFnurbsObject(this.scene,this.npointsU,this.npointsV,nurbsSurface);
+          this.nurbsObj = new CGFnurbsObject(this.scene,this.npartsU,this.npartsV,nurbsSurface);
           
         }
 
