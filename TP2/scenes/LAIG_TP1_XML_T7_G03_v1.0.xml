@@ -8,8 +8,8 @@
     <views default="defaultCamera">
 
         <perspective id="defaultCamera" near="0.1" far="500" angle="45">
-            <from x="30" y="15" z="30"/>
-            <to x="0" y="-2" z="0"/>
+            <from x="20" y="10" z="20"/>
+            <to x="2" y="-0.5" z="0"/>
         </perspective>
 
         <ortho id="demoOrtho" near="0.2" far="100" left="-20" right="20" top="10" bottom="-10">
@@ -168,7 +168,6 @@
     <animations>
 
         <animation id="ballAnimation">
-
             <keyframe instant="0">
                 <translation x="0" y="0" z="0" />
                 <rotation axis="x" angle="0" />
@@ -208,8 +207,207 @@
                 <rotation axis="z" angle="360" />
                 <scale sx="1" sy="1" sz="1" />
             </keyframe>
-
         </animation>
+
+
+        <animation id="beer_falling">
+        <!-- 2 unidade na coordenada z por segundo -->
+            <keyframe instant="1">
+                <translation x="7" y="6.5" z="5" />
+                <rotation axis="x" angle="0" />
+                <rotation axis="y" angle="0" />
+                <rotation axis="z" angle="0" />
+                <scale sx="1" sy="1" sz="1" />
+            </keyframe>
+
+            <keyframe instant="1.4">
+                <translation x="7" y="7" z="5.6" />
+                <rotation axis="x" angle="30" />
+                <rotation axis="y" angle="0" />
+                <rotation axis="z" angle="0" />
+                <scale sx="1" sy="1" sz="1" />
+            </keyframe>
+
+            <keyframe instant="1.8">
+                <translation x="7" y="7.2" z="6.2" />
+                <rotation axis="x" angle="65" />
+                <rotation axis="y" angle="0" />
+                <rotation axis="z" angle="0" />
+                <scale sx="1" sy="1" sz="1" />
+            </keyframe>
+
+            <keyframe instant="2.2">
+                <translation x="7" y="7" z="6.8" />
+                <rotation axis="x" angle="135" />
+                <rotation axis="y" angle="0" />
+                <rotation axis="z" angle="0" />
+                <scale sx="1" sy="1" sz="1" />
+            </keyframe>
+
+            <keyframe instant="2.5">
+                <translation x="7" y="6" z="7.2" />
+                <rotation axis="x" angle="150" />
+                <rotation axis="y" angle="0" />
+                <rotation axis="z" angle="0" />
+                <scale sx="1" sy="1" sz="1" />
+            </keyframe>
+
+            <keyframe instant="2.7">
+                <translation x="7" y="3.5" z="8" />
+                <rotation axis="x" angle="205" />
+                <rotation axis="y" angle="0" />
+                <rotation axis="z" angle="0" />
+                <scale sx="1" sy="1" sz="1" />
+            </keyframe>
+
+            <keyframe instant="3">
+                <translation x="7" y="0.75" z="9" />
+                <rotation axis="x" angle="270" />
+                <rotation axis="y" angle="0" />
+                <rotation axis="z" angle="0" />
+                <scale sx="1" sy="1" sz="1" />
+            </keyframe>
+
+            <keyframe instant="10">
+                <translation x="7" y="0.75" z="9" />
+                <rotation axis="x" angle="270" />
+                <rotation axis="y" angle="0" />
+                <rotation axis="z" angle="0" />
+                <scale sx="1" sy="1" sz="1" />
+            </keyframe>
+
+            <keyframe instant="12">
+                <translation x="8" y="12" z="9" />
+                <rotation axis="x" angle="270" />
+                <rotation axis="y" angle="0" />
+                <rotation axis="z" angle="0" />
+                <scale sx="1" sy="1" sz="1" />
+            </keyframe>
+
+            <keyframe instant="13">
+                <translation x="7.5" y="12" z="8" />
+                <rotation axis="x" angle="200" />
+                <rotation axis="y" angle="0" />
+                <rotation axis="z" angle="0" />
+                <scale sx="1" sy="1" sz="1" />
+            </keyframe>
+
+            <keyframe instant="16">
+                <translation x="7" y="6.7" z="5" />
+                <rotation axis="x" angle="0" />
+                <rotation axis="y" angle="0" />
+                <rotation axis="z" angle="0" />
+                <scale sx="1" sy="1" sz="1" />
+            </keyframe>
+        </animation>
+
+
+        <animation id="duffmanAnimation">
+            <keyframe instant="3">
+                <translation x="-10" y="3" z="10" />
+                <rotation axis="x" angle="0" />
+                <rotation axis="y" angle="0" />
+                <rotation axis="z" angle="0" />
+                <scale sx="1" sy="1" sz="1" />
+            </keyframe>
+
+            <keyframe instant="5">
+                <translation x="-1" y="3" z="10" />
+                <rotation axis="x" angle="0" />
+                <rotation axis="y" angle="45" />
+                <rotation axis="z" angle="0" />
+                <scale sx="1" sy="1" sz="1" />
+            </keyframe>
+
+            <keyframe instant="7">
+                <translation x="-1" y="3" z="10" />
+                <rotation axis="x" angle="0" />
+                <rotation axis="y" angle="45" />
+                <rotation axis="z" angle="-90" />
+                <scale sx="0.66" sy="0.66" sz="0.66" />
+            </keyframe>
+
+            <keyframe instant="8.5">
+                <translation x="0" y="1" z="7" />
+                <rotation axis="x" angle="0" />
+                <rotation axis="y" angle="45" />
+                <rotation axis="z" angle="-90" />
+                <scale sx="0.33" sy="0.33" sz="0.33" />
+            </keyframe>
+
+            <keyframe instant="9.5">
+                <translation x="0" y="1" z="7" />
+                <rotation axis="x" angle="0" />
+                <rotation axis="y" angle="45" />
+                <rotation axis="z" angle="0" />
+                <scale sx="0.33" sy="0.33" sz="0.33" />
+            </keyframe>
+
+            <keyframe instant="12">
+                <translation x="0" y="4" z="7" />
+                <rotation axis="x" angle="0" />
+                <rotation axis="y" angle="45" />
+                <rotation axis="z" angle="0" />
+                <scale sx="0.33" sy="0.33" sz="0.33" />
+            </keyframe>
+
+            <keyframe instant="13">
+                <translation x="0" y="4" z="7" />
+                <rotation axis="x" angle="-90" />
+                <rotation axis="y" angle="45" />
+                <rotation axis="z" angle="0" />
+                <scale sx="0.33" sy="0.33" sz="0.33" />
+            </keyframe>
+
+            <keyframe instant="14">
+                <translation x="0" y="4" z="7" />
+                <rotation axis="x" angle="0" />
+                <rotation axis="y" angle="45" />
+                <rotation axis="z" angle="0" />
+                <scale sx="0.33" sy="0.33" sz="0.33" />
+            </keyframe>
+
+            <keyframe instant="15">
+                <translation x="1" y="3" z="8" />
+                <rotation axis="x" angle="0" />
+                <rotation axis="y" angle="45" />
+                <rotation axis="z" angle="0" />
+                <scale sx="1" sy="1" sz="1" />
+            </keyframe>
+
+            <keyframe instant="17">
+                <translation x="1" y="3" z="8" />
+                <rotation axis="x" angle="0" />
+                <rotation axis="y" angle="45" />
+                <rotation axis="z" angle="0" />
+                <scale sx="1" sy="1" sz="1" />
+            </keyframe>
+
+            <keyframe instant="18">
+                <translation x="1" y="3" z="8" />
+                <rotation axis="x" angle="0" />
+                <rotation axis="y" angle="45" />
+                <rotation axis="z" angle="0" />
+                <scale sx="1" sy="1" sz="1" />
+            </keyframe>
+
+            <keyframe instant="19">
+                <translation x="1" y="3" z="8" />
+                <rotation axis="x" angle="0" />
+                <rotation axis="y" angle="0" />
+                <rotation axis="z" angle="-60" />
+                <scale sx="1" sy="1" sz="1" />
+            </keyframe>
+
+            <keyframe instant="21">
+                <translation x="10" y="3" z="8" />
+                <rotation axis="x" angle="-90" />
+                <rotation axis="y" angle="0" />
+                <rotation axis="z" angle="-90" />
+                <scale sx="1" sy="1" sz="1" />
+            </keyframe>            
+        </animation>
+
 
     </animations>
 
@@ -261,8 +459,11 @@
             </texture>
 
             <transformations>
-                <translation x="3" y="7" z="7" />
+                <translation x="-10" y="3" z="10" />
+                <scale sx="2" sy="2" sz="2" />
             </transformations>
+
+            <animationref id="duffmanAnimation" /> 
 
             <descendants>
                 <leaf type="spriteanim" ssid="duffman" startCell="0" endCell="5" duration="2" />
@@ -677,7 +878,8 @@
             <texture id="null" />
 
             <transformations>
-                <translation x="5" y="12" z="0.1" />
+                <translation x="5" y="8" z="0.1" />
+                <scale sx="0.75" sy="0.75" sz="0.75" />
             </transformations>
 
             <descendants>
@@ -715,7 +917,7 @@
                 <noderef id="perna3"/>
                 <noderef id="perna4"/>
                 <noderef id="caixa_donuts"/>
-                <noderef id="garrafa" />
+                <noderef id="cerveja_duff" />
             </descendants>
 
         </node>
@@ -726,6 +928,7 @@
             <texture id="madeira_clara" />
 
             <transformations>
+                <translation x="0" y="0" z="-0.5" />
             </transformations>
 
             <descendants>
@@ -1054,7 +1257,7 @@
             </descendants>
         </node>
 
-        <node id="garrafa">
+        <node id="cerveja_duff">
             <material id="branco"/>
             <texture id="beer">
                 <amplification afs="1.0" aft="1.0" />
@@ -1064,6 +1267,8 @@
                 <scale sx="0.5" sy="0.5" sz="0.5" />
                 <translation x="7" y="6.5" z="5" />
             </transformations>
+
+            <animationref id="beer_falling" />
 
             <descendants>
                 <noderef id="corpo" />
