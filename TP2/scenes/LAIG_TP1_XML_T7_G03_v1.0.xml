@@ -491,7 +491,7 @@
             <animationref id="homerAnimation" /> 
 
             <descendants>
-                <leaf type="spriteanim" ssid="homer" startCell="0" endCell="5" duration="5" />
+                <leaf type="spriteanim" ssid="homer" startCell="0" endCell="5" duration="1" />
             </descendants>
         </node>
 
@@ -883,10 +883,13 @@
             <texture id="clear" />
 
             <transformations>
+                <scale sx="15" sy="10" sz="1" />
+                <translation x="0.5" y="0.5" z="0" />
+                <rotation axis="x" angle="90"/>
             </transformations>
 
             <descendants>
-                <leaf type="rectangle" x1="0" y1="0" x2="15" y2="10"/>
+                <leaf type="plane" npartsU="10" npartsV="10" />
             </descendants>
         </node>
 
