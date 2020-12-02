@@ -31,7 +31,7 @@
 
         <light id="demoLight">
             <enable value="1"/>
-            <position x="10" y="12" z="9.5" w="1.0"/>
+            <position x="40" y="26" z="40" w="1.0"/>
             <ambient r="0" g="0" b="0" a="1.0"/>
             <diffuse r="1.0" g="1.0" b="1.0" a="1.0"/>
             <specular r="1.0" g="1.0" b="1.0" a="1.0"/>
@@ -55,6 +55,7 @@
         <texture id="fuji3" path="./scenes/images/fuji3.jpg"/>
         <texture id="fuji4" path="./scenes/images/fuji4.jpg"/>
         <texture id="land" path="./scenes/images/land.jpg"/>
+        <texture id="TexturaTronco" path="./scenes/images/trunk-image.jpg"/>
 
     </textures>
 
@@ -179,6 +180,7 @@
 
             <descendants>
                 <noderef id="background" />
+                <noderef id="elemento_principal" />
             </descendants>
         </node>
 
@@ -190,6 +192,7 @@
 
             <transformations>
                 <translation x="0" y="-10" z="0" />
+                <!-- <translation x="-25" y="0" z="-25" /> -->
                 <scale sx="50" sy="50" sz="50" />
             </transformations>
 
@@ -304,6 +307,114 @@
                 <leaf type="rectangle" x1="0" y1="0" x2="1" y2="1"/>
             </descendants>
         </node>
+
+        <node id="elemento_principal">
+            <material id="null"/>
+
+            <texture id="null">
+              <amplification afs="2.0" aft="2.0"/> 
+            </texture>
+            
+            <transformations>
+            </transformations>
+
+            <descendants>
+                <noderef id="tronco"/>
+                <noderef id="estrutura_sala"/>
+            </descendants>
+        </node>
+
+        <node id="tronco">
+            <material id="rosa_parede"/>
+
+            <texture id="TexturaTronco">
+              <amplification afs="2.0" aft="2.0"/> 
+            </texture>
+            
+            <transformations>
+                <translation x="20" y="-10" z="25" />
+                <scale sx="10" sy="20" sz="10"/>
+                <rotation axis="x" angle="-90" />
+            </transformations>
+
+            <descendants>
+              <noderef id="cubo"/>
+            </descendants>
+        </node>
+
+
+        <node id="estrutura_sala">
+            <material id="rosa_parede"/>
+
+            <texture id="null" />
+
+            <transformations>
+                <translation x="12.5" y="10.01" z="12.5" />
+                <scale sx="1.5" sy="1" sz="1.5" />
+            </transformations>
+
+            <descendants>
+                <noderef id="parede_zy"/>
+                <noderef id="chao"/>
+                <noderef id="parede_yx"/>
+            </descendants>
+        </node>
+
+
+
+        <node id="chao">
+            <material id="branco"/>
+
+            <texture id="null">
+                <amplification afs="2.0" aft="2.0"/>
+            </texture>
+
+            <transformations>
+                <translation x="0" y="0" z="10" />
+                <rotation axis="x" angle="-90" /> 
+            </transformations>
+
+            <descendants>
+               <leaf type="rectangle" x1="0" y1="0" x2="15" y2="10"/>
+            </descendants>
+        </node>
+
+
+        <node id="parede_zy">
+            <material id="null" />
+
+            <texture id="clear" />
+
+            <transformations>
+                <translation x="0" y="0" z="10" />
+                <rotation axis="y" angle="90"/>
+            </transformations>
+
+            <descendants>
+               
+                <leaf type="rectangle" x1="0" y1="0" x2="10" y2="10"/>
+            </descendants>
+        </node>
+
+
+
+        <node id="parede_yx">
+            <material id="null" />
+
+            <texture id="clear" />
+
+            <transformations>
+                <scale sx="15" sy="10" sz="1" />
+                <translation x="0.5" y="0.5" z="0" />
+                <rotation axis="x" angle="90"/>
+            </transformations>
+
+            <descendants>
+                <leaf type="plane" npartsU="10" npartsV="10" />
+            </descendants>
+        </node>
+
+
 
 
         
@@ -583,7 +694,6 @@
                 <leaf type="rectangle" x1="0" y1="0" x2="1" y2="1"/>
             </descendants>
         </node>
-
 
 
     </nodes>
