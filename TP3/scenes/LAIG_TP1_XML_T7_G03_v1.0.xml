@@ -55,6 +55,7 @@
         <texture id="fuji3" path="./scenes/images/fuji3.jpg"/>
         <texture id="fuji4" path="./scenes/images/fuji4.jpg"/>
         <texture id="land" path="./scenes/images/land.jpg"/>
+        <texture id="roots" path="./scenes/images/roots.jpg"/>
         <texture id="TexturaTronco" path="./scenes/images/trunk-image.jpg"/>
 
     </textures>
@@ -223,7 +224,7 @@
         <node id="face_baixo">
             <material id="null" />
 
-            <texture id="land" />
+            <texture id="roots" />
 
             <transformations>
                 <translation x="0" y="0" z="1" />
