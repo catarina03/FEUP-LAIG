@@ -21,7 +21,7 @@ class XMLscene extends CGFscene {
 
         this.sceneInited = false;
         this.displayAxis = true;
-        this.zoom = 2;
+        this.zoom = 0.5;
 
         this.initCameras();
 

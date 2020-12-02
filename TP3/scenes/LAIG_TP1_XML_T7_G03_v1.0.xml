@@ -50,6 +50,11 @@
 
     <textures>
         <texture id="StandardTexture" path="./scenes/images/bank.jpg"/>
+        <texture id="fuji1" path="./scenes/images/fuji1.jpg"/>
+        <texture id="fuji2" path="./scenes/images/fuji2.jpg"/>
+        <texture id="fuji3" path="./scenes/images/fuji3.jpg"/>
+        <texture id="fuji4" path="./scenes/images/fuji4.jpg"/>
+        <texture id="land" path="./scenes/images/land.jpg"/>
 
     </textures>
 
@@ -184,7 +189,7 @@
             <texture id="null" />
 
             <transformations>
-                <translation x="-25" y="0" z="-25" />
+                <translation x="0" y="-10" z="0" />
                 <scale sx="50" sy="50" sz="50" />
             </transformations>
 
@@ -215,7 +220,7 @@
         <node id="face_baixo">
             <material id="null" />
 
-            <texture id="null" />
+            <texture id="land" />
 
             <transformations>
                 <translation x="0" y="0" z="1" />
@@ -242,10 +247,10 @@
             </descendants>
         </node>
 
-        <node id="face_esquerda">
+        <node id="face_esquerda"> <!--1-->
             <material id="null" />
 
-            <texture id="null" />
+            <texture id="fuji2" />
 
             <transformations>
                 <translation x="0" y="0" z="1" />
@@ -257,10 +262,10 @@
             </descendants>
         </node>
 
-        <node id="face_direita">
+        <node id="face_direita"> <!--4-->
             <material id="null" />
 
-            <texture id="null" />
+            <texture id="fuji4" />
 
             <transformations>
                 <translation x="1" y="0" z="0" />
@@ -275,7 +280,7 @@
         <node id="face_frente">
             <material id="null" />
 
-            <texture id="null" />
+            <texture id="fuji3" />
 
             <transformations>
             </transformations>
@@ -288,7 +293,7 @@
         <node id="face_atras">
             <material id="null" />
 
-            <texture id="null" />
+            <texture id="fuji1" />
 
             <transformations>
                 <translation x="1" y="0" z="1" />
