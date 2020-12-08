@@ -16,7 +16,7 @@ class MyTile extends CGFobject {
 
         this.scene.pushMatrix();
 
-
+        this.scene.scale(3, 3, 3);
         
         
         this.tile.display();
