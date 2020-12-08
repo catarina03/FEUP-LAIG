@@ -11,7 +11,10 @@ function getUrlVars() {
     return vars;
 }	 
 //Include additional files here
-serialInclude(['../lib/CGF.js', 'XMLscene.js', 'MySceneGraph.js', 'MyInterface.js', 'primitives/MyRectangle.js', 'MyComponent.js', 'primitives/MyTriangle.js', 'primitives/MyCylinder.js', 'primitives/MySphere.js', 'primitives/MyTorus.js', 'animation/MyAnimation.js', 'animation/MyKeyframeAnimation.js', 'animation/MyKeyframe.js','sprites/MySpriteSheet.js','sprites/MySpriteText.js','sprites/MySpriteAnimation.js', 'primitives/MyPlane.js', 'primitives/MyPatch.js', 'primitives/MydefBarrel.js',
+serialInclude(['../lib/CGF.js', 'XMLscene.js','CGFResourceReader.js',
+'CGFOBJModel.js', 'MySceneGraph.js', 'MyInterface.js', 
+'primitives/MyRectangle.js', 'MyComponent.js', 'primitives/MyTriangle.js', 'primitives/MyCylinder.js', 'primitives/MySphere.js', 'primitives/MyTorus.js', 'animation/MyAnimation.js', 'animation/MyKeyframeAnimation.js', 'animation/MyKeyframe.js','sprites/MySpriteSheet.js','sprites/MySpriteText.js','sprites/MySpriteAnimation.js', 'primitives/MyPlane.js', 'primitives/MyPatch.js', 'primitives/MydefBarrel.js',
+'gameprimitives/MyPiece.js','gameprimitives/MyChecker.js','gameprimitives/MyGreenSkull.js',
 
 
 main=function()

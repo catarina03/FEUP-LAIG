@@ -18,6 +18,9 @@ class XMLscene extends CGFscene {
      */
     init(application) {
         super.init(application);
+        this.checker = new MyChecker(this,null,null);
+        
+       
 
         this.sceneInited = false;
         this.displayAxis = true;
@@ -132,6 +135,7 @@ class XMLscene extends CGFscene {
 
         this.interface.addLightsGUI();
         this.interface.addCamerasGUI();
+        
 
         this.sceneInited = true;
     }
@@ -189,6 +193,10 @@ class XMLscene extends CGFscene {
      * Displays the scene.
      */
     display() {
+
+
+        
+        
         // ---- BEGIN Background, camera and axis setup
 
         // Clear image and depth buffer everytime we update the scene
@@ -208,16 +216,24 @@ class XMLscene extends CGFscene {
 
         this.scale(this.zoom/2, this.zoom/2, this.zoom/2);
 
+        
+       
+       this.checker.display();
+        
+
+		
+        
+
         for(var i=0;i<this.lights.length;i++)
             this.lights[i].update();
 
         if (this.sceneInited) {
             if(this.displayAxis) this.axis.display();
-
-            this.defaultAppearance.apply();
-
+            
+            
             // Displays the scene (MySceneGraph function).
             this.graph.displayScene();
+          
             //this.appearance.apply();
             //this.spritetext.display();
         }
