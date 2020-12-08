@@ -18,7 +18,7 @@ class XMLscene extends CGFscene {
      */
     init(application) {
         super.init(application);
-        this.checker = new MyChecker(this,null,null);
+        this.skull = new MyGreenSkull(this,"GreenSkull",null);
         
        
 
@@ -218,7 +218,7 @@ class XMLscene extends CGFscene {
 
         
        
-       this.checker.display();
+       this.skull.display();
         
 
 		
