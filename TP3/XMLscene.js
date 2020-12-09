@@ -21,7 +21,7 @@ class XMLscene extends CGFscene {
 
         this.sceneInited = false;
         this.displayAxis = true;
-        this.zoom = 0.5;
+        this.zoom = 2;
 
         this.initCameras();
 
@@ -65,15 +65,9 @@ class XMLscene extends CGFscene {
         this.fontSpritesheet.appearance = this.appearance;
         this.fontSpritesheet.texture = this.fontTexture;
 
+        this.board = new MyGameBoard(this);
 
-        /*
-        let word = "LAIG LAIG"
-        this.spritetext = new MySpriteText(this, this.fontTexture, 26, 5, word);
-        this.shader.setUniformsValues({textLength: word.length});
-        this.spritetext.shader = this.shader;
-        */
-
-
+        this.setPickEnabled(true);
     }
 
     /**
@@ -185,10 +179,28 @@ class XMLscene extends CGFscene {
     }
 
 
+	logPicking() {
+		if (this.pickMode == false) {
+			if (this.pickResults != null && this.pickResults.length > 0) {
+				for (var i = 0; i < this.pickResults.length; i++) {
+					var obj = this.pickResults[i][0];
+					if (obj) {
+						var customId = this.pickResults[i][1];
+						console.log("Picked object: " + obj + ", with pick id " + customId);						
+					}
+				}
+				this.pickResults.splice(0, this.pickResults.length);
+			}
+		}
+	}
+
+
     /**
      * Displays the scene.
      */
     display() {
+        this.logPicking();
+		this.clearPickRegistration();
         // ---- BEGIN Background, camera and axis setup
 
         // Clear image and depth buffer everytime we update the scene
@@ -217,9 +229,8 @@ class XMLscene extends CGFscene {
             this.defaultAppearance.apply();
 
             // Displays the scene (MySceneGraph function).
-            this.graph.displayScene();
-            //this.appearance.apply();
-            //this.spritetext.display();
+            //this.graph.displayScene();
+            this.board.display();
         }
         else
         {
