@@ -9,6 +9,55 @@ class MyGameBoard extends CGFobject{
         this.checkers = [];
 
         this.buildBoard();
+        this.populateBoard();
+    }
+
+    populateBoard(){
+        for(let i = 6; i < 10; i++){
+            //Orcs
+            for (let j = 0; j <= i-6; j++){
+                let piece = new MyChecker(this.scene, "purpleOrc", "Player", this.boardCells[i][j].id, this.boardCells[i][j].xCoord, this.boardCells[i][j].zCoord);
+                this.checkers[i*10+j] = piece;
+            }
+
+            //Goblins
+            for (let j = 6; j <= i; j++){
+                let piece = new MyChecker(this.scene, "whiteOrc", "Player", this.boardCells[i][j].id, this.boardCells[i][j].xCoord, this.boardCells[i][j].zCoord);
+                this.checkers[i*10+j] = piece;
+            }
+
+        }
+
+        //Zombies
+        for(let i = 2; i < 4; i++){
+            for(let j = 0; j <= i; j++){
+                if (j == 0){
+                    let piece = new MyChecker(this.scene, "zombie", "Player", this.boardCells[i][j].id, this.boardCells[i][j].xCoord, this.boardCells[i][j].zCoord);
+                    this.checkers[i*10+j] = piece;
+                }
+                if (j == i){
+                    let piece = new MyChecker(this.scene, "zombie", "Player", this.boardCells[i][j].id, this.boardCells[i][j].xCoord, this.boardCells[i][j].zCoord);
+                    this.checkers[i*10+j] = piece;
+                }
+            }
+        }
+        for(let i = 4; i < 7; i++){
+            for(let j = 0; j <= i; j++){
+                console.log(i + "/" + j);
+                if (this.boardCells[i].length % 2 == 1){
+                    let piece = new MyChecker(this.scene, "zombie", "Player", this.boardCells[i][Math.ceil(i/2)].id, this.boardCells[i][Math.ceil(i/2)].xCoord, this.boardCells[i][Math.ceil(i/2)].zCoord);
+                    this.checkers[i*10+j] = piece;
+                }
+                else {
+                    if(j == Math.floor(i/2) || j == Math.ceil(i/2)){
+                        let piece = new MyChecker(this.scene, "zombie", "Player", this.boardCells[i][j].id, this.boardCells[i][j].xCoord, this.boardCells[i][j].zCoord);
+                        this.checkers[i*10+j] = piece;
+                    }
+                }
+            }
+
+        }
+
     }
 
     buildBoard(){
@@ -16,10 +65,8 @@ class MyGameBoard extends CGFobject{
             let aux = [];
 
             for(let j = 0; j <= i; j++){
-                
-                console.log("Linha: " + i + " Coluna: " + j + " / " + i + j + (i+1) + (j+1)); 
-                let cell = new MyRectangle(this.scene, i, j - i/2, i+2/3, j+2/3 - i/2);
                 let id = i*10 + j;
+                let cell = new MyTile(this.scene, id, "type", j - i/2, i);
                 aux[j] = cell;
 
                 
@@ -28,18 +75,16 @@ class MyGameBoard extends CGFobject{
             this.boardCells[i] = aux;
         }
 
-        let checker1 = new MyChecker(this.scene,  "purpleOrc", "orc");
-        this.checkers.push(checker1);
+        //let checker1 = new MyChecker(this.scene, "purpleOrc", "orc", tileID, 9.3, 0.5);
+        //this.checkers.push(checker1);
     }
 
 
     display(){
 
         this.scene.pushMatrix();
-        
-        this.scene.translate(1, 0, 1);
-        this.scene.rotate(-45*DEGREE_TO_RAD, 0, 1, 0);
-        this.scene.rotate(-90*DEGREE_TO_RAD, 1, 0, 0);
+        this.scene.rotate(45*DEGREE_TO_RAD, 0, 1, 0);
+        //this.scene.rotate(180*DEGREE_TO_RAD, 1, 0, 0);
         
 
         for (let i = 0; i < this.boardCells.length; i++) {
@@ -52,14 +97,19 @@ class MyGameBoard extends CGFobject{
 
         }
 
+        let counter = 1;
+        for(let checker in this.checkers){
+            this.scene.registerForPick(99 + counter, this.checkers[checker]);
+            this.checkers[checker].display();
+            counter++;
+        }
+
         this.scene.popMatrix();
 
         this.scene.pushMatrix();
 
-        for(let i = 0; i < this.checkers.length; i++){
-            this.scene.registerForPick(99 + i+1, this.checkers[i]);
-            this.checkers[i].display();
-        }
+        //this.scene.rotate(-45*DEGREE_TO_RAD, 0, 1, 0);
+
 
         this.scene.popMatrix();
 

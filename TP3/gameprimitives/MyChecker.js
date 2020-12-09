@@ -8,9 +8,13 @@ class MyChecker extends MyPiece {
      */
      
 
-    constructor(scene, type, player) {
+    constructor(scene, type, player, tileID, xCoord, zCoord) {
         super(scene,type,player);
         this.checker = new CGFOBJModel(this.scene, 'models/checker.obj');
+        this.xCoord = xCoord;
+        this.zCoord = zCoord;
+
+        this.tileID = tileID;
 
         this.colour = new CGFappearance(scene);
 
@@ -42,9 +46,9 @@ display(){
     this.colour.apply();
 
     this.scene.pushMatrix();
-    
-    this.scene.translate(9.3, 0.1, 4.5);
-    this.scene.scale(0.6, 0.6, 0.6);
+
+    this.scene.translate(this.xCoord, 0.1, this.zCoord);
+    this.scene.scale(0.8, 0.8, 0.8);
     
     this.checker.display();
 
