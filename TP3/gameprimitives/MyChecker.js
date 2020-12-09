@@ -8,7 +8,7 @@ class MyChecker extends MyPiece {
      */
      
 
-    constructor(scene, type,player) {
+    constructor(scene, type, player) {
         super(scene,type,player);
         this.checker = new CGFOBJModel(this.scene, 'models/checker.obj');
 
@@ -16,13 +16,6 @@ class MyChecker extends MyPiece {
 
         this.colour.setAmbient(0.1, 0.1, 0.1, 1);
         this.colour.setShininess(1.0);
-
-    
-       
-
-
-       
-
 
         if(this.type=="whiteOrc"){
             
@@ -39,7 +32,6 @@ class MyChecker extends MyPiece {
              }
     
         this.colour.apply();
-
     }
 
 
@@ -50,11 +42,12 @@ display(){
     this.colour.apply();
 
     this.scene.pushMatrix();
-    this.scene.scale(3, 3, 3);
-  
-
-
+    
+    this.scene.translate(9.3, 0.1, 4.5);
+    this.scene.scale(0.6, 0.6, 0.6);
+    
     this.checker.display();
+
     this.scene.popMatrix();
     
 

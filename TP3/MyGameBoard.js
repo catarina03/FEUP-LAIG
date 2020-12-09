@@ -6,6 +6,7 @@ class MyGameBoard extends CGFobject{
         super(scene);
         this.boardCells = [];
         this.aux = [];
+        this.checkers = [];
 
         this.buildBoard();
     }
@@ -26,16 +27,20 @@ class MyGameBoard extends CGFobject{
             
             this.boardCells[i] = aux;
         }
+
+        let checker1 = new MyChecker(this.scene,  "purpleOrc", "orc");
+        this.checkers.push(checker1);
     }
 
 
     display(){
 
         this.scene.pushMatrix();
-
-        //this.scene.translate(0, 0, this.boardCells[this.boardCells.length-1].length);
+        
+        this.scene.translate(1, 0, 1);
         this.scene.rotate(-45*DEGREE_TO_RAD, 0, 1, 0);
         this.scene.rotate(-90*DEGREE_TO_RAD, 1, 0, 0);
+        
 
         for (let i = 0; i < this.boardCells.length; i++) {
 
@@ -43,13 +48,17 @@ class MyGameBoard extends CGFobject{
                 this.scene.registerForPick(i*10 + j, this.boardCells[i][j]);
                 this.boardCells[i][j].display();
                 
-                /*
-                if(this.boardCells[i][j].getPiece() != null){
-                    this.boardCells[i][j].getPiece().display();
-                }
-                */
             }
 
+        }
+
+        this.scene.popMatrix();
+
+        this.scene.pushMatrix();
+
+        for(let i = 0; i < this.checkers.length; i++){
+            this.scene.registerForPick(99 + i+1, this.checkers[i]);
+            this.checkers[i].display();
         }
 
         this.scene.popMatrix();

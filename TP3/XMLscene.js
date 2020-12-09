@@ -226,21 +226,21 @@ class XMLscene extends CGFscene {
 
         
        
-       this.tile.display();
         
-
+        
 		
         
 
         for(var i=0;i<this.lights.length;i++)
-            this.lights[i].update();
-
+        this.lights[i].update();
+        
         if (this.sceneInited) {
             if(this.displayAxis) this.axis.display();
             
             
             // Displays the scene (MySceneGraph function).
             //this.graph.displayScene();
+            //this.tile.display();
             this.board.display();
         }
         else
