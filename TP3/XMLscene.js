@@ -18,6 +18,9 @@ class XMLscene extends CGFscene {
      */
     init(application) {
         super.init(application);
+        this.tile = new MyTile(this,null,null);
+        
+       
 
         this.sceneInited = false;
         this.displayAxis = true;
@@ -126,6 +129,7 @@ class XMLscene extends CGFscene {
 
         this.interface.addLightsGUI();
         this.interface.addCamerasGUI();
+        
 
         this.sceneInited = true;
     }
@@ -220,14 +224,21 @@ class XMLscene extends CGFscene {
 
         this.scale(this.zoom/2, this.zoom/2, this.zoom/2);
 
+        
+       
+       this.tile.display();
+        
+
+		
+        
+
         for(var i=0;i<this.lights.length;i++)
             this.lights[i].update();
 
         if (this.sceneInited) {
             if(this.displayAxis) this.axis.display();
-
-            this.defaultAppearance.apply();
-
+            
+            
             // Displays the scene (MySceneGraph function).
             //this.graph.displayScene();
             this.board.display();
