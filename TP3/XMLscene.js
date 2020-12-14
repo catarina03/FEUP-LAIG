@@ -142,7 +142,13 @@ class XMLscene extends CGFscene {
     update(time){
         if (this.sceneInited){
             this.graph.root.updateAnimation(time);
-        }       
+        }    
+        
+        for (let checker in this.game.board.checkers){
+            if(this.game.board.checkers[checker].animation != null) {
+                this.game.board.checkers[checker].animation.update(time);
+            }
+        }
     }
 
 

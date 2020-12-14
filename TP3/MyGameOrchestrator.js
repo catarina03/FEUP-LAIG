@@ -23,7 +23,6 @@ class MyGameOrchestrator extends CGFobject {
     }
 
     onObjectSelected(obj, id) {
-        console.log(obj);
         if (obj instanceof MyChecker){
             if (this.currentState == this.gameStates.START_PLAY){
                 this.currentPiece = obj;

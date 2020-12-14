@@ -33,41 +33,31 @@ class MyChecker extends MyPiece {
         if(this.type=="zombie"){
             this.colour.setDiffuse(0.1,0.8,0.1,1.0);
             this.colour.setSpecular(0.1,0.8,0.1,1.0);
-             }
-    
-        this.colour.apply();
+        }
+
+        this.animation = null;
     }
 
 
 
-
-display(){
+    display(){
     
-    this.colour.apply();
+        this.scene.pushMatrix();
+        
+        this.colour.apply();
+        
+        if (this.animation != null){
+            this.animation.apply();
+        }   
 
-    this.scene.pushMatrix();
+        this.scene.translate(this.xCoord, 0.1, this.zCoord);
+        this.scene.scale(0.8, 0.8, 0.8);
 
-    this.scene.translate(this.xCoord, 0.1, this.zCoord);
-    this.scene.scale(0.8, 0.8, 0.8);
-    
-    this.checker.display();
+        this.checker.display();
 
-    this.scene.popMatrix();
-    
-
-}
-
-
-
-
-
-
-
-
-
-
-
-
+        this.scene.popMatrix();
+        
+    }
 
 
 

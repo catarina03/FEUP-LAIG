@@ -17,6 +17,8 @@ class MyPiece extends CGFobject {
     }
 
 
+
+    /*
     setAnimation(initialX, initialZ, finalX, finalZ) {
 
         this.animation = new KeyframeAnimation(this.scene, "pieceAnim");
@@ -42,8 +44,8 @@ class MyPiece extends CGFobject {
 
         let lastKeyFrame = new KeyframeModel(3, finalPosition, [0, 0, 0], [1, 1, 1]);
         this.animation.addKeyFrame(lastKeyFrame);
-
     }
+    */
 
 
  //fazer aqui funçoes de animaçao

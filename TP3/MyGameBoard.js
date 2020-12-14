@@ -93,9 +93,39 @@ class MyGameBoard extends CGFobject{
     }
     */
 
+    
+   movePieceAnimation(piece, newTile) {
+    let deltaX = newTile.xCoord - piece.xCoord;
+    let deltaZ = newTile.zCoord - piece.zCoord;
+
+    //let t = performance.now()*0.001-0.6;
+    let t = 0;
+
+
+    let keyframe0 = new MyKeyframe(t+0.2, [vec3.fromValues(0, 0, 0), vec3.fromValues(0, 0, 0), vec3.fromValues(0, 0, 0)]);
+
+    let keyframe1 = new MyKeyframe(t + 0.5, [vec3.fromValues(deltaX/4, Math.sin(45*DEGREE_TO_RAD), deltaZ/4), vec3.fromValues(0, 0, 0), vec3.fromValues(0, 0, 0)]);
+
+    let keyframe2 = new MyKeyframe(t + 1, [vec3.fromValues(deltaX/2, Math.sin(90*DEGREE_TO_RAD), deltaZ/4), vec3.fromValues(0, 0, 0), vec3.fromValues(0, 0, 0)]);
+
+    let keyframe3 = new MyKeyframe(t + 1.5, [vec3.fromValues(3*deltaX/4, Math.sin(45*DEGREE_TO_RAD), 3*deltaZ/4), vec3.fromValues(0, 0, 0), vec3.fromValues(0, 0, 0)]);
+
+    let keyframe4 = new MyKeyframe(t + 2, [vec3.fromValues(deltaX, Math.sin(0*DEGREE_TO_RAD), deltaZ), vec3.fromValues(0, 0, 0), vec3.fromValues(0, 0, 0)]);
+
+    let keyframes = [keyframe0, keyframe1, keyframe2, keyframe3, keyframe4];
+
+    let keyframeAnim = new MyKeyframeAnimation(this.scene, "movementAnimation");
+    keyframeAnim.keyframes = keyframes;
+
+    console.log(keyframeAnim);
+
+    piece.animation = keyframeAnim;
+    
+}
 
 
     movePiece(piece, newTile){
+        /*
         console.log("Piece before move");
         console.log(piece.xCoord);
         console.log(piece.zCoord);
@@ -106,6 +136,9 @@ class MyGameBoard extends CGFobject{
         console.log("Piece after move");
         console.log(piece.xCoord);
         console.log(piece.zCoord);
+        */
+
+        this.movePieceAnimation(piece, newTile);
 
     }
 
@@ -132,13 +165,6 @@ class MyGameBoard extends CGFobject{
             this.checkers[checker].display();
             counter++;
         }
-
-        this.scene.popMatrix();
-
-        this.scene.pushMatrix();
-
-        //this.scene.rotate(-45*DEGREE_TO_RAD, 0, 1, 0);
-
 
         this.scene.popMatrix();
 
