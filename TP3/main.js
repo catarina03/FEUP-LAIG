@@ -15,6 +15,7 @@ serialInclude(['../lib/CGF.js', 'XMLscene.js','CGFResourceReader.js',
 'CGFOBJModel.js', 'MySceneGraph.js', 'MyInterface.js', 
 'primitives/MyRectangle.js', 'MyComponent.js', 'primitives/MyTriangle.js', 'primitives/MyCylinder.js', 'primitives/MySphere.js', 'primitives/MyTorus.js', 'animation/MyAnimation.js', 'animation/MyKeyframeAnimation.js', 'animation/MyKeyframe.js','sprites/MySpriteSheet.js','sprites/MySpriteText.js','sprites/MySpriteAnimation.js', 'primitives/MyPlane.js', 'primitives/MyPatch.js', 'primitives/MydefBarrel.js',
 'gameprimitives/MyPiece.js','gameprimitives/MyChecker.js','gameprimitives/MyGreenSkull.js','gameprimitives/MyTile.js', 'MyGameBoard.js', 
+'MyGameSequence.js', 'MyGameOrchestrator.js', 
 
 
 main=function()

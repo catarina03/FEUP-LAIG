@@ -68,7 +68,11 @@ class XMLscene extends CGFscene {
         this.fontSpritesheet.appearance = this.appearance;
         this.fontSpritesheet.texture = this.fontTexture;
 
+
+        this.game = new MyGameOrchestrator(this);
         this.board = new MyGameBoard(this);
+
+        this.game.board = this.board;
 
         this.setPickEnabled(true);
     }
@@ -203,8 +207,11 @@ class XMLscene extends CGFscene {
      * Displays the scene.
      */
     display() {
-        this.logPicking();
-		this.clearPickRegistration();
+        //this.logPicking();
+        this.clearPickRegistration();
+        
+        this.game.managePick(this.pickMode,this.pickResults);
+
         // ---- BEGIN Background, camera and axis setup
 
         // Clear image and depth buffer everytime we update the scene
@@ -241,7 +248,7 @@ class XMLscene extends CGFscene {
             // Displays the scene (MySceneGraph function).
             //this.graph.displayScene();
             //this.tile.display();
-            this.board.display();
+            this.game.board.display();
         }
         else
         {
