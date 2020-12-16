@@ -102,7 +102,7 @@ class MyGameBoard extends CGFobject{
     let t = 0;
 
 
-    let keyframe0 = new MyKeyframe(t+0.2, [vec3.fromValues(0, 0, 0), vec3.fromValues(0, 0, 0), vec3.fromValues(0, 0, 0)]);
+    let keyframe0 = new MyKeyframe(t, [vec3.fromValues(0, 0, 0), vec3.fromValues(0, 0, 0), vec3.fromValues(0, 0, 0)]);
 
     let keyframe1 = new MyKeyframe(t + 0.5, [vec3.fromValues(deltaX/4, Math.sin(45*DEGREE_TO_RAD), deltaZ/4), vec3.fromValues(0, 0, 0), vec3.fromValues(0, 0, 0)]);
 
