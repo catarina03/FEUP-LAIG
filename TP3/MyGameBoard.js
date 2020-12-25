@@ -18,11 +18,11 @@ class MyGameBoard extends CGFobject{
         for(let i = 2; i < 4; i++){
             for(let j = 0; j <= i; j++){
                 if (j == 0){
-                    let piece = new MyChecker(this.scene, "zombie", "Player", this.boardCells[i][j].id, this.boardCells[i][j].xCoord, this.boardCells[i][j].zCoord);
+                    let piece = new MyChecker(this.scene, "z", this.boardCells[i][j].id, this.boardCells[i][j].xCoord, this.boardCells[i][j].zCoord);
                     this.checkers[i*10+j] = piece;
                 }
                 if (j == i){
-                    let piece = new MyChecker(this.scene, "zombie", "Player", this.boardCells[i][j].id, this.boardCells[i][j].xCoord, this.boardCells[i][j].zCoord);
+                    let piece = new MyChecker(this.scene, "z", this.boardCells[i][j].id, this.boardCells[i][j].xCoord, this.boardCells[i][j].zCoord);
                     this.checkers[i*10+j] = piece;
                 }
             }
@@ -32,12 +32,12 @@ class MyGameBoard extends CGFobject{
                 console.log(i + "/" + j);
                 if (this.boardCells[i].length % 2 == 1 && j == Math.ceil(i/2)){
                     console.log("Zombie middle: " + i + "/" + j);
-                    let piece = new MyChecker(this.scene, "zombie", "Player", this.boardCells[i][j].id, this.boardCells[i][j].xCoord, this.boardCells[i][j].zCoord);
+                    let piece = new MyChecker(this.scene, "z", this.boardCells[i][j].id, this.boardCells[i][j].xCoord, this.boardCells[i][j].zCoord);
                     this.checkers[i*10+j] = piece;
                 }
                 else {
                     if(j == Math.floor(i/2) || j == Math.ceil(i/2)){
-                        let piece = new MyChecker(this.scene, "zombie", "Player", this.boardCells[i][j].id, this.boardCells[i][j].xCoord, this.boardCells[i][j].zCoord);
+                        let piece = new MyChecker(this.scene, "z", this.boardCells[i][j].id, this.boardCells[i][j].xCoord, this.boardCells[i][j].zCoord);
                         this.checkers[i*10+j] = piece;
                     }
                 }
@@ -47,13 +47,13 @@ class MyGameBoard extends CGFobject{
         for(let i = 6; i < 10; i++){
             //Orcs
             for (let j = 0; j <= i-6; j++){
-                let piece = new MyChecker(this.scene, "purpleOrc", "Player", this.boardCells[i][j].id, this.boardCells[i][j].xCoord, this.boardCells[i][j].zCoord);
+                let piece = new MyChecker(this.scene, "g", this.boardCells[i][j].id, this.boardCells[i][j].xCoord, this.boardCells[i][j].zCoord);
                 this.checkers[i*10+j] = piece;
             }
     
             //Goblins
             for (let j = 6; j <= i; j++){
-                let piece = new MyChecker(this.scene, "whiteOrc", "Player", this.boardCells[i][j].id, this.boardCells[i][j].xCoord, this.boardCells[i][j].zCoord);
+                let piece = new MyChecker(this.scene, "o", this.boardCells[i][j].id, this.boardCells[i][j].xCoord, this.boardCells[i][j].zCoord);
                 this.checkers[i*10+j] = piece;
             }
         }

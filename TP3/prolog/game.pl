@@ -47,7 +47,7 @@ play_game(4):-
 % Player - Who's currently playing
 % GreenSkull - Who's currently holding the GreenSkull
 initial(GameState-Player-GreenSkull) :-
-    final_board(GameState),
+    initial_board(GameState),
     initial_player(Player),
     initial_green_skull(GreenSkull).
 

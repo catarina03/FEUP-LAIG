@@ -8,8 +8,8 @@ class MyChecker extends MyPiece {
      */
      
 
-    constructor(scene, type, player, tileID, xCoord, zCoord) {
-        super(scene,type,player);
+    constructor(scene, player, tileID, xCoord, zCoord) {
+        super(scene,player);
         this.checker = new CGFOBJModel(this.scene, 'models/checker.obj');
         this.xCoord = xCoord;
         this.zCoord = zCoord;
@@ -21,16 +21,16 @@ class MyChecker extends MyPiece {
         this.colour.setAmbient(0.1, 0.1, 0.1, 1);
         this.colour.setShininess(1.0);
 
-        if(this.type=="whiteOrc"){
+        if(this.player =="o"){ //orc - white
             
             this.colour.setDiffuse(1.0,1.0,1.0,0.0);
             this.colour.setSpecular(1.0,1.0,1.0,0.0);
         }
-        if(this.type=="purpleOrc"){
+        if(this.player =="g"){ //goblin - purple
             this.colour.setDiffuse(0.1,0.1,0.8,0.8);
             this.colour.setSpecular(0.1,0.1,0.8,0.8);
         }
-        if(this.type=="zombie"){
+        if(this.player =="z"){ //zombie - green
             this.colour.setDiffuse(0.1,0.8,0.1,1.0);
             this.colour.setSpecular(0.1,0.8,0.1,1.0);
         }

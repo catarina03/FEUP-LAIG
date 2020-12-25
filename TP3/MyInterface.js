@@ -81,4 +81,11 @@ class MyInterface extends CGFinterface {
         viewsFolder.add(this, 'currView', viewArray).name('Camera').onChange(val => this.scene.chooseView(val));
 
     }
+
+    addGameCommandsGUI(){
+        var group = this.gui.addFolder("Game");
+        group.open();
+
+        group.add(this.scene.game, 'startGame').name("Start");
+    }
 }
