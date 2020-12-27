@@ -12,6 +12,7 @@ class MyGameOrchestrator extends CGFobject {
         this.currentPiece = null;
         this.possibleMoves = [];
         this.movementType = "";
+        this.startingPoint = [];
 
         this.gameStates = {
             START: 0,
@@ -67,12 +68,17 @@ class MyGameOrchestrator extends CGFobject {
 
     }
 
+
     onObjectSelected(obj, id) {
         if (obj instanceof MyChecker){
             console.log(this.player);
             if (obj.player == this.player){   
                 console.log(this.currentState);
                 if (this.currentState == this.gameStates.AWAITING_PIECE || this.currentState == this.gameStates.AWAITING_TILE){ //Awaiting tile too in can player selected wrong piece
+                    let row = Math.trunc((obj.tileID + 10)/10);
+                    let column = (obj.tileID % 10 + 1);
+                    this.startingPoint = [row, column];
+
                     this.currentPiece = obj;
 
                     //valid_moves(GameState, _-Row-Column, ListAdjacentMoves-ListEatMoves)
@@ -120,21 +126,25 @@ class MyGameOrchestrator extends CGFobject {
                 let orchestrator = this;
                 console.log(command);
 
-                console.log("BEFORE:" + orchestrator.movementType);
                 this.server.makeRequest(command, function(data) {
                     console.log(data);
                     console.log(data.target);
                     console.log(data.target.response);
                     orchestrator.movementType = data.target.response; 
-                    orchestrator.move(orchestrator, obj);
+                    orchestrator.move(orchestrator, obj, destination);
                     //moveList = data.target.response;
                 });
+
+                
+                //is_valid_move(GameState, LAM-LEM, [Row, Column], MoveType);
+                //let command = "is_valid_move(" + this.prologBoard + ","  + this.possibleMoves + "," + JSON.stringify(destination) + "," + "MoveType)";
                 
 
 
             }
         }
     }
+    
 
 
     managePick(pickMode, pickResults){
@@ -161,12 +171,29 @@ class MyGameOrchestrator extends CGFobject {
     }
 
 
-    move(orchestrator, obj){
+    
+    move(orchestrator, obj, destination){
         console.log("AFTER: " + this.movementType);
         if (this.movementType == "a"){
             this.board.movePiece(this.currentPiece, obj);
             this.currentState = this.gameStates.AWAITING_PIECE; //SHOULD BE MOVING PIECE
             orchestrator.switchPlayer(orchestrator.player);
+
+            //change_board(GameState, RowPiece-ColumnPiece, Row-Column, NewGameState, e);
+            let command = "change_board(" + this.prologBoard + ","  + this.startingPoint[0] + "-" + this.startingPoint[1] + "," + + destination[0] + "-" + destination[1] + "," + "NewGameState,e)";
+            console.log(command);
+
+            console.log("OBJECT");
+            console.log(obj);
+
+            this.server.makeRequest(command, function(data) {
+                console.log(data);
+                console.log(data.target);
+                console.log(data.target.response);
+                orchestrator.prologBoard = data.target.response; 
+                orchestrator.changeTile(orchestrator.currentPiece, destination);
+                //moveList = data.target.response;
+            });
         }
         else if (this.movementType == "e"){
             this.board.movePiece(this.currentPiece, obj);
@@ -174,6 +201,12 @@ class MyGameOrchestrator extends CGFobject {
             orchestrator.switchPlayer(orchestrator.player);
         }
     }
+
+
+    changeTile(piece, destination){
+        piece.tileID = (destination[0]-1)*10 + destination[1]-1;
+    }
+    
 
 
     getParsedMoveList(moveList){

@@ -125,3 +125,6 @@ parse_input(valid_moves(GameState, _-Row-Column, ListAdjacentMoves-ListEatMoves)
 parse_input(is_valid_move(GameState, LAM-LEM, [Row, Column], MoveType), MoveType) :-
 	is_valid_move(GameState, LAM-LEM, [Row, Column], MoveType).
 parse_input(is_valid_move(GameState, LAM-LEM, [Row, Column], MoveType), null).
+
+parse_input(change_board(GameState, RowPiece-ColumnPiece, Row-Column, NewGameState, e), NewGameState) :-
+	change_board(GameState, RowPiece-ColumnPiece, Row-Column, NewGameState, e).
