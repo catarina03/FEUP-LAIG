@@ -1,11 +1,12 @@
 /**
  * Server class, Represents a server that creates a connection to the Prolog program
  */
-class MyServer {
+class MyServer extends CGFobject{
     /**
      * @constructor
      */
-    constructor() {
+    constructor(scene) {
+        super(scene);
         this.port = 8081;
     };
 

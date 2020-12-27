@@ -2,7 +2,6 @@ class MyTile extends CGFobject {
 
  //o tipo pode ser whiteEdge,purpleEdge,greenEdge
     constructor(scene, id, type, xCoord, zCoord) {
-
         super(scene, xCoord, zCoord);
         this.id = id;
         this.tile= new CGFOBJModel(this.scene, 'models/tile.obj');
@@ -15,7 +14,6 @@ class MyTile extends CGFobject {
         this.colour.setShininess(1.0);
         this.colour.setDiffuse(0.3, 0.3, 0.3, 0.0);
         this.colour.setSpecular(0.1, 0.1, 0.1, 0.0);
-
     }
 
 
@@ -32,10 +30,7 @@ class MyTile extends CGFobject {
     }
 
 
-
-
     display(){
-
         this.scene.pushMatrix();
 
         this.colour.apply();
@@ -45,8 +40,6 @@ class MyTile extends CGFobject {
 
 
         this.scene.popMatrix();
-
-
     }
 
 

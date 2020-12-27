@@ -5,59 +5,133 @@ class MyGameOrchestrator extends CGFobject {
      */
     constructor(scene) {
         super(scene);
-        this.scene;
 
         this.board = null;
-        this.prologBoard = null;
+        this.prologBoard = [];
         this.player = "o";
+        this.currentPiece = null;
+        this.possibleMoves = [];
+        this.movementType = "";
 
         this.gameStates = {
             START: 0,
-            START_PLAY: 1,
-            MOVING_PIECE: 2,
-            MOVIE: 3,
-            UNDO: 4,
-            GAME_OVER: 5,
-            WAITING: 6
+            AWAITING_PIECE: 1,
+            AWAITING_TILE: 2,
+            MOVING_PIECE: 3,
+            MOVIE: 4,
+            UNDO: 5,
+            GAME_OVER: 6,
+            WAITING: 7
         };
 
-        this.currentState = this.gameStates.START_PLAY;
+        this.currentState = this.gameStates.AWAITING_PIECE;
+        
+        this.server = new MyServer(scene);
 
-        this.server = new MyServer();
+        this.initPrologBoard();
+        //this.startGame();
 
     }
 
+    initPrologBoard(){
+        this.prologBoard = "[" +        
+                "[e]," +          
+                "[e,e]," +          
+                "[z,e,z]," +         
+                "[z,e,e,z]," +          
+                "[e,e,z,e,e]," +          
+                "[e,e,z,z,e,e]," +             
+                "[g,e,e,z,e,e,o]," +       
+                "[g,g,e,e,e,e,o,o]," +        
+                "[g,g,g,e,e,e,o,o,o]," +   
+                "[g,g,g,g,e,e,o,o,o,o]]";
+
+        /*
+        this.prologBoard = [       
+            ["e"],         
+            ["e","e"],         
+            ["z","e","z"],        
+            ["z","e","e","z"],         
+            ["e","e","z","e","e"],         
+            ["e","e","z","z","e","e"],             
+            ["g","e","e","z","e","e","o"],       
+            ["g","g","e","e","e","e","o","o"],        
+            ["g","g","g","e","e","e","o","o","o"],   
+            ["g","g","g","g","e","e","o","o","o","o"] ];
+            */
+    }
+
     startGame(){
-        this.server.makeRequest('start', 'OK');
-        this.currentState =this.gameStates.START_PLAY;
+        //this.server.makeRequest('start', 'OK');
+        this.currentState =this.gameStates.START;
 
     }
 
     onObjectSelected(obj, id) {
         if (obj instanceof MyChecker){
-            if (this.currentState == this.gameStates.START_PLAY){
-                if (obj.player == this.player){   
+            console.log(this.player);
+            if (obj.player == this.player){   
+                console.log(this.currentState);
+                if (this.currentState == this.gameStates.AWAITING_PIECE || this.currentState == this.gameStates.AWAITING_TILE){ //Awaiting tile too in can player selected wrong piece
                     this.currentPiece = obj;
-                    this.currentState = this.gameStates.MOVING_PIECE;
+
+                    //valid_moves(GameState, _-Row-Column, ListAdjacentMoves-ListEatMoves)
+                    let command = "valid_moves(" + this.prologBoard + ","  + this.player + "-" + Math.trunc((this.currentPiece.tileID + 10)/10).toString() + "-" + (this.currentPiece.tileID % 10 + 1).toString() + "," + "LA-LE" + ")";
+
+                    /*
+                    this.server.makeRequest(command, function(data) {
+                        let response = data.target.response;
+
+                        quantik.makePersonMove(response, x, y);
+                    });
+                    */
+                    let moveList;
+                    let orchestrator = this;
+                    this.server.makeRequest(command, function(data) {
+                        console.log(data);
+                        console.log(data.target);
+                        console.log(data.target.response);
+                        console.log("THIS: " + this);
+                        orchestrator.possibleMoves = data.target.response;
+                        //orchestrator.possibleMoves = orchestrator.getParsedMoveList(data.target.response);
+                        //moveList = data.target.response;
+                    });
+                    
+                    //this.possibleMoves = this.getParsedMoveList(data.target.response);
+                    
+
+                    
+                    this.currentState = this.gameStates.AWAITING_TILE;
                 }
             }
         }
         if (obj instanceof MyTile){
-            if (this.currentState == this.gameStates.MOVING_PIECE){
-                //valid_piece(GameState,o,Row,Column)
-                //let command = "valid_piece(" + this.prologBoard + ","  + this.pieceSelected[1].type.toString() + "," + (x + 1).toString() + "," + (y + 1).toString() + ")";
+            console.log("Tile xCoord: " + obj.xCoord);
+            console.log("Tile zCoord: " + obj.zCoord);
+            console.log("Tile id: " + obj.id);
+            if (this.currentState == this.gameStates.AWAITING_TILE){
 
-                /*
+                let row = Math.trunc((obj.id + 10)/10);
+                let column = (obj.id % 10 + 1);
+                let destination = [row, column];
+
+                //is_valid_move(GameState, LAM-LEM, [Row, Column], MoveType);
+                let command = "is_valid_move(" + this.prologBoard + ","  + this.possibleMoves + "," + JSON.stringify(destination) + "," + "MoveType)";
+                let orchestrator = this;
+                console.log(command);
+
+                console.log("BEFORE:" + orchestrator.movementType);
                 this.server.makeRequest(command, function(data) {
-                    let response = data.target.response;
-
-                    quantik.makePersonMove(response, x, y);
+                    console.log(data);
+                    console.log(data.target);
+                    console.log(data.target.response);
+                    orchestrator.movementType = data.target.response; 
+                    orchestrator.move(orchestrator, obj);
+                    //moveList = data.target.response;
                 });
-                */
-                //this.server.makeRequest(command, "OK");
+                
 
-                this.board.movePiece(this.currentPiece, obj);
-                this.currentState = this.gameStates.START_PLAY;
+
             }
         }
     }
@@ -77,9 +151,39 @@ class MyGameOrchestrator extends CGFobject {
 				pickResults.splice(0, pickResults.length);
 			}
         }
-        
+    }
 
 
+    switchPlayer(player){
+        if (player == "o") this.player = "g";
+        else if (player == "g") this.player = "o";
+
+    }
+
+
+    move(orchestrator, obj){
+        console.log("AFTER: " + this.movementType);
+        if (this.movementType == "a"){
+            this.board.movePiece(this.currentPiece, obj);
+            this.currentState = this.gameStates.AWAITING_PIECE; //SHOULD BE MOVING PIECE
+            orchestrator.switchPlayer(orchestrator.player);
+        }
+        else if (this.movementType == "e"){
+            this.board.movePiece(this.currentPiece, obj);
+            this.currentState = this.gameStates.AWAITING_PIECE; //SHOULD BE MOVING PIECE
+            orchestrator.switchPlayer(orchestrator.player);
+        }
+    }
+
+
+    getParsedMoveList(moveList){
+        let allMovesList = moveList.split("-");
+        let adjacentMoves = JSON.parse(allMovesList[0]);
+        let eatMoves = JSON.parse(allMovesList[1]);
+
+        console.log([adjacentMoves, eatMoves]);
+
+        return [adjacentMoves, eatMoves];
     }
 
 

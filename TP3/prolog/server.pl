@@ -116,5 +116,12 @@ test(A,[A|Bs],N) :- N1 is N-1, test(A,Bs,N1).
 :-include('game.pl').
 :-include('humanVShuman.pl').
 
-parse_input(start, ok) :-
+parse_input(start, 0) :-
 	human_human.
+
+parse_input(valid_moves(GameState, _-Row-Column, ListAdjacentMoves-ListEatMoves), ListAdjacentMoves-ListEatMoves) :-
+	valid_moves(GameState, _-Row-Column, ListAdjacentMoves-ListEatMoves).
+
+parse_input(is_valid_move(GameState, LAM-LEM, [Row, Column], MoveType), MoveType) :-
+	is_valid_move(GameState, LAM-LEM, [Row, Column], MoveType).
+parse_input(is_valid_move(GameState, LAM-LEM, [Row, Column], MoveType), null).
