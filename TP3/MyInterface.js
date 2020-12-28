@@ -86,6 +86,7 @@ class MyInterface extends CGFinterface {
         var group = this.gui.addFolder("Game");
         group.open();
 
-        group.add(this.scene.game, 'startGame').name("Start");
+        group.add(this.scene.orchestrator, 'startGame').name("Start");
+        group.add(this.scene.orchestrator.gameSequence, 'undoGameMove').name('Undo');
     }
 }

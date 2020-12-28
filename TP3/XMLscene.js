@@ -69,10 +69,7 @@ class XMLscene extends CGFscene {
         this.fontSpritesheet.texture = this.fontTexture;
 
 
-        this.game = new MyGameOrchestrator(this);
-        this.board = new MyGameBoard(this);
-
-        this.game.board = this.board;
+        this.orchestrator = new MyGameOrchestrator(this);
 
         this.setPickEnabled(true);
     }
@@ -145,9 +142,9 @@ class XMLscene extends CGFscene {
             this.graph.root.updateAnimation(time);
         }    
         
-        for (let checker in this.game.board.checkers){
-            if(this.game.board.checkers[checker].animation != null) {
-                this.game.board.checkers[checker].animation.update(time);
+        for (let checker in this.orchestrator.board.checkers){
+            if(this.orchestrator.board.checkers[checker].animation != null) {
+                this.orchestrator.board.checkers[checker].animation.update(time);
             }
         }
     }
@@ -217,7 +214,7 @@ class XMLscene extends CGFscene {
         //this.logPicking();
         this.clearPickRegistration();
         
-        this.game.managePick(this.pickMode,this.pickResults);
+        this.orchestrator.managePick(this.pickMode,this.pickResults);
 
         // ---- BEGIN Background, camera and axis setup
 
@@ -255,7 +252,7 @@ class XMLscene extends CGFscene {
             // Displays the scene (MySceneGraph function).
             //this.graph.displayScene();
             //this.tile.display();
-            this.game.board.display();
+            this.orchestrator.board.display();
         }
         else
         {

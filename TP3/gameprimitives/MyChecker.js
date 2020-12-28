@@ -12,6 +12,7 @@ class MyChecker extends MyPiece {
         super(scene,player);
         this.checker = new CGFOBJModel(this.scene, 'models/checker.obj');
         this.xCoord = xCoord;
+        this.yCoord = 0.1;
         this.zCoord = zCoord;
 
         this.tileID = tileID;
@@ -50,7 +51,7 @@ class MyChecker extends MyPiece {
             this.animation.apply();
         }   
 
-        this.scene.translate(this.xCoord, 0.1, this.zCoord);
+        this.scene.translate(this.xCoord, this.yCoord, this.zCoord);
         this.scene.scale(0.8, 0.8, 0.8);
 
         this.checker.display();

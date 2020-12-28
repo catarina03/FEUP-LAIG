@@ -104,27 +104,42 @@ class MyGameBoard extends CGFobject{
 
     let keyframe0 = new MyKeyframe(t, [vec3.fromValues(0, 0, 0), vec3.fromValues(0, 0, 0), vec3.fromValues(0, 0, 0)]);
 
-    let keyframe1 = new MyKeyframe(t + 0.5, [vec3.fromValues(deltaX/4, Math.sin(45*DEGREE_TO_RAD), deltaZ/4), vec3.fromValues(0, 0, 0), vec3.fromValues(0, 0, 0)]);
+    let keyframe1 = new MyKeyframe(t + 0.25, [vec3.fromValues(deltaX/4, Math.sin(45*DEGREE_TO_RAD), deltaZ/4), vec3.fromValues(0, 0, 0), vec3.fromValues(0, 0, 0)]);
 
-    let keyframe2 = new MyKeyframe(t + 1, [vec3.fromValues(deltaX/2, Math.sin(90*DEGREE_TO_RAD), deltaZ/4), vec3.fromValues(0, 0, 0), vec3.fromValues(0, 0, 0)]);
+    let keyframe2 = new MyKeyframe(t + 0.5, [vec3.fromValues(deltaX/2, Math.sin(90*DEGREE_TO_RAD), deltaZ/4), vec3.fromValues(0, 0, 0), vec3.fromValues(0, 0, 0)]);
 
-    let keyframe3 = new MyKeyframe(t + 1.5, [vec3.fromValues(3*deltaX/4, Math.sin(45*DEGREE_TO_RAD), 3*deltaZ/4), vec3.fromValues(0, 0, 0), vec3.fromValues(0, 0, 0)]);
+    let keyframe3 = new MyKeyframe(t + 0.75, [vec3.fromValues(3*deltaX/4, Math.sin(45*DEGREE_TO_RAD), 3*deltaZ/4), vec3.fromValues(0, 0, 0), vec3.fromValues(0, 0, 0)]);
 
-    let keyframe4 = new MyKeyframe(t + 2, [vec3.fromValues(deltaX, Math.sin(0*DEGREE_TO_RAD), deltaZ), vec3.fromValues(0, 0, 0), vec3.fromValues(0, 0, 0)]);
+    let keyframe4 = new MyKeyframe(t + 1, [vec3.fromValues(deltaX, Math.sin(0*DEGREE_TO_RAD), deltaZ), vec3.fromValues(0, 0, 0), vec3.fromValues(0, 0, 0)]);
 
     let keyframes = [keyframe0, keyframe1, keyframe2, keyframe3, keyframe4];
 
     let keyframeAnim = new MyKeyframeAnimation(this.scene, "movementAnimation");
     keyframeAnim.keyframes = keyframes;
 
-    console.log(keyframeAnim);
+    //console.log(keyframeAnim);
 
     piece.animation = keyframeAnim;
     
 }
 
 
-    movePiece(piece, newTile){
+updatePiece(piece, tile){
+    let row = Math.trunc((tile.id + 10)/10);
+    let column = (tile.id % 10 + 1);
+    let destination = [row, column];
+
+    piece.tileID = tile.id;//(destination[0]-1)*10 + destination[1]-1;
+    //piece.xCoord = tile.xCoord;
+    //piece.zCoord = tile.zCoord;
+    //piece.yCoord = 0.1;
+
+    console.log("PIECE ID AFTER CHANGE: " + piece.tileID);
+    return 0;
+}
+
+
+    async movePiece(piece, newTile){
         /*
         console.log("Piece before move");
         console.log(piece.xCoord);
@@ -138,7 +153,13 @@ class MyGameBoard extends CGFobject{
         console.log(piece.zCoord);
         */
 
-        this.movePieceAnimation(piece, newTile);
+        await this.movePieceAnimation(piece, newTile);
+        this.sleep(1500);
+        this.updatePiece(piece, newTile);
+        
+
+
+        //this.updatePiece(piece, newTile).then()       
 
     }
 
@@ -168,5 +189,10 @@ class MyGameBoard extends CGFobject{
 
         this.scene.popMatrix();
 
+    }
+
+
+    sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
     }
 }

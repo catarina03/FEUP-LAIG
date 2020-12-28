@@ -1,23 +1,27 @@
 /**
  * MyGameSequence class, which represents a the sequences of moves in a Game
  */
-class MyGameSequence extends CGFobject {
+class MyGameMove extends CGFobject {
     /**
      * @constructor
      * @param {MyBoard} scene  represents the Board of a Game
      */
-    constructor(scene) {
+    constructor(scene, piece, startingRow, startingColumn, destinationRow, destinationColumn) {
         super(scene);
 
-        this.moves = [];
+        this.piece = piece;
+        this.startingRow = startingRow;
+        this.startingColumn = startingColumn;
+        this.destinationRow = destinationRow;
+        this.destinationColumn = destinationColumn;
+
+        this.eatenPiece = null;
+        this.eatenRow = null;
+        this.eatenColumn = null;
     }
 
-    
-    addGameMove(move) {
-        this.moves.push(move);
-        console.log("IM IN ADDGAMEMOVE");
-        console.log(this.moves);
-        /*
+    /*
+    addMove(pieceSelected, n_board, n_piece, finalX, finalZ) {
 
         this.board.addPiece(finalX, finalZ, pieceSelected);
         this["sideBoard" + n_board].removePiece(n_piece);
@@ -26,17 +30,8 @@ class MyGameSequence extends CGFobject {
         pieceSelected.setAnimation(positionOfSideBoard, n_piece, finalX, finalZ, this.board.isPieceLow(finalX, finalZ));
 
         this.moves.push(new MyGameMove(pieceSelected, n_board, n_piece, finalX, finalZ));
-        */
     }
-
-    undoGameMove(){
-        this.moves.pop();
-        //POrecisa de animação também
-    }
-    
-
-
-
+    */
 
 
 }
