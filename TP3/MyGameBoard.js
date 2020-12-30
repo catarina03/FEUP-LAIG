@@ -134,7 +134,7 @@ class MyGameBoard extends CGFobject{
         //piece.zCoord = tile.zCoord;
         //piece.yCoord = 0.1;
 
-        console.log("PIECE ID AFTER CHANGE: " + piece.tileID);
+        //console.log("PIECE ID AFTER CHANGE: " + piece.tileID);
         return 0;
     }
 
