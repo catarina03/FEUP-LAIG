@@ -34,6 +34,9 @@ class MyGameOrchestrator extends CGFobject {
         this.eatMoves = [];
         this.movementType = "";
         this.startingPoint = [];
+        this.elemEaten = null;
+        this.elemEatenRow = null;
+        this.elemEatenColumn = null;
 
         this.server = new MyServer(scene);
         this.board = new MyGameBoard(scene);
@@ -78,6 +81,7 @@ class MyGameOrchestrator extends CGFobject {
                     this.currentPieceRow = Math.trunc((this.currentPiece.tileID + 10)/10);
                     this.currentPieceColumn = (this.currentPiece.tileID % 10 + 1);
                     this.startingPoint = [this.currentPieceRow, this.currentPieceColumn];
+                    obj.currentState = obj.checkerStates.SELECTED;
 
                     this.currentState = this.gameStates.AWAITING_TILE;
                 }
@@ -132,11 +136,11 @@ class MyGameOrchestrator extends CGFobject {
                     //change_board(GameState, Row-Column, RowInput-ColumnInput, NewGameState, ElemEaten),
                     let command = "change_board(" + this.prologBoard + "," + this.currentPieceRow + "-" + this.currentPieceColumn + "," + this.tileRow + "-" + this.tileColumn + ",NewGameState,ElemEaten)";
                     await this.server.makeRequest(command, function(data) {
-                        console.log("Change board response: " + data.target.response);
                         let returnData = data.target.response.split("-");
-                        console.log("Change board response: " + returnData);
                         orchestrator.prologBoard = returnData[0];
-                        //this.elemEaten = data.target.response[1];
+                        orchestrator.elemEaten = returnData[1];
+                        orchestrator.elemEatenRow = Math.ceil((orchestrator.tileRow-orchestrator.currentPieceRow)/2) + orchestrator.currentPieceRow;
+                        orchestrator.elemEatenColumn = Math.ceil((orchestrator.tileColumn-orchestrator.currentPieceColumn)/2) + orchestrator.currentPieceColumn;
                     });
 
 
@@ -153,7 +157,6 @@ class MyGameOrchestrator extends CGFobject {
                     //get_move_eat(RowInput, ColumnInput, NewListEat, NewGameState),
                     command = "get_move_eat(" + this.tileRow + "," + this.tileColumn + "," + "NewListEat," + this.prologBoard + ")";
                     await this.server.makeRequest(command, function(data) {
-                        console.log("get_move_eat response: " + data.target.response);
                         orchestrator.eatMoves = JSON.parse(data.target.response);
                         orchestrator.move(obj, destination);
                     });
@@ -198,6 +201,7 @@ class MyGameOrchestrator extends CGFobject {
             this.board.movePiece(this.currentPiece, tile);
             let newMove = new MyGameMove(this.scene, this.currentPiece, this.startingPoint[0], this.startingPoint[1], destination[0], destination[1]);
             this.gameSequence.addGameMove(newMove);
+            this.currentPiece.currentState = this.currentPiece.checkerStates.NOT_SELECTED;
 
         }
         else if (this.movementType == "e"){
@@ -205,6 +209,9 @@ class MyGameOrchestrator extends CGFobject {
 
             this.board.movePiece(this.currentPiece, tile);
             let newMove = new MyGameMove(this.scene, this.currentPiece, this.startingPoint[0], this.startingPoint[1], destination[0], destination[1]);
+            newMove.eatenPiece = this.elemEaten;
+            newMove.eatenRow = this.elemEatenRow;
+            newMove.eatenColumn = this.elemEatenColumn;
             this.gameSequence.addGameMove(newMove);
 
             this.currentPieceRow = this.tileRow;
@@ -228,16 +235,6 @@ class MyGameOrchestrator extends CGFobject {
 
 
     playAgain(){
-
-        console.log("--------------------------");
-        console.log("EAT MOVES:");
-        console.log(this.eatMoves);
-        console.log("CURRENT STATE: ");
-        console.log(this.currentState);
-        console.log("this.eatMoves != []: " + (this.eatMoves.length > 0 && Array.isArray(this.eatMoves)));
-        console.log("this.eatMoves == []: " + (this.eatMoves.length == 0 && Array.isArray(this.eatMoves)));
-        console.log("--------------------------");
-
         if (this.eatMoves != this.eatMoves.length > 0 && Array.isArray(this.eatMoves)){ //TO DO: && INPUT DO USER
             this.currentState = this.gameStates.PLAYING_AGAIN;
             console.log("PLAY AGAIN");
@@ -247,18 +244,9 @@ class MyGameOrchestrator extends CGFobject {
 
             this.currentState = this.gameStates.AWAITING_PIECE;
             this.switchPlayer();
+            this.currentPiece.currentState = this.currentPiece.checkerStates.NOT_SELECTED;
             console.log("NEXT PLAYER");
         }
-
-        console.log("--------------------------");
-        console.log("EAT MOVES:");
-        console.log(this.eatMoves);
-        console.log("CURRENT STATE: ");
-        console.log(this.currentState);
-        console.log("this.eatMoves != []: " + (this.eatMoves.length > 0 && Array.isArray(this.eatMoves)));
-        console.log("this.eatMoves == []: " + (this.eatMoves.length == 0 && Array.isArray(this.eatMoves)));
-        console.log("--------------------------");
-
     }
 
 

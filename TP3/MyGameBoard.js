@@ -183,6 +183,7 @@ class MyGameBoard extends CGFobject{
         let counter = 1;
         for(let checker in this.checkers){
             this.scene.registerForPick(99 + counter, this.checkers[checker]);
+            //this.checkers[checker].pickId = 99 + counter;
             this.checkers[checker].display();
             counter++;
         }
