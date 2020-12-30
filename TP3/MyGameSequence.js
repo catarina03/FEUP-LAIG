@@ -15,8 +15,6 @@ class MyGameSequence extends CGFobject {
     
     addGameMove(move) {
         this.moves.push(move);
-        console.log("IM IN ADDGAMEMOVE");
-        console.log(this.moves);
         /*
 
         this.board.addPiece(finalX, finalZ, pieceSelected);

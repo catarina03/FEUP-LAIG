@@ -19,19 +19,4 @@ class MyGameMove extends CGFobject {
         this.eatenRow = null;
         this.eatenColumn = null;
     }
-
-    /*
-    addMove(pieceSelected, n_board, n_piece, finalX, finalZ) {
-
-        this.board.addPiece(finalX, finalZ, pieceSelected);
-        this["sideBoard" + n_board].removePiece(n_piece);
-
-        let positionOfSideBoard = this["positionOfSideBoard" + n_board];
-        pieceSelected.setAnimation(positionOfSideBoard, n_piece, finalX, finalZ, this.board.isPieceLow(finalX, finalZ));
-
-        this.moves.push(new MyGameMove(pieceSelected, n_board, n_piece, finalX, finalZ));
-    }
-    */
-
-
 }

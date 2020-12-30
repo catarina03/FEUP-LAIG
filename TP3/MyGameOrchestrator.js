@@ -6,13 +6,7 @@ class MyGameOrchestrator extends CGFobject {
     constructor(scene) {
         super(scene);
 
-        this.prologBoard = [];
-        this.player = "o";
-        this.currentPiece = null;
-        this.possibleMoves = [];
-        this.movementType = "";
-        this.startingPoint = [];
-
+        
         this.gameStates = {
             START: 0,
             AWAITING_PIECE: 1,
@@ -21,14 +15,30 @@ class MyGameOrchestrator extends CGFobject {
             MOVIE: 4,
             UNDO: 5,
             GAME_OVER: 6,
-            WAITING: 7
+            WAITING: 7,
+            ANIMATION: 8,
+            PLAYING_AGAIN: 9
         };
-
+        
         this.currentState = this.gameStates.AWAITING_PIECE;
         
+        this.prologBoard = [];
+        this.player = "o";
+        this.currentPiece = null;
+        this.currentPieceRow = null;
+        this.currentPieceColumn = null;
+        this.tileRow = null;
+        this.tileColumn = null;
+        this.possibleMoves = [];
+        this.adjacentMoves = [];
+        this.eatMoves = [];
+        this.movementType = "";
+        this.startingPoint = [];
+
         this.server = new MyServer(scene);
         this.board = new MyGameBoard(scene);
         this.gameSequence = new MyGameSequence(scene);
+        this.responseMenu = new MyMenu(scene);
 
         this.initPrologBoard();
         //this.startGame();
@@ -56,7 +66,7 @@ class MyGameOrchestrator extends CGFobject {
     }
 
 
-    onObjectSelected(obj, id) {
+    async onObjectSelected(obj, id) {
         console.log("MOVES: ");
         console.log(this.gameSequence.moves);
         if (obj instanceof MyChecker){
@@ -65,24 +75,9 @@ class MyGameOrchestrator extends CGFobject {
                 if (this.currentState == this.gameStates.AWAITING_PIECE || this.currentState == this.gameStates.AWAITING_TILE){ //Awaiting tile too in can player selected wrong piece
                     this.currentPiece = obj;
 
-                    let row = Math.trunc((this.currentPiece.tileID + 10)/10);
-                    let column = (this.currentPiece.tileID % 10 + 1);
-                    this.startingPoint = [row, column];
-                    
-
-                    console.log("CURRENT PIECE:")
-                    console.log(this.currentPiece);
-                    console.log("Starting point: " + this.startingPoint);
-
-                    //valid_moves(GameState, _-Row-Column, ListAdjacentMoves-ListEatMoves)
-                    let command = "valid_moves(" + this.prologBoard + ","  + this.player + "-" + Math.trunc((this.currentPiece.tileID + 10)/10).toString() + "-" + (this.currentPiece.tileID % 10 + 1).toString() + "," + "LA-LE" + ")";
-
-                    let moveList;
-                    let orchestrator = this;
-                    this.server.makeRequest(command, function(data) {
-                        console.log(data.target.response);
-                        orchestrator.possibleMoves = data.target.response;
-                    });
+                    this.currentPieceRow = Math.trunc((this.currentPiece.tileID + 10)/10);
+                    this.currentPieceColumn = (this.currentPiece.tileID % 10 + 1);
+                    this.startingPoint = [this.currentPieceRow, this.currentPieceColumn];
 
                     this.currentState = this.gameStates.AWAITING_TILE;
                 }
@@ -90,22 +85,83 @@ class MyGameOrchestrator extends CGFobject {
         }
         if (obj instanceof MyTile){
             console.log("Tile id: " + obj.id);
+            console.log("Current State: " + this.currentState);
             if (this.currentState == this.gameStates.AWAITING_TILE){
 
-                let row = Math.trunc((obj.id + 10)/10);
-                let column = (obj.id % 10 + 1);
-                let destination = [row, column];
+                this.tileRow = Math.trunc((obj.id + 10)/10);
+                this.tileColumn = (obj.id % 10 + 1);
+                let destination = [this.tileRow, this.tileColumn];
 
-                //is_valid_move(GameState, LAM-LEM, [Row, Column], MoveType);
-                let command = "is_valid_move(" + this.prologBoard + ","  + this.possibleMoves + "," + JSON.stringify(destination) + "," + "MoveType)";
+                //move(GameState-[PO,PG,PZ]-Player-GreenSkull,RowPiece-ColumnPiece-Row-Column-MoveType, NewGameState-[PO1,PG1,PZ1]-ListEat-NewGreenSkull)
+                let command = "move(" +  this.prologBoard + "-" + "[0,0,0]" + "-" + this.player + "-" + "o" + "," 
+                    + this.currentPieceRow.toString() + "-" + this.currentPieceColumn.toString() + "-" + this.tileRow + "-" + this.tileColumn + "-" + "MoveType" + "," 
+                    + "NewGameState-[PO1,PG1,PZ1]-ListEat-NewGreenSkull)";
                 let orchestrator = this;
+
                 console.log(command);
 
-                this.server.makeRequest(command, function(data) {
+                await this.server.makeRequest(command, function(data) {
                     console.log(data.target.response);
-                    orchestrator.movementType = data.target.response; 
-                    orchestrator.move(orchestrator, obj, destination);
+                    if (data.target.response != 0){
+                        orchestrator.moveParser(data.target.response);
+                        orchestrator.move(obj, destination);
+                        orchestrator.switchPlayer(orchestrator.player);
+                        //orchestrator.currentState = orchestrator.gameStates.AWAITING_PIECE; //SHOULD BE MOVING PIECE
+                    }
                 });
+
+            }
+
+            if (this.currentState == this.gameStates.PLAYING_AGAIN){
+                console.log("PLAYING AGAIN");
+
+                this.tileRow = Math.trunc((obj.id + 10)/10);
+                this.tileColumn = (obj.id % 10 + 1);
+                let destination = [this.tileRow, this.tileColumn];
+
+                console.log("destination is: " + destination);
+                console.log("This eatMoves:");
+                console.log(this.eatMoves);
+
+
+                if (this.eatMoves.findIndex(dest => dest[0] == this.tileRow && this.tileColumn) != -1){
+
+
+                    let orchestrator = this;
+
+                    //change_board(GameState, Row-Column, RowInput-ColumnInput, NewGameState, ElemEaten),
+                    let command = "change_board(" + this.prologBoard + "," + this.currentPieceRow + "-" + this.currentPieceColumn + "," + this.tileRow + "-" + this.tileColumn + ",NewGameState,ElemEaten)";
+                    await this.server.makeRequest(command, function(data) {
+                        console.log("Change board response: " + data.target.response);
+                        let returnData = data.target.response.split("-");
+                        console.log("Change board response: " + returnData);
+                        orchestrator.prologBoard = returnData[0];
+                        //this.elemEaten = data.target.response[1];
+                    });
+
+
+    
+                    /*
+                    //change_score([PO,PG,PZ]-Player-ElemEaten,[PO1,PG1,PZ1]),
+                    command = "(" + [0,0,0] + "-" + this.player + "-" + ;
+                    await this.server.makeRequest(command, function(data) {
+                        console.log("Change board response: " + data.target.response);
+                        this.prologBoard = data.target.response;
+                    });
+                    */
+    
+                    //get_move_eat(RowInput, ColumnInput, NewListEat, NewGameState),
+                    command = "get_move_eat(" + this.tileRow + "," + this.tileColumn + "," + "NewListEat," + this.prologBoard + ")";
+                    await this.server.makeRequest(command, function(data) {
+                        console.log("get_move_eat response: " + data.target.response);
+                        orchestrator.eatMoves = JSON.parse(data.target.response);
+                        orchestrator.move(obj, destination);
+                    });
+
+                }
+
+
+
             }
         }
     }
@@ -136,38 +192,86 @@ class MyGameOrchestrator extends CGFobject {
 
 
     
-    move(orchestrator, obj, destination){
+    move(tile, destination){
         if (this.movementType == "a"){
 
-            this.board.movePiece(this.currentPiece, obj);
-            this.switchPlayer(orchestrator.player);
-            
-            //change_board(GameState, RowPiece-ColumnPiece, Row-Column, NewGameState, e);
-            let command = "change_board(" + this.prologBoard + ","  + this.startingPoint[0] + "-" + this.startingPoint[1] + "," + + destination[0] + "-" + destination[1] + "," + "NewGameState,e)";
-            console.log(command);
-
-            
-            this.server.makeRequest(command, function(data) {
-                console.log(data.target.response);
-                orchestrator.prologBoard = data.target.response; 
-                orchestrator.currentState = orchestrator.gameStates.AWAITING_PIECE; //SHOULD BE MOVING PIECE
-                //moveList = data.target.response;
-            });
-
+            this.board.movePiece(this.currentPiece, tile);
             let newMove = new MyGameMove(this.scene, this.currentPiece, this.startingPoint[0], this.startingPoint[1], destination[0], destination[1]);
             this.gameSequence.addGameMove(newMove);
+
         }
         else if (this.movementType == "e"){
-            this.board.movePiece(this.currentPiece, obj);
-            this.currentState = this.gameStates.AWAITING_PIECE; //SHOULD BE MOVING PIECE
-            orchestrator.switchPlayer(orchestrator.player);
+
+
+            this.board.movePiece(this.currentPiece, tile);
+            let newMove = new MyGameMove(this.scene, this.currentPiece, this.startingPoint[0], this.startingPoint[1], destination[0], destination[1]);
+            this.gameSequence.addGameMove(newMove);
+
+            this.currentPieceRow = this.tileRow;
+            this.currentPieceColumn = this.tileColumn;
+
+            this.playAgain();
+
+
+            /*
+            this.responseMenu.flag = true;
+
+            if (this.value == true){
+                if (this.eatMoves != [])
+                    this.playAgain();
+            }
+            */
+
+
         }
     }
 
 
+    playAgain(){
+
+        console.log("--------------------------");
+        console.log("EAT MOVES:");
+        console.log(this.eatMoves);
+        console.log("CURRENT STATE: ");
+        console.log(this.currentState);
+        console.log("this.eatMoves != []: " + (this.eatMoves.length > 0 && Array.isArray(this.eatMoves)));
+        console.log("this.eatMoves == []: " + (this.eatMoves.length == 0 && Array.isArray(this.eatMoves)));
+        console.log("--------------------------");
+
+        if (this.eatMoves != this.eatMoves.length > 0 && Array.isArray(this.eatMoves)){ //TO DO: && INPUT DO USER
+            this.currentState = this.gameStates.PLAYING_AGAIN;
+            console.log("PLAY AGAIN");
     
+        }
+        else if (this.eatMoves.length == 0 && Array.isArray(this.eatMoves)) {
+
+            this.currentState = this.gameStates.AWAITING_PIECE;
+            this.switchPlayer();
+            console.log("NEXT PLAYER");
+        }
+
+        console.log("--------------------------");
+        console.log("EAT MOVES:");
+        console.log(this.eatMoves);
+        console.log("CURRENT STATE: ");
+        console.log(this.currentState);
+        console.log("this.eatMoves != []: " + (this.eatMoves.length > 0 && Array.isArray(this.eatMoves)));
+        console.log("this.eatMoves == []: " + (this.eatMoves.length == 0 && Array.isArray(this.eatMoves)));
+        console.log("--------------------------");
+
+    }
 
 
+    
+    moveParser(data){
+        let returnedData = data.split("-");
+        this.prologBoard = returnedData[0];
+        this.eatMoves = JSON.parse(returnedData[1]);
+        this.movementType = returnedData[2];
+    }
+
+
+/*
     getParsedMoveList(moveList){
         let allMovesList = moveList.split("-");
         let adjacentMoves = JSON.parse(allMovesList[0]);
@@ -177,6 +281,7 @@ class MyGameOrchestrator extends CGFobject {
 
         return [adjacentMoves, eatMoves];
     }
+    */
 
 
 }

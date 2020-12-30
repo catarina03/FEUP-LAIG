@@ -121,22 +121,22 @@ class MyGameBoard extends CGFobject{
 
     piece.animation = keyframeAnim;
     
-}
+    }
 
 
-updatePiece(piece, tile){
-    let row = Math.trunc((tile.id + 10)/10);
-    let column = (tile.id % 10 + 1);
-    let destination = [row, column];
+    updatePiece(piece, tile){
+        let row = Math.trunc((tile.id + 10)/10);
+        let column = (tile.id % 10 + 1);
+        let destination = [row, column];
 
-    piece.tileID = tile.id;//(destination[0]-1)*10 + destination[1]-1;
-    //piece.xCoord = tile.xCoord;
-    //piece.zCoord = tile.zCoord;
-    //piece.yCoord = 0.1;
+        piece.tileID = tile.id;//(destination[0]-1)*10 + destination[1]-1;
+        //piece.xCoord = tile.xCoord;
+        //piece.zCoord = tile.zCoord;
+        //piece.yCoord = 0.1;
 
-    console.log("PIECE ID AFTER CHANGE: " + piece.tileID);
-    return 0;
-}
+        console.log("PIECE ID AFTER CHANGE: " + piece.tileID);
+        return 0;
+    }
 
 
     async movePiece(piece, newTile){

@@ -128,3 +128,13 @@ parse_input(is_valid_move(GameState, LAM-LEM, [Row, Column], MoveType), null).
 
 parse_input(change_board(GameState, RowPiece-ColumnPiece, Row-Column, NewGameState, e), NewGameState) :-
 	change_board(GameState, RowPiece-ColumnPiece, Row-Column, NewGameState, e).
+parse_input(change_board(GameState, RowPiece-ColumnPiece, Row-Column, NewGameState, ElemEaten), NewGameState-ElemEaten) :-
+	change_board(GameState, RowPiece-ColumnPiece, Row-Column, NewGameState, ElemEaten).
+
+parse_input(move(GameState-[PO,PG,PZ]-Player-GreenSkull,RowPiece-ColumnPiece-Row-Column-MoveType, NewGameState-[PO1,PG1,PZ1]-ListEat-NewGreenSkull), NewGameState-ListEat-MoveType) :-
+	move(GameState-[PO,PG,PZ]-Player-GreenSkull,RowPiece-ColumnPiece-Row-Column-MoveType, NewGameState-[PO1,PG1,PZ1]-ListEat-NewGreenSkull).
+parse_input(move(GameState-[PO,PG,PZ]-Player-GreenSkull,RowPiece-ColumnPiece-Row-Column-MoveType, NewGameState-[PO1,PG1,PZ1]-ListEat-NewGreenSkull), 0).
+
+parse_input(get_move_eat(RowInput, ColumnInput, NewListEat, NewGameState), NewListEat) :-
+	get_move_eat(RowInput, ColumnInput, NewListEat, NewGameState).
+
