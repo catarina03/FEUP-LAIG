@@ -98,7 +98,6 @@ class MyGameBoard extends CGFobject{
     let deltaX = newTile.xCoord - piece.xCoord;
     let deltaZ = newTile.zCoord - piece.zCoord;
 
-    //let t = performance.now()*0.001-0.6;
     let t = 0;
 
 
@@ -106,18 +105,16 @@ class MyGameBoard extends CGFobject{
 
     let keyframe1 = new MyKeyframe(t + 0.25, [vec3.fromValues(deltaX/4, Math.sin(45*DEGREE_TO_RAD), deltaZ/4), vec3.fromValues(0, 0, 0), vec3.fromValues(0, 0, 0)]);
 
-    let keyframe2 = new MyKeyframe(t + 0.5, [vec3.fromValues(deltaX/2, Math.sin(90*DEGREE_TO_RAD), deltaZ/4), vec3.fromValues(0, 0, 0), vec3.fromValues(0, 0, 0)]);
+    let keyframe2 = new MyKeyframe(t + 0.5, [vec3.fromValues(deltaX/2, Math.sin(90*DEGREE_TO_RAD), deltaZ/2), vec3.fromValues(0, 0, 0), vec3.fromValues(0, 0, 0)]);
 
     let keyframe3 = new MyKeyframe(t + 0.75, [vec3.fromValues(3*deltaX/4, Math.sin(45*DEGREE_TO_RAD), 3*deltaZ/4), vec3.fromValues(0, 0, 0), vec3.fromValues(0, 0, 0)]);
 
-    let keyframe4 = new MyKeyframe(t + 1, [vec3.fromValues(deltaX, Math.sin(0*DEGREE_TO_RAD), deltaZ), vec3.fromValues(0, 0, 0), vec3.fromValues(0, 0, 0)]);
+    let keyframe4 = new MyKeyframe(t + 1, [vec3.fromValues(deltaX, 0, deltaZ), vec3.fromValues(0, 0, 0), vec3.fromValues(0, 0, 0)]);
 
     let keyframes = [keyframe0, keyframe1, keyframe2, keyframe3, keyframe4];
 
     let keyframeAnim = new MyKeyframeAnimation(this.scene, "movementAnimation");
     keyframeAnim.keyframes = keyframes;
-
-    //console.log(keyframeAnim);
 
     piece.animation = keyframeAnim;
     
@@ -125,11 +122,15 @@ class MyGameBoard extends CGFobject{
 
 
     updatePiece(piece, tile){
-        let row = Math.trunc((tile.id + 10)/10);
-        let column = (tile.id % 10 + 1);
-        let destination = [row, column];
+        //let row = Math.trunc((tile.id + 10)/10);
+        //let column = (tile.id % 10 + 1);
+        //let destination = [row, column];
 
+        piece.animation = null;
         piece.tileID = tile.id;//(destination[0]-1)*10 + destination[1]-1;
+        piece.xCoord = tile.xCoord;
+        piece.zCoord = tile.zCoord;
+        piece.yCoord = 0.1;
         //piece.xCoord = tile.xCoord;
         //piece.zCoord = tile.zCoord;
         //piece.yCoord = 0.1;
@@ -153,8 +154,10 @@ class MyGameBoard extends CGFobject{
         console.log(piece.zCoord);
         */
 
-        await this.movePieceAnimation(piece, newTile);
-        this.sleep(1500);
+        this.movePieceAnimation(piece, newTile);
+        console.log("SLEEP");
+        await this.sleep(1000);
+        console.log("SLEEPED");
         this.updatePiece(piece, newTile);
         
 

@@ -75,8 +75,11 @@ class MyChecker extends MyPiece {
             this.animation.apply();
         }   
 
+        
         this.scene.translate(this.xCoord, this.yCoord, this.zCoord);
         this.scene.scale(0.8, 0.8, 0.8);
+        
+        //if (this.yCoord < 0.1) this.yCoord = 0.2;
 
         this.checker.display();
 

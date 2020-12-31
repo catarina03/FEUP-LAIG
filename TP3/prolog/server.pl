@@ -131,15 +131,17 @@ parse_input(change_board(GameState, RowPiece-ColumnPiece, Row-Column, NewGameSta
 parse_input(change_board(GameState, RowPiece-ColumnPiece, Row-Column, NewGameState, ElemEaten), NewGameState-ElemEaten) :-
 	change_board(GameState, RowPiece-ColumnPiece, Row-Column, NewGameState, ElemEaten).
 
-parse_input(move(GameState-[PO,PG,PZ]-Player-GreenSkull,RowPiece-ColumnPiece-Row-Column-MoveType, NewGameState-[PO1,PG1,PZ1]-ListEat-NewGreenSkull), NewGameState-ListEat-MoveType-NewGreenSkull) :-
+parse_input(move(GameState-[PO,PG,PZ]-Player-GreenSkull,RowPiece-ColumnPiece-Row-Column-MoveType, NewGameState-[PO1,PG1,PZ1]-ListEat-NewGreenSkull), MoveType-NewGameState-[PO1,PG1,PZ1]-ListEat-NewGreenSkull) :-
 	move(GameState-[PO,PG,PZ]-Player-GreenSkull,RowPiece-ColumnPiece-Row-Column-MoveType, NewGameState-[PO1,PG1,PZ1]-ListEat-NewGreenSkull).
 parse_input(move(GameState-[PO,PG,PZ]-Player-GreenSkull,RowPiece-ColumnPiece-Row-Column-MoveType, NewGameState-[PO1,PG1,PZ1]-ListEat-NewGreenSkull), 0).
 
 parse_input(get_move_eat(RowInput, ColumnInput, NewListEat, NewGameState), NewListEat) :-
 	get_move_eat(RowInput, ColumnInput, NewListEat, NewGameState).
 
-parse_input(zombie_move(GameState-[PO,PG,PZ]-Player-GreenSkull,RowPiece-ColumnPiece-Row-Column-MoveType, NewGameState-[PO1,PG1,PZ1]-ListEat-NewGreenSkull, Response), NewGameState-ListEat-MoveType-NewGreenSkull) :-
+parse_input(zombie_move(GameState-[PO,PG,PZ]-Player-GreenSkull,RowPiece-ColumnPiece-Row-Column-MoveType, NewGameState-[PO1,PG1,PZ1]-ListEat-NewGreenSkull, Response), MoveType-NewGameState-[PO1,PG1,PZ1]-ListEat-NewGreenSkull) :-
 	zombie_move(GameState-[PO,PG,PZ]-Player-GreenSkull,RowPiece-ColumnPiece-Row-Column-MoveType, NewGameState-[PO1,PG1,PZ1]-ListEat-NewGreenSkull, Response).
 parse_input(zombie_move(GameState-[PO,PG,PZ]-Player-GreenSkull,RowPiece-ColumnPiece-Row-Column-MoveType, NewGameState-[PO1,PG1,PZ1]-ListEat-NewGreenSkull, Response), 0).
 
+parse_input(change_score([PO,PG,PZ]-Player-ElemEaten,[PO1,PG1,PZ1]),[PO1,PG1,PZ1]) :-
+	change_score([PO,PG,PZ]-Player-ElemEaten,[PO1,PG1,PZ1]).
 

@@ -13,9 +13,11 @@ function getUrlVars() {
 //Include additional files here
 serialInclude(['../lib/CGF.js', 'XMLscene.js','CGFResourceReader.js',
 'CGFOBJModel.js', 'MySceneGraph.js', 'MyInterface.js', 
-'primitives/MyRectangle.js', 'MyComponent.js', 'primitives/MyTriangle.js', 'primitives/MyCylinder.js', 'primitives/MySphere.js', 'primitives/MyTorus.js', 'animation/MyAnimation.js', 'animation/MyKeyframeAnimation.js', 'animation/MyKeyframe.js','sprites/MySpriteSheet.js','sprites/MySpriteText.js','sprites/MySpriteAnimation.js', 'primitives/MyPlane.js', 'primitives/MyPatch.js', 'primitives/MydefBarrel.js',
+'primitives/MyRectangle.js', 'MyComponent.js', 'primitives/MyTriangle.js', 'primitives/MyCylinder.js', 'primitives/MySphere.js', 'primitives/MyTorus.js', 
+'animation/MyAnimation.js', 'animation/MyKeyframeAnimation.js', 'animation/MyKeyframe.js','sprites/MySpriteSheet.js','sprites/MySpriteText.js','sprites/MySpriteAnimation.js', 'primitives/MyPlane.js', 'primitives/MyPatch.js', 'primitives/MydefBarrel.js',
 'gameprimitives/MyPiece.js','gameprimitives/MyChecker.js','gameprimitives/MyGreenSkull.js','gameprimitives/MyTile.js', 'MyGameBoard.js', 
-'MyGameSequence.js', 'MyGameMove.js', 'MyGameOrchestrator.js', 'MyServer.js', 'MyMenu.js',
+'MyGameSequence.js', 'MyGameMove.js', 'MyGameOrchestrator.js', 'MyServer.js', 'MyMenu.js', 'gamestates/MyGameState.js', 
+'gamestates/OrcPieceState.js', 'gamestates/OrcTileState.js', 'gamestates/GoblinPieceState.js', 'gamestates/GoblinTileState.js', 'gamestates/ZombiePieceState.js', 'gamestates/ZombieTileState.js', 'gamestates/ChoiceState.js', 'gamestates/OrcPlayAgainState.js', 'gamestates/GoblinPlayAgainState.js', 'gamestates/ZombiePlayAgainState.js',
 
 
 main=function()

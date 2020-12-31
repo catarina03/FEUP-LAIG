@@ -123,7 +123,7 @@ class XMLscene extends CGFscene {
 
         this.setGlobalAmbientLight(...this.graph.ambient);
 
-        this.setUpdatePeriod(100);
+        this.setUpdatePeriod(50);
 
         this.initLights();
         this.initViews();
@@ -214,7 +214,7 @@ class XMLscene extends CGFscene {
         //this.logPicking();
         this.clearPickRegistration();
         
-        this.orchestrator.managePick(this.pickMode,this.pickResults);
+        this.orchestrator.currentState.managePick(this.pickMode,this.pickResults);
 
         // ---- BEGIN Background, camera and axis setup
 

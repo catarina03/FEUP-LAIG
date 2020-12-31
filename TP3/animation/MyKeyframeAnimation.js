@@ -94,7 +94,28 @@ class MyKeyframeAnimation extends MyAnimation {
                 this.currentScale[0] += (this.keyframes[this.stage].Scale[0] - this.keyframes[this.stage - 1].Scale[0]) * timePercentage;
                 this.currentScale[1] += (this.keyframes[this.stage].Scale[1] - this.keyframes[this.stage - 1].Scale[1]) * timePercentage;
                 this.currentScale[2] += (this.keyframes[this.stage].Scale[2] - this.keyframes[this.stage - 1].Scale[2]) * timePercentage;
+
             }
+            
+            /*
+            if (this.stage = this.keyframes[this.keyframes.length - 1]){
+                //TRANSLATION
+                this.currentTransl[0] = this.keyframes[this.keyframes.length - 1].Transl[0];
+                this.currentTransl[1] = this.keyframes[this.keyframes.length - 1].Transl[1];
+                this.currentTransl[2] = this.keyframes[this.keyframes.length - 1].Transl[2];
+
+                //ROTATION
+                this.currentRotation[0] = this.keyframes[this.keyframes.length - 1].Rotation[0];
+                this.currentRotation[1] = this.keyframes[this.keyframes.length - 1].Rotation[1];
+                this.currentRotation[2] = this.keyframes[this.keyframes.length - 1].Rotation[2];
+
+                //SCALE
+                this.currentScale[0] = this.keyframes[this.keyframes.length - 1].Scale[0];
+                this.currentScale[1] = this.keyframes[this.keyframes.length - 1].Scale[1];
+                this.currentScale[2] = this.keyframes[this.keyframes.length - 1].Scale[2];
+            }
+            */
+            
         }
         else{    
             //If animation has finished

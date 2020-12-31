@@ -23,8 +23,9 @@ class MyGameOrchestrator extends CGFobject {
             PLAYING_AGAIN_ZOMBIE: 12
         };
         
-        this.currentState = this.gameStates.AWAITING_PIECE;
-        
+        //this.currentState = this.gameStates.AWAITING_PIECE;
+        this.currentState = null;
+
         this.prologBoard = [];
         this.player = "o";
         this.currentPiece = null;
@@ -41,14 +42,17 @@ class MyGameOrchestrator extends CGFobject {
         this.elemEatenRow = null;
         this.elemEatenColumn = null;
         this.greenSkull = "g";
+        this.scores = [0,0,0];
 
         this.server = new MyServer(scene);
         this.board = new MyGameBoard(scene);
         this.gameSequence = new MyGameSequence(scene);
         this.responseMenu = new MyMenu(scene);
 
+        //this.state = new AwaitPieceState(scene);
+
         this.initPrologBoard();
-        //this.startGame();
+        this.startGame();
 
     }
 
@@ -68,8 +72,15 @@ class MyGameOrchestrator extends CGFobject {
 
     startGame(){
         //this.server.makeRequest('start', 'OK');
-        this.currentState =this.gameStates.START;
+        //this.currentState =this.gameStates.START;
+        this.currentState = new OrcPieceState(this.scene);
 
+    }
+
+    /*
+
+    changeState(state){
+        this.state = state;
     }
 
 
@@ -190,6 +201,7 @@ class MyGameOrchestrator extends CGFobject {
                     });
                     */
     
+                    /*
                     //get_move_eat(RowInput, ColumnInput, NewListEat, NewGameState),
                     command = "get_move_eat(" + this.tileRow + "," + this.tileColumn + "," + "NewListEat," + this.prologBoard + ")";
                     await this.server.makeRequest(command, function(data) {
@@ -249,6 +261,7 @@ class MyGameOrchestrator extends CGFobject {
                         });
                         */
         
+                        /*
                         //get_move_eat(RowInput, ColumnInput, NewListEat, NewGameState),
                         command = "get_move_eat(" + this.tileRow + "," + this.tileColumn + "," + "NewListEat," + this.prologBoard + ")";
                         await this.server.makeRequest(command, function(data) {
@@ -343,6 +356,7 @@ class MyGameOrchestrator extends CGFobject {
             }
             */
 
+            /*
 
         }
     }
