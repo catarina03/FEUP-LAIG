@@ -12,6 +12,7 @@ class OrcPlayAgainState extends MyGameState{
     };
 
     async onObjectSelected(obj, id) {
+        console.log("Orc play again state");
         if (obj instanceof MyTile){
             let state = this;
 
@@ -84,13 +85,22 @@ class OrcPlayAgainState extends MyGameState{
             this.scene.orchestrator.currentPieceRow = this.scene.orchestrator.tileRow;
             this.scene.orchestrator.currentPieceColumn = this.scene.orchestrator.tileColumn;
 
+            console.log("OrcPlayAgain eatMoves: ");
+            console.log(this.scene.orchestrator.eatMoves);
+
             if (this.scene.orchestrator.eatMoves.length == 0 && Array.isArray(this.scene.orchestrator.eatMoves) && this.scene.orchestrator.greenSkull == "o") {
+                console.log("Zombie piece state");
                 this.scene.orchestrator.currentState = new ChoiceState(this.scene, new ZombiePieceState(this.scene), new GoblinPieceState(this.scene));
+                this.scene.orchestrator.currentPiece.currentState = this.scene.orchestrator.currentPiece.checkerStates.NOT_SELECTED;
             }
             else if (this.scene.orchestrator.eatMoves.length == 0 && Array.isArray(this.scene.orchestrator.eatMoves) && this.scene.orchestrator.greenSkull == "g") {
+                console.log("Goblin piece state");
+                this.scene.orchestrator.player = "g";
                 this.scene.orchestrator.currentState = new GoblinPieceState(this.scene);
+                this.scene.orchestrator.currentPiece.currentState = this.scene.orchestrator.currentPiece.checkerStates.NOT_SELECTED;
             }
             else if (this.scene.orchestrator.eatMoves.length > 0 && Array.isArray(this.scene.orchestrator.eatMoves)) {
+                console.log("Orc piece state");
                 this.scene.orchestrator.currentState = new ChoiceState(this.scene, new OrcPlayAgainState(this.scene), new GoblinPieceState(this.scene));
             }
         }
