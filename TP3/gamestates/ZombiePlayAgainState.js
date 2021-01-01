@@ -12,7 +12,9 @@ class ZombiePlayAgainState extends MyGameState{
     };
 
     async onObjectSelected(obj, id) {
-        console.log("Zombie play again state");
+        console.log("ZOMBIE PLAY AGAIN STATE, WHATS THE GREEN SKULL?");
+        console.log(this.scene.orchestrator.greenSkull);
+        
         if (obj instanceof MyTile){
             let state = this;
 

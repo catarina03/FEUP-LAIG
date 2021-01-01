@@ -13,7 +13,9 @@ class GoblinPieceState extends MyGameState{
     };
     
     async onObjectSelected(obj, id) {
-        console.log("Goblin piece state");
+        console.log("GOBLIN PIECE STATE, WHATS THE GREEN SKULL?");
+        console.log(this.scene.orchestrator.greenSkull);
+
         console.log(this.scene.orchestrator.player);
         console.log(obj.player);
         if (obj instanceof MyChecker && this.scene.orchestrator.player == "g" && obj.player == "g"){

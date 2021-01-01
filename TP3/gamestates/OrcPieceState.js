@@ -13,7 +13,9 @@ class OrcPieceState extends MyGameState{
     };
     
     async onObjectSelected(obj, id) {
-        console.log("Orc piece state");
+        console.log("ORC PIECE STATE, WHATS THE GREEN SKULL?");
+        console.log(this.scene.orchestrator.greenSkull);
+
         console.log("Scores: ");
         console.log(this.scene.orchestrator.scores);
 

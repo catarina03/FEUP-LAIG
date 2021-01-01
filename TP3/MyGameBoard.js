@@ -137,27 +137,110 @@ class MyGameBoard extends CGFobject{
     }
     */
 
+    skullGoblinToOrcAnimation() {
+        let deltaX = -1 - 5;
+        let deltaZ = 5 - -1;
+
+        let t = 0;
+
+        let keyframe0 = new MyKeyframe(t, [vec3.fromValues(0, 0, 0), vec3.fromValues(0, 0, 0), vec3.fromValues(0, 0, 0)]);
+        let keyframe1 = new MyKeyframe(t + 0.25, [vec3.fromValues(deltaX/4, 5*Math.sin(45*DEGREE_TO_RAD), deltaZ/4), vec3.fromValues(0, 0, 0), vec3.fromValues(0, 0, 0)]);
+        let keyframe2 = new MyKeyframe(t + 0.5, [vec3.fromValues(deltaX/2, 5*Math.sin(90*DEGREE_TO_RAD), deltaZ/2), vec3.fromValues(0, 0, 0), vec3.fromValues(0, 0, 0)]);
+        let keyframe3 = new MyKeyframe(t + 0.75, [vec3.fromValues(3*deltaX/4, 5*Math.sin(45*DEGREE_TO_RAD), 3*deltaZ/4), vec3.fromValues(0, 0, 0), vec3.fromValues(0, 0, 0)]);
+        let keyframe4 = new MyKeyframe(t + 1, [vec3.fromValues(deltaX, 0, deltaZ), vec3.fromValues(0, 0, 0), vec3.fromValues(0, 0, 0)]);
+
+        let keyframes = [keyframe0, keyframe1, keyframe2, keyframe3, keyframe4];
+
+        let keyframeAnim = new MyKeyframeAnimation(this.scene, "movementAnimation");
+        keyframeAnim.keyframes = keyframes;
+
+        this.skull.animation = keyframeAnim;
+
+        return [5, -1];
+    }
+
+
+    skullOrcToGoblinAnimation() {
+        let deltaX = 5 - -1;
+        let deltaZ = -1 - 5;
+
+        let t = 0;
+
+        let keyframe0 = new MyKeyframe(t, [vec3.fromValues(0, 0, 0), vec3.fromValues(0, 0, 0), vec3.fromValues(0, 0, 0)]);
+        let keyframe1 = new MyKeyframe(t + 0.25, [vec3.fromValues(deltaX/4, 5*Math.sin(45*DEGREE_TO_RAD), deltaZ/4), vec3.fromValues(0, 0, 0), vec3.fromValues(0, 0, 0)]);
+        let keyframe2 = new MyKeyframe(t + 0.5, [vec3.fromValues(deltaX/2, 5*Math.sin(90*DEGREE_TO_RAD), deltaZ/2), vec3.fromValues(0, 0, 0), vec3.fromValues(0, 0, 0)]);
+        let keyframe3 = new MyKeyframe(t + 0.75, [vec3.fromValues(3*deltaX/4, 5*Math.sin(45*DEGREE_TO_RAD), 3*deltaZ/4), vec3.fromValues(0, 0, 0), vec3.fromValues(0, 0, 0)]);
+        let keyframe4 = new MyKeyframe(t + 1, [vec3.fromValues(deltaX, 0, deltaZ), vec3.fromValues(0, 0, 0), vec3.fromValues(0, 0, 0)]);
+
+        let keyframes = [keyframe0, keyframe1, keyframe2, keyframe3, keyframe4];
+
+        let keyframeAnim = new MyKeyframeAnimation(this.scene, "movementAnimation");
+        keyframeAnim.keyframes = keyframes;
+
+        this.skull.animation = keyframeAnim;
+
+        return [-1, 5];
+    }
+
+
+    updateSkull(coordinates) {
+        this.skull.xCoord = coordinates[0];
+        this.skull.zCoord = coordinates[1];
+        this.skull.animation = null;
+    }
+
+
+
+
+
+    async moveGreenSkull(greenSkull) {
+        let coordinates; 
+
+        console.log("BEFORE SKULL ANIM");
+
+        if (greenSkull == "g") {
+            coordinates = this.skullGoblinToOrcAnimation();
+        } else if (greenSkull == "o") {
+            coordinates = this.skullOrcToGoblinAnimation();
+        }
+
+
+        await this.sleep(1000);
+
+        console.log("AFTER SKULL ANIM");
+
+        //Goblin
+        //this.xCoord = 5;
+        //this.zCoord = -1;
+
+        //Orc
+        //this.xCoord = -1;
+        //this.zCoord = 5;
+
+        this.updateSkull(coordinates);
+    }
+
+
+
     
-   movePieceAnimation(piece, newTile) {
-    let deltaX = newTile.xCoord - piece.xCoord;
-    let deltaZ = newTile.zCoord - piece.zCoord;
+    movePieceAnimation(piece, newTile) {
+        let deltaX = newTile.xCoord - piece.xCoord;
+        let deltaZ = newTile.zCoord - piece.zCoord;
 
-    let t = 0;
+        let t = 0;
 
+        let keyframe0 = new MyKeyframe(t, [vec3.fromValues(0, 0, 0), vec3.fromValues(0, 0, 0), vec3.fromValues(0, 0, 0)]);
+        let keyframe1 = new MyKeyframe(t + 0.25, [vec3.fromValues(deltaX/4, Math.sin(45*DEGREE_TO_RAD), deltaZ/4), vec3.fromValues(0, 0, 0), vec3.fromValues(0, 0, 0)]);
+        let keyframe2 = new MyKeyframe(t + 0.5, [vec3.fromValues(deltaX/2, Math.sin(90*DEGREE_TO_RAD), deltaZ/2), vec3.fromValues(0, 0, 0), vec3.fromValues(0, 0, 0)]);
+        let keyframe3 = new MyKeyframe(t + 0.75, [vec3.fromValues(3*deltaX/4, Math.sin(45*DEGREE_TO_RAD), 3*deltaZ/4), vec3.fromValues(0, 0, 0), vec3.fromValues(0, 0, 0)]);
+        let keyframe4 = new MyKeyframe(t + 1, [vec3.fromValues(deltaX, 0, deltaZ), vec3.fromValues(0, 0, 0), vec3.fromValues(0, 0, 0)]);
 
-    let keyframe0 = new MyKeyframe(t, [vec3.fromValues(0, 0, 0), vec3.fromValues(0, 0, 0), vec3.fromValues(0, 0, 0)]);
-    let keyframe1 = new MyKeyframe(t + 0.25, [vec3.fromValues(deltaX/4, Math.sin(45*DEGREE_TO_RAD), deltaZ/4), vec3.fromValues(0, 0, 0), vec3.fromValues(0, 0, 0)]);
-    let keyframe2 = new MyKeyframe(t + 0.5, [vec3.fromValues(deltaX/2, Math.sin(90*DEGREE_TO_RAD), deltaZ/2), vec3.fromValues(0, 0, 0), vec3.fromValues(0, 0, 0)]);
-    let keyframe3 = new MyKeyframe(t + 0.75, [vec3.fromValues(3*deltaX/4, Math.sin(45*DEGREE_TO_RAD), 3*deltaZ/4), vec3.fromValues(0, 0, 0), vec3.fromValues(0, 0, 0)]);
-    let keyframe4 = new MyKeyframe(t + 1, [vec3.fromValues(deltaX, 0, deltaZ), vec3.fromValues(0, 0, 0), vec3.fromValues(0, 0, 0)]);
+        let keyframes = [keyframe0, keyframe1, keyframe2, keyframe3, keyframe4];
 
-    let keyframes = [keyframe0, keyframe1, keyframe2, keyframe3, keyframe4];
+        let keyframeAnim = new MyKeyframeAnimation(this.scene, "movementAnimation");
+        keyframeAnim.keyframes = keyframes;
 
-    let keyframeAnim = new MyKeyframeAnimation(this.scene, "movementAnimation");
-    keyframeAnim.keyframes = keyframes;
-
-    piece.animation = keyframeAnim;
-    
+        piece.animation = keyframeAnim;
     }
 
 

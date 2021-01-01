@@ -29,7 +29,7 @@ class ChoiceState extends CGFobject{
             this.scene.orchestrator.player = "o";
             this.scene.orchestrator.currentPiece.currentState = this.scene.orchestrator.currentPiece.checkerStates.NOT_SELECTED;
         }
-
+        
         console.log("Choice state");
         console.log(decision);
         console.log("Player: " + this.scene.orchestrator.player);

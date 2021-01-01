@@ -13,6 +13,9 @@ class OrcTileState extends MyGameState{
     };
 
     async onObjectSelected(obj, id) {
+        console.log("ORC TILE STATE, WHATS THE GREEN SKULL?");
+        console.log(this.scene.orchestrator.greenSkull);
+
         if (obj instanceof MyTile){
             let state = this;
 
@@ -45,6 +48,15 @@ class OrcTileState extends MyGameState{
         this.scene.orchestrator.prologBoard = returnedData[1];
         this.scene.orchestrator.scores = JSON.parse(returnedData[2]);
         this.scene.orchestrator.eatMoves = JSON.parse(returnedData[3]);
+
+        console.log("Moving green skull");
+
+        if (this.scene.orchestrator.greenSkull != returnedData[4]) {
+            this.scene.orchestrator.board.moveGreenSkull(returnedData[4]);
+        }
+
+        console.log("Moved green skull");
+
         this.scene.orchestrator.greenSkull = returnedData[4];
     }
 
@@ -103,9 +115,14 @@ class OrcTileState extends MyGameState{
             this.scene.orchestrator.elemEaten = this.getEatenElement(eatenId);
             this.scene.orchestrator.elemEatenPlayer = this.scene.orchestrator.elemEaten.player;
 
-            if (this.scene.orchestrator.greenSkull == "o"){
-                this.switchGreenSkull(this.scene.orchestrator.greenSkull);
-            }
+            console.log("ORC TILE STATE, WHATS THE GREEN SKULL?");
+            console.log(this.scene.orchestrator.greenSkull);
+            //if (this.scene.orchestrator.greenSkull == "o"){
+            //    console.log("Move green skull");
+            //    this.scene.orchestrator.board.moveGreenSkull(this.scene.orchestrator.greenSkull);
+            //    console.log("Animated green skull");
+            //    this.switchGreenSkull(this.scene.orchestrator.greenSkull);
+            //}
 
             this.scene.orchestrator.board.movePiece(this.scene.orchestrator.currentPiece, tile);
             let newMove = new MyGameMove(this.scene, this.scene.orchestrator.currentPiece, this.scene.orchestrator.startingPoint[0], this.scene.orchestrator.startingPoint[1], destination[0], destination[1]);

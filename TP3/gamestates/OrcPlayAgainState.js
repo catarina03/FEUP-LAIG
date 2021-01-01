@@ -12,7 +12,9 @@ class OrcPlayAgainState extends MyGameState{
     };
 
     async onObjectSelected(obj, id) {
-        console.log("Orc play again state");
+        console.log("ORC PLAY AGAIN STATE, WHATS THE GREEN SKULL?");
+        console.log(this.scene.orchestrator.greenSkull);
+
         if (obj instanceof MyTile){
             let state = this;
 

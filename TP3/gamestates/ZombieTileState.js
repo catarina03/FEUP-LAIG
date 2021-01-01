@@ -12,6 +12,9 @@ class ZombieTileState extends MyGameState{
     };
 
     async onObjectSelected(obj, id) {
+        console.log("ZOMBIE TILE STATE, WHATS THE GREEN SKULL?");
+        console.log(this.scene.orchestrator.greenSkull);
+
         if (obj instanceof MyTile){
             let state = this;
 
@@ -103,6 +106,9 @@ class ZombieTileState extends MyGameState{
             this.scene.orchestrator.elemEaten = this.getEatenElement(eatenId);
             this.scene.orchestrator.elemEatenPlayer = this.scene.orchestrator.elemEaten.player;
 
+            console.log("Move green skull");
+            this.scene.orchestrator.board.moveGreenSkull(this.scene.orchestrator.greenSkull);
+            console.log("Animated green skull");
             this.switchGreenSkull(this.scene.orchestrator.greenSkull);
 
             this.scene.orchestrator.board.movePiece(this.scene.orchestrator.currentPiece, tile);

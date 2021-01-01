@@ -12,6 +12,9 @@ class GoblinTileState extends MyGameState{
     };
 
     async onObjectSelected(obj, id) {
+        console.log("GOBLIN TILE STATE, WHATS THE GREEN SKULL?");
+        console.log(this.scene.orchestrator.greenSkull);
+        
         if (obj instanceof MyTile){
             let state = this;
 
@@ -27,9 +30,6 @@ class GoblinTileState extends MyGameState{
                 if (data.target.response != 0){
                     state.moveParser(data.target.response);
                     state.move(obj, destination);
-                    //state.moveZombies();
-                    //orchestrator.switchPlayer(orchestrator.player);
-                    //orchestrator.currentState = orchestrator.gameStates.AWAITING_PIECE; //SHOULD BE MOVING PIECE
                 }
             });
 
@@ -101,7 +101,12 @@ class GoblinTileState extends MyGameState{
             this.scene.orchestrator.elemEaten = this.getEatenElement(eatenId);
             this.scene.orchestrator.elemEatenPlayer = this.scene.orchestrator.elemEaten.player;
 
+            console.log("GOBLIN TILE STATE, WHATS THE GREEN SKULL?");
+            console.log(this.scene.orchestrator.greenSkull);
             if (this.scene.orchestrator.greenSkull == "g"){
+                console.log("Move green skull");
+                this.scene.orchestrator.board.moveGreenSkull(this.scene.orchestrator.greenSkull);
+                console.log("Animated green skull");
                 this.switchGreenSkull(this.scene.orchestrator.greenSkull);
             }
 
@@ -116,6 +121,10 @@ class GoblinTileState extends MyGameState{
 
             this.scene.orchestrator.currentPieceRow = this.scene.orchestrator.tileRow;
             this.scene.orchestrator.currentPieceColumn = this.scene.orchestrator.tileColumn;
+
+            //console.log("Move green skull");
+            //this.scene.orchestrator.board.moveGreenSkull(this.scene.orchestrator.greenSkull);
+            //console.log("Animated green skull");
 
             if (this.scene.orchestrator.eatMoves.length == 0 && Array.isArray(this.scene.orchestrator.eatMoves) && this.scene.orchestrator.greenSkull == "g") {
                 this.scene.orchestrator.currentState = new ChoiceState(this.scene, new ZombiePieceState(this.scene), new OrcPieceState(this.scene));

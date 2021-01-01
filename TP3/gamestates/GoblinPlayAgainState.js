@@ -12,6 +12,9 @@ class GoblinPlayAgainState extends MyGameState{
     };
 
     async onObjectSelected(obj, id) {
+        console.log("GOBLIN PLAY AGAIN STATE, WHATS THE GREEN SKULL?");
+        console.log(this.scene.orchestrator.greenSkull);
+
         if (obj instanceof MyTile){
             let state = this;
 

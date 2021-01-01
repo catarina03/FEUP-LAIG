@@ -8,9 +8,12 @@ class MyGreenSkull extends CGFobject {
     constructor(scene) {
         super(scene);
         this.skull = new CGFOBJModel(scene, 'models/greenskull.obj');
+        this.animation = null;
 
         this.xCoord = 5;
         this.zCoord = -1;
+        //this.xCoord = 5;
+        //this.zCoord = -1;
 
         this.green = new CGFappearance(scene);
         this.green.setAmbient(0.1, 0.1, 0.1, 1);
@@ -27,6 +30,11 @@ display(){
     this.scene.translate(this.xCoord, 0, this.zCoord);
     this.scene.scale(0.25, 0.25, 0.25);
     this.green.apply();
+
+    if (this.animation != null){
+        this.animation.apply();
+    } 
+
     this.skull.display();
     this.scene.popMatrix();
 }

@@ -20,6 +20,9 @@ class ZombiePieceState extends MyGameState{
         let orchestrator = this.scene.orchestrator;
         let scene = this.scene;
 
+        console.log("ZOMBIE PIECE STATE, WHATS THE GREEN SKULL?");
+        console.log(this.scene.orchestrator.greenSkull);
+
         //is_over(GameState)
         let command = "is_over(" +  this.scene.orchestrator.prologBoard + ")";
         await this.scene.orchestrator.server.makeRequest(command, function(data) {
