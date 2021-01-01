@@ -18,7 +18,6 @@ class MyPiece extends CGFobject {
 
 
 
-
     /*
     setAnimation(initialX, initialZ, finalX, finalZ) {
 
