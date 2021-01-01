@@ -106,7 +106,6 @@ class GoblinTileState extends MyGameState{
             }
 
             this.scene.orchestrator.board.movePiece(this.scene.orchestrator.currentPiece, tile);
-
             let newMove = new MyGameMove(this.scene, this.scene.orchestrator.currentPiece, this.scene.orchestrator.startingPoint[0], this.scene.orchestrator.startingPoint[1], destination[0], destination[1]);
             newMove.eatenPiece = this.scene.orchestrator.elemEaten;
             newMove.eatenRow = this.scene.orchestrator.elemEatenRow;
