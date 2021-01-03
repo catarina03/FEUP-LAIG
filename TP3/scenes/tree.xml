@@ -6,9 +6,6 @@
 
 
     <views default="OrcView">
-
-
-
         <perspective id="GoblinView" near="0.1" far="300" angle="25">
             <from x="3" y="13" z="30" />
             <to x="3" y="1" z="5" />

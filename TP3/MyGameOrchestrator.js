@@ -52,6 +52,7 @@ class MyGameOrchestrator extends CGFobject {
         this.auxiliarBoard = new MyAuxiliarBoard(scene);
         this.gameSequence = new MyGameSequence(scene);
         this.responseMenu = new MyMenu(scene);
+        this.theme = "garden";
 
         //this.state = new AwaitPieceState(scene);
 

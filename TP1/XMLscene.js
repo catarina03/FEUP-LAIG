@@ -99,6 +99,7 @@ class XMLscene extends CGFscene {
 
         this.interface.addLightsGUI();
         this.interface.addCamerasGUI();
+        this.interface.addScenesGUI();
 
         this.sceneInited = true;
     }

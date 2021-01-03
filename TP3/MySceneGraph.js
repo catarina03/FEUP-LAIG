@@ -53,6 +53,7 @@ class MySceneGraph {
          * After the file is read, the reader calls onXMLReady on this object.
          * If any error occurs, the reader calls onXMLError on this object, with an error message
          */
+        this.filename = filename;
         this.reader.open('scenes/' + filename, this);
     }
 
@@ -73,6 +74,7 @@ class MySceneGraph {
         }
 
         this.loadedOk = true;
+        this.scene.graphs.push(this);
 
         // As the graph loaded ok, signal the scene so that any additional initialization depending on the graph can take place
         this.scene.onGraphLoaded();
@@ -106,6 +108,10 @@ class MySceneGraph {
         console.log("   " + message);
     }
 
+    changeScene(filename){
+        this.scene.graph.changingScene = true;
+        this.reader.open('scenes/' + filename, this);
+    }
 
     /**
      * Parses the XML file, processing each block.

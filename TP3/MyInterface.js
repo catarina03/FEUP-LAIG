@@ -67,6 +67,16 @@ class MyInterface extends CGFinterface {
             lightsFolder.add(this.scene.lights[i],'enabled').name(keyNames[i]); 
     }
 
+
+    addScenesGUI(){
+        var folder = this.gui.addFolder("Scene");
+        let scene = this.scene;
+        folder.add(this.scene, "currentScene" , ["garden", "tree"]).name("Current Scene").onChange(function(value) {
+            let scenario = value + ".xml";
+            scene.graph.changeScene(scenario);
+        });
+    }
+
     /**
      * Adds cameras to the User Interface
      */

@@ -17,10 +17,7 @@ class XMLscene extends CGFscene {
      * @param {CGFApplication} application
      */
     init(application) {
-        super.init(application);
-        this.tile = new MyTile(this,null,null);
-        
-       
+        super.init(application);     
 
         this.sceneInited = false;
         this.displayAxis = true;
@@ -38,12 +35,13 @@ class XMLscene extends CGFscene {
         this.axis = new CGFaxis(this);
         this.setUpdatePeriod(100);
 
+
         this.loadingProgressObject=new MyRectangle(this, -1, -.1, 1, .1);
         this.loadingProgress=0;
 
         this.defaultAppearance=new CGFappearance(this);
+        this.currentScene = "garden";
 
-        //this.initialTime = 0;
 
         //SPRITETEXT
         
@@ -69,7 +67,23 @@ class XMLscene extends CGFscene {
         this.fontSpritesheet.texture = this.fontTexture;
 
 
+        
+        // get file name provided in URL, e.g. http://localhost/myproj/?file=myfile.xml 
+        // or use "demo.xml" as default (assumes files in subfolder "scenes", check MySceneGraph constructor) 
+        var filename1=getUrlVars()['file'] || "garden.xml";
+        var filename2=getUrlVars()['file'] || "tree.xml";
+
+        // create and load graph, and associate it to scene. 
+        // Check console for loading errors
+        var myGraph1 = new MySceneGraph(filename1, this);
+        var myGraph2 = new MySceneGraph(filename2, this);
+        
+        this.graphNames = ["garden","tree"];
+        this.graphs = [myGraph1, myGraph2];
+        
+
         this.orchestrator = new MyGameOrchestrator(this);
+
 
         this.setPickEnabled(true);
     }
@@ -129,11 +143,13 @@ class XMLscene extends CGFscene {
         this.initViews();
 
         this.interface.addLightsGUI();
+        this.interface.addScenesGUI();
         this.interface.addCamerasGUI();
         this.interface.addGameCommandsGUI();
         
 
         this.sceneInited = true;
+        this.currentScene = this.graph.filename.slice(0, -4);
     }
 
 
@@ -191,6 +207,63 @@ class XMLscene extends CGFscene {
     }
 
 
+    updateScene(){
+        for (let i = 0; i < this.lights.length; i++){
+            this.lights[i].disable();
+            this.lights[i].update();
+        }
+
+        this.interface.gui.removeFolder(this.interface.cameraFolder);
+        this.interface.gui.removeFolder(this.interface.lightsFolder);
+
+        var index = 0;
+
+        for (let i = 0; this.graphNames.length; i++){
+            if (this.orchestrator.theme == this.graphNames[i]){
+                index = i;
+                break;
+            }
+        }
+
+        this.graph = this.graphs[index];
+        this.axis = new CGaxis(this, this.graph.referenceLength);
+        this.gl.clearColor(...this.graph.background);
+        this.setGlobalAmbientLight(...this.graph.ambient);
+        this.initLights();
+        this.initViews();
+        this.sceneInited = true;
+        this.currentScene = this.graphNames[index];
+
+    }
+
+
+    changeScene(filename) {
+        /*
+        this.sceneChanged = true;
+        this.sceneInited = false;
+        let myGraph = new MySceneGraph(filename + '.xml', this);
+        */
+        
+        //this.sceneInited = false;
+        this.updateScene();
+        //this.graph.reader.open('scenes/' + filename + '.xml', this.graph);
+        this.graph.filename = filename + '.xml';
+    }
+
+
+    rotateCamera(player){
+        this.rotatingCamera = true;
+        this.initiateRotation = true;
+        this.currentPlayer = player;
+
+        if(this.orchestrator.player == "o")
+            this.camera = this.graph.views['OrcView'];
+        else this.camera = this.graph.views['GoblinView'];
+
+        this.updateCamera(this.camera);
+    }
+
+
 	logPicking() {
 		if (this.pickMode == false) {
 			if (this.pickResults != null && this.pickResults.length > 0) {
@@ -235,12 +308,6 @@ class XMLscene extends CGFscene {
 
         this.scale(this.zoom/2, this.zoom/2, this.zoom/2);
 
-        
-       
-        
-        
-		
-        
 
         for(var i=0;i<this.lights.length;i++)
         this.lights[i].update();
@@ -250,6 +317,7 @@ class XMLscene extends CGFscene {
             
             
             // Displays the scene (MySceneGraph function).
+            //this.graph[0].displayScene();
             this.graph.displayScene();
 
             this.orchestrator.board.display();
