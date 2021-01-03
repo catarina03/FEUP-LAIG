@@ -5,9 +5,26 @@
     </initials>
 
 
-    <views default="defaultCamera">
+    <views default="OrcView">
 
-        <perspective id="defaultCamera" near="0.1" far="500" angle="45">
+
+
+        <perspective id="GoblinView" near="0.1" far="300" angle="25">
+            <from x="3" y="13" z="30" />
+            <to x="3" y="1" z="5" />
+        </perspective>
+
+        <perspective id="OrcView" near="0.1" far="300" angle="30">
+            <from x="30" y="13" z="3" />
+            <to x="8" y="0" z="5" />
+        </perspective>
+
+        <perspective id="Overview" near="0.1" far="500" angle="30">
+            <from x="-160" y="80" z="-160" />
+            <to x="-30" y="-7" z="10" />
+        </perspective>
+
+        <perspective id="Perspective" near="0.1" far="500" angle="45">
             <from x="20" y="10" z="20"/>
             <to x="2" y="-0.5" z="0"/>
         </perspective>
@@ -17,7 +34,6 @@
             <to x="0" y="0" z="0" />
             <up x="0" y="1" z="0" />
         </ortho>
-
     </views>
 
 
@@ -28,7 +44,7 @@
 
 
     <lights>
-
+<!--
         <light id="demoLight">
             <enable value="1"/>
             <position x="40" y="26" z="40" w="1.0"/>
@@ -44,6 +60,39 @@
             <diffuse r="1.0" g="1.0" b="1.0" a="1.0"/>
             <specular r="1.0" g="1.0" b="1.0" a="1.0"/>
         </light>
+-->
+
+        <light id="corner nº1">
+            <enable value="1" />    <!-- enable/disable -->
+            <position x="-70" y="20" z="-40" w="1.0" />
+            <ambient r="0" g="0" b="0" a="1.0" />   <!-- ambient component -->
+            <diffuse r="0.7" g="0.7" b="0.7" a="1.0" /> <!-- diffuse component -->
+            <specular r="0.8" g="0.8" b="0.8" a="0.8" />    <!-- specular component -->
+        </light>
+
+        <light id="corner nº2">
+            <enable value="0" />    <!-- enable/disable -->
+            <position x="-70" y="20" z="-40" w="1.0" />
+            <ambient r="0" g="0" b="0" a="1.0" />   <!-- ambient component -->
+            <diffuse r="0.7" g="0.7" b="0.7" a="1.0" /> <!-- diffuse component -->
+            <specular r="0.8" g="0.8" b="0.8" a="0.8" />    <!-- specular component -->
+        </light>
+
+        <light id="board nº1">
+            <enable value="1" />
+            <position x="15" y="10" z="15" w="1.0" />
+            <ambient r="0" g="0" b="0" a="1.0" />
+            <diffuse r="0.4" g="0.4" b="0.4" a="1.0" />
+            <specular r="0.8" g="0.8" b="0.8" a="1.0" />
+        </light>
+
+        <light id="board nº2">
+            <enable value="1" />
+            <position x="15" y="15" z="15" w="1.0" />
+            <ambient r="0" g="0" b="0" a="1.0" />
+            <diffuse r="0.7" g="0.7" b="0.7" a="1.0" />
+            <specular r="0.8" g="0.8" b="0.8" a="1.0" />
+        </light>
 
     </lights>
 
@@ -57,6 +106,11 @@
         <texture id="land" path="./scenes/images/land.jpg"/>
         <texture id="roots" path="./scenes/images/roots.jpg"/>
         <texture id="TexturaTronco" path="./scenes/images/trunk-image.jpg"/>
+        <texture id="TexturaTreeHouse" path="./scenes/images/wood_tree.jpg"/>
+        <texture id="donut" path="./scenes/images/text_donut.jpg"/>
+        <texture id="paper_box" path="./scenes/images/paper_box.PNG" />
+        <texture id="duff_beer" path="./scenes/images/duff.jpg"/>
+        <texture id="beer" path="./scenes/images/beer.jpg"/>
 
     </textures>
 
@@ -177,11 +231,14 @@
             </texture>
 
             <transformations>
+                <scale sx="2" sy="2" sz="2" />
+                <translation x="-26" y="-17.25" z="-31" />
             </transformations>
 
             <descendants>
                 <noderef id="background" />
                 <noderef id="elemento_principal" />
+                
             </descendants>
         </node>
 
@@ -347,7 +404,7 @@
         <node id="estrutura_sala">
             <material id="rosa_parede"/>
 
-            <texture id="null" />
+            <texture id="TexturaTronco" />
 
             <transformations>
                 <translation x="12.5" y="10.01" z="12.5" />
@@ -358,25 +415,45 @@
                 <noderef id="parede_zy"/>
                 <noderef id="chao"/>
                 <noderef id="parede_yx"/>
+                <noderef id="mesa_pequena"/>
+                <noderef id="comida" />
             </descendants>
         </node>
 
 
+        <node id="comida">
+            <material id="null"/>
 
-        <node id="chao">
-            <material id="branco"/>
-
-            <texture id="null">
+            <texture id="clear">
                 <amplification afs="2.0" aft="2.0"/>
             </texture>
 
             <transformations>
-                <translation x="0" y="0" z="10" />
+                <translation x="10" y="0" z="0" />
+                <scale sx="2" sy="2" sz="2" />
+            </transformations>
+
+            <descendants>
+                <noderef id="caixa_donuts"/>
+                <noderef id="cerveja_duff" />
+            </descendants>
+        </node>
+
+
+        <node id="chao">
+            <material id="rosa_parede"/>
+
+            <texture id="TexturaTreeHouse">
+                <amplification afs="2.0" aft="2.0"/>
+            </texture>
+
+            <transformations>
+                <translation x="0" y="0" z="20" />
                 <rotation axis="x" angle="-90" /> 
             </transformations>
 
             <descendants>
-               <leaf type="rectangle" x1="0" y1="0" x2="15" y2="10"/>
+               <leaf type="rectangle" x1="0" y1="0" x2="20" y2="20"/>
             </descendants>
         </node>
 
@@ -384,16 +461,16 @@
         <node id="parede_zy">
             <material id="null" />
 
-            <texture id="clear" />
+            <texture id="TexturaTreeHouse" />
 
             <transformations>
-                <translation x="0" y="0" z="10" />
+                <translation x="0" y="0" z="20" />
                 <rotation axis="y" angle="90"/>
             </transformations>
 
             <descendants>
                
-                <leaf type="rectangle" x1="0" y1="0" x2="10" y2="10"/>
+                <leaf type="rectangle" x1="0" y1="0" x2="20" y2="20"/>
             </descendants>
         </node>
 
@@ -402,16 +479,288 @@
         <node id="parede_yx">
             <material id="null" />
 
-            <texture id="clear" />
+            <texture id="TexturaTreeHouse" />
 
             <transformations>
-                <scale sx="15" sy="10" sz="1" />
+                <scale sx="20" sy="20" sz="1" />
                 <translation x="0.5" y="0.5" z="0" />
                 <rotation axis="x" angle="90"/>
             </transformations>
 
             <descendants>
                 <leaf type="plane" npartsU="10" npartsV="10" />
+            </descendants>
+        </node>
+
+
+        <node id="mesa_pequena">
+            <material id="branco" />
+
+            <texture id="TexturaTreeHouse" />
+
+            <transformations>
+                <scale sx="2" sy="2" sz="3" />
+                <translation x="3" y="0" z="3" />
+            </transformations>
+
+            <descendants>
+                <noderef id="tampo_mesa" />
+                <noderef id="perna1"/>
+                <noderef id="perna2"/>
+                <noderef id="perna3"/>
+                <noderef id="perna4"/>
+            </descendants>
+        </node>
+
+        <node id="tampo_mesa">
+            <material id="branco" />
+
+            <texture id="null" />
+
+            <transformations>
+                <translation x="0" y="3" z="0" />
+                <scale sx="4" sy="0.25" sz="3"/>
+            </transformations>
+
+            <descendants>
+                <noderef id="cubo" />
+            </descendants>
+        </node>
+
+        <node id="perna1">
+            <material id="null" />
+
+            <texture id="null" />
+
+            <transformations>
+                <translation x="0.5" y="0" z="0.5" />
+            </transformations>
+
+            <descendants>
+                <noderef id="perna" />
+            </descendants>
+        </node>
+
+        <node id="perna2">
+            <material id="null" />
+
+            <texture id="null" />
+
+            <transformations>           
+                <translation x="0.5" y="0" z="2.5" />
+            </transformations>
+
+            <descendants>
+                <noderef id="perna" />
+            </descendants>
+        </node>
+
+        <node id="perna3">
+            <material id="null" />
+
+            <texture id="null" />
+
+            <transformations>
+                <translation x="3.5" y="0" z="0.5" />
+            </transformations>
+
+            <descendants>
+                <noderef id="perna" />
+            </descendants>
+        </node>
+
+        <node id="perna4">
+            <material id="null" />
+
+            <texture id="null" />
+
+            <transformations>
+                <translation x="3.5" y="0" z="2.5" />
+            </transformations>
+
+            <descendants>
+                <noderef id="perna" />
+            </descendants>
+        </node>
+
+        <node id="perna">
+            <material id="null" />
+
+            <texture id="null" />
+
+            <transformations>
+                <scale sx="1" sy="3" sz="1"/>
+                <rotation axis="x" angle="-90" />
+            </transformations>
+
+            <descendants>
+                <leaf type="cylinder" height="1.0" topRadius="0.1" bottomRadius="0.1" stacks="10" slices="20"/>
+            </descendants>
+        </node>
+
+         <node id="cerveja_duff">
+            <material id="branco"/>
+            <texture id="beer">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <scale sx="0.8" sy="0.8" sz="0.8" />
+                <translation x="1" y="0" z="3" />
+            </transformations>
+
+            <descendants>
+                <noderef id="corpo" />
+                <noderef id="corpo_superior" />
+                <noderef id="gargalo" />
+            </descendants>
+        </node>
+
+        <node id="corpo">
+            <material id="null"/>
+            <texture id="duff_beer">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="0" y="0" z="0" />
+                <scale sx="0.3" sy="0.65" sz="0.3" />
+                <rotation axis="y" angle="135" />
+                <rotation axis="x" angle="-90" />
+            </transformations>
+
+            <descendants>
+                <leaf type="cylinder" height="2" topRadius="1" bottomRadius="1" stacks="1" slices="10"/>
+            </descendants>
+        </node>
+
+        <node id="corpo_superior">
+            <material id="null"/>
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="0" y="1.3" z="0" />
+                <scale sx="0.3" sy="0.25" sz="0.3" />
+                <rotation axis="x" angle="-90" />
+            </transformations>
+
+            <descendants>
+                <leaf type="sphere" radius="1" slices="10" stacks="5"/>
+            </descendants>
+        </node>
+
+        <node id="gargalo">
+            <material id="null"/>
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="0" y="1.4" z="0" />
+                <scale sx="0.2" sy="0.4" sz="0.2" />
+                <rotation axis="x" angle="-90" />
+            </transformations>
+
+            <descendants>
+                <leaf type="cylinder" height="2" topRadius="0.75" bottomRadius="1" stacks="1" slices="8"/>
+            </descendants>
+        </node>
+
+
+
+        
+        <node id="caixa_donuts">
+            <material id="null" />
+
+            <texture id="paper_box" />
+
+            <transformations>
+                <translation x="0.5" y="0.01" z="0.5" />
+            </transformations>
+
+            <descendants>
+                <noderef id="caixa" />
+
+                <noderef id="donut1"/>
+                <noderef id="donut2"/>
+                <noderef id="donut3"/>
+            </descendants>
+        </node>
+
+        <node id="caixa">
+            <material id="vermelho" />
+
+            <texture id="null" />
+
+            <transformations>
+                <scale sx="3" sy="0.33" sz="1.5"/>
+            </transformations>
+
+            <descendants>
+                <noderef id="face_baixo_cubo" />
+                <noderef id="face_esquerda_cubo" />
+                <noderef id="face_direita_cubo" />
+                <noderef id="face_frente_cubo" />
+                <noderef id="face_atras_cubo" />
+            </descendants>
+        </node>
+
+        <node id="donut1">
+            <material id="null" />
+
+            <texture id="donut" />
+
+            <transformations>
+                <translation x="0.5" y="0.1" z="0.5" />
+            </transformations>
+
+            <descendants>
+                <noderef id="donut" />
+            </descendants>
+        </node>
+
+        <node id="donut2">
+            <material id="null" />
+
+            <texture id="donut" />
+
+            <transformations>
+                <translation x="1.5" y="0.1" z="0.5" /> 
+            </transformations>
+
+            <descendants>
+                <noderef id="donut" />
+            </descendants>
+        </node>
+
+        <node id="donut3">
+            <material id="null" />
+
+            <texture id="donut" /> 
+
+            <transformations>
+                <translation x="2.5" y="0.1" z="0.5" />         
+            </transformations>
+
+            <descendants>
+                <noderef id="donut" />
+            </descendants>
+        </node>
+
+        <node id="donut">
+            <material id="null" />
+
+            <texture id="null" />
+
+            <transformations>
+                <scale sx="1.6" sy="1.33" sz="1.6" />  
+                <rotation axis="x" angle="90" />
+            </transformations>
+
+            <descendants>
+                <leaf type="torus" inner="0.1" outer="0.2" slices="16" loops="48" />
             </descendants>
         </node>
 

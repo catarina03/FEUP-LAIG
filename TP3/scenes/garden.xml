@@ -18,6 +18,17 @@
             <from x="-160" y="80" z="-160" />
             <to x="-30" y="-7" z="10" />
         </perspective>
+
+        <perspective id="Perspective" near="0.1" far="500" angle="45">
+            <from x="20" y="10" z="20"/>
+            <to x="2" y="-0.5" z="0"/>
+        </perspective>
+
+        <ortho id="demoOrtho" near="0.2" far="100" left="-20" right="20" top="10" bottom="-10">
+            <from x="10" y="10" z="10" />
+            <to x="0" y="0" z="0" />
+            <up x="0" y="1" z="0" />
+        </ortho>
     </views>
 
     <illumination>
