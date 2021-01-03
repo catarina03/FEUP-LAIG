@@ -9,15 +9,18 @@ class ZombiePlayAgainState extends MyGameState{
     constructor(scene) {
         super(scene);
 
+        this.previousTile = this.getTile(scene.orchestrator.currentPiece);
+
     };
 
     async onObjectSelected(obj, id) {
         console.log("ZOMBIE PLAY AGAIN STATE, WHATS THE GREEN SKULL?");
         console.log(this.scene.orchestrator.greenSkull);
-        
+
         if (obj instanceof MyTile){
             let state = this;
 
+            this.scene.orchestrator.currentTile = obj;
             this.scene.orchestrator.tileRow = Math.trunc((obj.id + 10)/10);
             this.scene.orchestrator.tileColumn = (obj.id % 10 + 1);
             let destination = [this.scene.orchestrator.tileRow, this.scene.orchestrator.tileColumn];
@@ -75,6 +78,24 @@ class ZombiePlayAgainState extends MyGameState{
     }
 
 
+    getTile(id) {
+        //console.log(id);
+        //console.log(this.scene.orchestrator.board.boardCells);
+
+        for (let i = 0; i < 10; i++){
+            for (let j = 0; j <= i; j++){
+                //console.log(this.scene.orchestrator.board.boardCells[i][j]);
+                if (this.scene.orchestrator.board.boardCells[i][j].id == id){
+                    //console.log(this.scene.orchestrator.board.boardCells[i][j]);
+                    return this.scene.orchestrator.board.boardCells[i][j].id
+                }
+            }
+        }
+        
+        return null;
+    }
+
+
     managePick(pickMode, pickResults){
         if (pickMode == false) {
 			if (pickResults != null && pickResults.length > 0) {
@@ -110,6 +131,7 @@ class ZombiePlayAgainState extends MyGameState{
             newMove.eatenPiece = this.scene.orchestrator.elemEaten;
             newMove.eatenRow = this.scene.orchestrator.elemEatenRow;
             newMove.eatenColumn = this.scene.orchestrator.elemEatenColumn;
+            newMove.tile = this.previousTile;
             this.scene.orchestrator.gameSequence.addGameMove(newMove);
 
             this.scene.orchestrator.auxiliarBoard.eatPiece(this.scene.orchestrator.elemEaten);

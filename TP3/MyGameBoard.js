@@ -35,7 +35,7 @@ class MyGameBoard extends CGFobject{
         this.orc = new CGFappearance(scene);
         this.orc.setAmbient(0.1, 0.1, 0.1, 1);
         this.orc.setDiffuse(1,1,1,0.0);
-        this.orc.setSpecular(1,1,1,0.0);
+        this.orc.setSpecular(0.1,0.1,0.1,0.0);
         this.orc.setShininess(0.1);
 
         this.goblin = new CGFappearance(scene);
@@ -147,7 +147,7 @@ class MyGameBoard extends CGFobject{
         let keyframe1 = new MyKeyframe(t + 0.25, [vec3.fromValues(deltaX/4, 5*Math.sin(45*DEGREE_TO_RAD), deltaZ/4), vec3.fromValues(0, 0, 0), vec3.fromValues(0, 0, 0)]);
         let keyframe2 = new MyKeyframe(t + 0.5, [vec3.fromValues(deltaX/2, 5*Math.sin(90*DEGREE_TO_RAD), deltaZ/2), vec3.fromValues(0, 0, 0), vec3.fromValues(0, 0, 0)]);
         let keyframe3 = new MyKeyframe(t + 0.75, [vec3.fromValues(3*deltaX/4, 5*Math.sin(45*DEGREE_TO_RAD), 3*deltaZ/4), vec3.fromValues(0, 0, 0), vec3.fromValues(0, 0, 0)]);
-        let keyframe4 = new MyKeyframe(t + 1, [vec3.fromValues(deltaX, 0, deltaZ), vec3.fromValues(0, 0, 0), vec3.fromValues(0, 0, 0)]);
+        let keyframe4 = new MyKeyframe(t + 1, [vec3.fromValues(deltaX, 0, deltaZ), vec3.fromValues(0, -45, 0), vec3.fromValues(0, 0, 0)]);
 
         let keyframes = [keyframe0, keyframe1, keyframe2, keyframe3, keyframe4];
 
@@ -170,7 +170,7 @@ class MyGameBoard extends CGFobject{
         let keyframe1 = new MyKeyframe(t + 0.25, [vec3.fromValues(deltaX/4, 5*Math.sin(45*DEGREE_TO_RAD), deltaZ/4), vec3.fromValues(0, 0, 0), vec3.fromValues(0, 0, 0)]);
         let keyframe2 = new MyKeyframe(t + 0.5, [vec3.fromValues(deltaX/2, 5*Math.sin(90*DEGREE_TO_RAD), deltaZ/2), vec3.fromValues(0, 0, 0), vec3.fromValues(0, 0, 0)]);
         let keyframe3 = new MyKeyframe(t + 0.75, [vec3.fromValues(3*deltaX/4, 5*Math.sin(45*DEGREE_TO_RAD), 3*deltaZ/4), vec3.fromValues(0, 0, 0), vec3.fromValues(0, 0, 0)]);
-        let keyframe4 = new MyKeyframe(t + 1, [vec3.fromValues(deltaX, 0, deltaZ), vec3.fromValues(0, 0, 0), vec3.fromValues(0, 0, 0)]);
+        let keyframe4 = new MyKeyframe(t + 1, [vec3.fromValues(deltaX, 0, deltaZ), vec3.fromValues(0, 45, 0), vec3.fromValues(0, 0, 0)]);
 
         let keyframes = [keyframe0, keyframe1, keyframe2, keyframe3, keyframe4];
 
@@ -199,9 +199,9 @@ class MyGameBoard extends CGFobject{
         console.log("BEFORE SKULL ANIM");
 
         if (greenSkull == "g") {
-            coordinates = this.skullGoblinToOrcAnimation();
+            coordinates = await this.skullGoblinToOrcAnimation();
         } else if (greenSkull == "o") {
-            coordinates = this.skullOrcToGoblinAnimation();
+            coordinates = await this.skullOrcToGoblinAnimation();
         }
 
 
@@ -217,7 +217,7 @@ class MyGameBoard extends CGFobject{
         //this.xCoord = -1;
         //this.zCoord = 5;
 
-        this.updateSkull(coordinates);
+        //this.updateSkull(coordinates);
     }
 
 

@@ -18,7 +18,7 @@ serialInclude(['../lib/CGF.js', 'XMLscene.js','CGFResourceReader.js',
 'gameprimitives/MyPiece.js','gameprimitives/MyChecker.js','gameprimitives/MyGreenSkull.js','gameprimitives/MyTile.js', 'MyGameBoard.js', 
 'MyGameSequence.js', 'MyGameMove.js', 'MyGameOrchestrator.js', 'MyServer.js', 'MyMenu.js', 'gamestates/MyGameState.js', 
 'gamestates/OrcPieceState.js', 'gamestates/OrcTileState.js', 'gamestates/GoblinPieceState.js', 'gamestates/GoblinTileState.js', 'gamestates/ZombiePieceState.js', 'gamestates/ZombieTileState.js', 'gamestates/ChoiceState.js', 'gamestates/OrcPlayAgainState.js', 
-'gamestates/GoblinPlayAgainState.js', 'gamestates/ZombiePlayAgainState.js', 'gamestates/GameOverState.js', 'MyAuxiliarBoard.js',
+'gamestates/GoblinPlayAgainState.js', 'gamestates/ZombiePlayAgainState.js', 'gamestates/GameOverState.js', 'MyAuxiliarBoard.js', 'gamestates/BotState.js',
 
 
 main=function()
@@ -38,7 +38,7 @@ main=function()
 	// get file name provided in URL, e.g. http://localhost/myproj/?file=myfile.xml 
 	// or use "demo.xml" as default (assumes files in subfolder "scenes", check MySceneGraph constructor) 
 	
-    var filename=getUrlVars()['file'] || "LAIG_TP1_XML_T7_G03_v1.0.xml";
+    var filename=getUrlVars()['file'] || "garden.xml";
 
 	// create and load graph, and associate it to scene. 
 	// Check console for loading errors

@@ -32,6 +32,7 @@ class MyGameOrchestrator extends CGFobject {
         this.currentPiece = null;
         this.currentPieceRow = null;
         this.currentPieceColumn = null;
+        this.currentTile = null;
         this.tileRow = null;
         this.tileColumn = null;
         this.possibleMoves = [];

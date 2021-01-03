@@ -250,8 +250,8 @@ class XMLscene extends CGFscene {
             
             
             // Displays the scene (MySceneGraph function).
-            //this.graph.displayScene();
-            //this.tile.display();
+            this.graph.displayScene();
+
             this.orchestrator.board.display();
             this.orchestrator.auxiliarBoard.display();
         }

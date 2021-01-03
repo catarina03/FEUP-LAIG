@@ -28,7 +28,12 @@ class MyGameSequence extends CGFobject {
     }
 
     undoGameMove(){
-        this.moves.pop();
+        let move = this.moves.pop();
+        
+        console.log(move.piece);
+        console.log(move.tile);
+
+        this.scene.orchestrator.board.movePiece(move.piece, move.tile);
         //POrecisa de animação também
     }
     

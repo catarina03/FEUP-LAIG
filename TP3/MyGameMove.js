@@ -12,11 +12,16 @@ class MyGameMove extends CGFobject {
         this.piece = piece;
         this.startingRow = startingRow;
         this.startingColumn = startingColumn;
+
+        this.tile = null;
         this.destinationRow = destinationRow;
         this.destinationColumn = destinationColumn;
+        this.state = null;
+        this.prologBoard = null;
 
         this.eatenPiece = null;
         this.eatenRow = null;
         this.eatenColumn = null;
+        
     }
 }

@@ -9,6 +9,8 @@ class ZombieTileState extends MyGameState{
     constructor(scene) {
         super(scene);
 
+        this.previousTile = this.getTile(scene.orchestrator.currentPiece);
+
     };
 
     async onObjectSelected(obj, id) {
@@ -18,6 +20,7 @@ class ZombieTileState extends MyGameState{
         if (obj instanceof MyTile){
             let state = this;
 
+            this.scene.orchestrator.currentTile = obj;
             this.scene.orchestrator.tileRow = Math.trunc((obj.id + 10)/10);
             this.scene.orchestrator.tileColumn = (obj.id % 10 + 1);
             let destination = [this.scene.orchestrator.tileRow, this.scene.orchestrator.tileColumn];
@@ -27,7 +30,6 @@ class ZombieTileState extends MyGameState{
                 + this.scene.orchestrator.currentPieceRow + "-" + this.scene.orchestrator.currentPieceColumn + "-" + this.scene.orchestrator.tileRow + "-" + this.scene.orchestrator.tileColumn + "-MoveType" 
                 + ",NewGameState-[PO1,PG1,PZ1]-ListEat-NewGreenSkull,y)";
             await this.scene.orchestrator.server.makeRequest(command, function(data) {
-                //console.log("Something's happening..." + data.target.response);
                 state.zombieMoveParser(data.target.response);
                 state.move(obj, destination);
             });
@@ -44,6 +46,15 @@ class ZombieTileState extends MyGameState{
         this.scene.orchestrator.prologBoard = returnedData[1];
         this.scene.orchestrator.scores = JSON.parse(returnedData[2]);
         this.scene.orchestrator.eatMoves = JSON.parse(returnedData[3]);
+
+        console.log("Moving green skull");
+
+        if (this.scene.orchestrator.greenSkull != returnedData[4]) {
+            this.scene.orchestrator.board.moveGreenSkull(returnedData[4]);
+        }
+
+        console.log("Moved green skull");
+
         this.scene.orchestrator.greenSkull = returnedData[4];
     }
 
@@ -59,9 +70,22 @@ class ZombieTileState extends MyGameState{
     }
 
 
-    switchGreenSkull(greenSkull){
-        if (greenSkull == "o") this.greenSkull = "g";
-        else if (greenSkull == "g") this.greenSkull = "o";
+
+    getTile(id) {
+        //console.log(id);
+        //console.log(this.scene.orchestrator.board.boardCells);
+
+        for (let i = 0; i < 10; i++){
+            for (let j = 0; j <= i; j++){
+                //console.log(this.scene.orchestrator.board.boardCells[i][j]);
+                if (this.scene.orchestrator.board.boardCells[i][j].id == id){
+                    //console.log(this.scene.orchestrator.board.boardCells[i][j]);
+                    return this.scene.orchestrator.board.boardCells[i][j].id
+                }
+            }
+        }
+        
+        return null;
     }
     
 
@@ -87,6 +111,7 @@ class ZombieTileState extends MyGameState{
             this.scene.orchestrator.board.movePiece(this.scene.orchestrator.currentPiece, tile);
 
             let newMove = new MyGameMove(this.scene, this.scene.orchestrator.currentPiece, this.scene.orchestrator.startingPoint[0], this.scene.orchestrator.startingPoint[1], destination[0], destination[1]);
+            newMove.tile = this.previousTile;
             this.scene.orchestrator.gameSequence.addGameMove(newMove);
 
             this.scene.orchestrator.currentPiece.currentState = this.scene.orchestrator.currentPiece.checkerStates.NOT_SELECTED;
@@ -106,17 +131,13 @@ class ZombieTileState extends MyGameState{
             this.scene.orchestrator.elemEaten = this.getEatenElement(eatenId);
             this.scene.orchestrator.elemEatenPlayer = this.scene.orchestrator.elemEaten.player;
 
-            console.log("Move green skull");
-            this.scene.orchestrator.board.moveGreenSkull(this.scene.orchestrator.greenSkull);
-            console.log("Animated green skull");
-            this.switchGreenSkull(this.scene.orchestrator.greenSkull);
-
             this.scene.orchestrator.board.movePiece(this.scene.orchestrator.currentPiece, tile);
 
             let newMove = new MyGameMove(this.scene, this.scene.orchestrator.currentPiece, this.scene.orchestrator.startingPoint[0], this.scene.orchestrator.startingPoint[1], destination[0], destination[1]);
             newMove.eatenPiece = this.scene.orchestrator.elemEaten;
             newMove.eatenRow = this.scene.orchestrator.elemEatenRow;
             newMove.eatenColumn = this.scene.orchestrator.elemEatenColumn;
+            newMove.tile = this.previousTile;
             this.scene.orchestrator.gameSequence.addGameMove(newMove);
 
             this.scene.orchestrator.auxiliarBoard.eatPiece(this.scene.orchestrator.elemEaten);

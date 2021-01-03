@@ -9,6 +9,7 @@ class OrcTileState extends MyGameState{
     constructor(scene) {
         super(scene);
         this.prologBoardCopy = null;
+        this.previousTile = this.getTile(scene.orchestrator.currentPiece);
 
     };
 
@@ -19,6 +20,7 @@ class OrcTileState extends MyGameState{
         if (obj instanceof MyTile){
             let state = this;
 
+            this.scene.orchestrator.currentTile = obj;
             this.scene.orchestrator.tileRow = Math.trunc((obj.id + 10)/10);
             this.scene.orchestrator.tileColumn = (obj.id % 10 + 1);
             let destination = [this.scene.orchestrator.tileRow, this.scene.orchestrator.tileColumn];
@@ -70,6 +72,25 @@ class OrcTileState extends MyGameState{
 
         return null;
     }
+
+
+    
+    getTile(id) {
+        //console.log(id);
+        //console.log(this.scene.orchestrator.board.boardCells);
+
+        for (let i = 0; i < 10; i++){
+            for (let j = 0; j <= i; j++){
+                //console.log(this.scene.orchestrator.board.boardCells[i][j]);
+                if (this.scene.orchestrator.board.boardCells[i][j].id == id){
+                    //console.log(this.scene.orchestrator.board.boardCells[i][j]);
+                    return this.scene.orchestrator.board.boardCells[i][j].id
+                }
+            }
+        }
+        
+        return null;
+    }
     
 
     managePick(pickMode, pickResults){
@@ -94,6 +115,7 @@ class OrcTileState extends MyGameState{
             this.scene.orchestrator.board.movePiece(this.scene.orchestrator.currentPiece, tile);
 
             let newMove = new MyGameMove(this.scene, this.scene.orchestrator.currentPiece, this.scene.orchestrator.startingPoint[0], this.scene.orchestrator.startingPoint[1], destination[0], destination[1]);
+            newMove.tile = this.previousTile;
             this.scene.orchestrator.gameSequence.addGameMove(newMove);
 
             this.scene.orchestrator.currentPiece.currentState = this.scene.orchestrator.currentPiece.checkerStates.NOT_SELECTED;
@@ -129,6 +151,7 @@ class OrcTileState extends MyGameState{
             newMove.eatenPiece = this.scene.orchestrator.elemEaten;
             newMove.eatenRow = this.scene.orchestrator.elemEatenRow;
             newMove.eatenColumn = this.scene.orchestrator.elemEatenColumn;
+            newMove.tile = this.previousTile;
             this.scene.orchestrator.gameSequence.addGameMove(newMove);
             
             this.scene.orchestrator.auxiliarBoard.eatPiece(this.scene.orchestrator.elemEaten);

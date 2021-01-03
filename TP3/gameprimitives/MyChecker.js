@@ -33,8 +33,8 @@ class MyChecker extends MyPiece {
 
         this.orc = new CGFappearance(scene);
         this.orc.setAmbient(0.1, 0.1, 0.1, 1);
-        this.orc.setDiffuse(1,1,1,0.0);
-        this.orc.setSpecular(1,1,1,0.0);
+        this.orc.setDiffuse(1, 1, 1, 0.0);
+        this.orc.setSpecular(0.1, 0.1, 0.1,0.0);
         this.orc.setShininess(0.1);
 
         this.goblin = new CGFappearance(scene);
