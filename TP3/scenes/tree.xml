@@ -5,7 +5,7 @@
     </initials>
 
 
-    <views default="OrcView">
+    <views default="Perspective">
         <perspective id="GoblinView" near="0.1" far="300" angle="25">
             <from x="3" y="13" z="30" />
             <to x="3" y="1" z="5" />
@@ -13,7 +13,7 @@
 
         <perspective id="OrcView" near="0.1" far="300" angle="30">
             <from x="30" y="13" z="3" />
-            <to x="8" y="0" z="5" />
+            <to x="8" y="0" z="0" />
         </perspective>
 
         <perspective id="Overview" near="0.1" far="500" angle="30">
@@ -235,7 +235,9 @@
             <descendants>
                 <noderef id="background" />
                 <noderef id="elemento_principal" />
-                
+                <leaf type = "orcpiece" geometry="sphere" />
+                <leaf type = "goblinpiece" geometry="sphere" />
+                <leaf type = "zombiepiece" geometry="sphere" />
             </descendants>
         </node>
 

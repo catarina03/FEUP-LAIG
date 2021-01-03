@@ -3,7 +3,7 @@
         <reference length="2" />
         <root id="root" />
     </initials>
-    <views default="OrcView">
+    <views default="Perspective">
         <perspective id="GoblinView" near="0.1" far="300" angle="25">
             <from x="3" y="13" z="30" />
             <to x="3" y="1" z="5" />
@@ -11,7 +11,7 @@
 
         <perspective id="OrcView" near="0.1" far="300" angle="30">
             <from x="30" y="13" z="3" />
-            <to x="8" y="0" z="5" />
+            <to x="8" y="0" z="0" />
         </perspective>
 
         <perspective id="Overview" near="0.1" far="500" angle="30">
@@ -91,7 +91,7 @@
     </textures>
 
     <spritesheets>
-        <spritesheet id="game_anim" path="./spritesheets/images/game.png" sizeM="9" sizeN="6" />
+        
     </spritesheets>
 
     <materials>
@@ -373,7 +373,9 @@
                 <noderef id="swing" />
                 <noderef id="flower_pot" />
                 <noderef id="slide" />
-                <!-- <noderef id="tablet" /> -->
+                <leaf type = "orcpiece" geometry="cylinder" />
+                <leaf type = "goblinpiece" geometry="cylinder" />
+                <leaf type = "zombiepiece" geometry="cylinder" />
             </descendants>
         </node>
 
@@ -1005,7 +1007,7 @@
             </texture>
 
             <transformations>
-                <translation x="5.5" y="0" z="1" />
+                <translation x="6.5" y="0" z="0.5" />
             </transformations>
 
             <descendants>

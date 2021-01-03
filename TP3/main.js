@@ -18,7 +18,8 @@ serialInclude(['../lib/CGF.js', 'XMLscene.js','CGFResourceReader.js',
 'gameprimitives/MyPiece.js','gameprimitives/MyChecker.js','gameprimitives/MyGreenSkull.js','gameprimitives/MyTile.js', 'MyGameBoard.js', 
 'MyGameSequence.js', 'MyGameMove.js', 'MyGameOrchestrator.js', 'MyServer.js', 'MyMenu.js', 'gamestates/MyGameState.js', 
 'gamestates/OrcPieceState.js', 'gamestates/OrcTileState.js', 'gamestates/GoblinPieceState.js', 'gamestates/GoblinTileState.js', 'gamestates/ZombiePieceState.js', 'gamestates/ZombieTileState.js', 'gamestates/ChoiceState.js', 'gamestates/OrcPlayAgainState.js', 
-'gamestates/GoblinPlayAgainState.js', 'gamestates/ZombiePlayAgainState.js', 'gamestates/GameOverState.js', 'MyAuxiliarBoard.js', 'gamestates/BotState.js',
+'gamestates/GoblinPlayAgainState.js', 'gamestates/ZombiePlayAgainState.js', 'gamestates/GameOverState.js', 'MyAuxiliarBoard.js', 'gamestates/BotState.js', 'gamestates/WaitingState.js',
+'MyAnimatedCamera.js',
 
 
 main=function()
@@ -34,9 +35,6 @@ main=function()
     app.setInterface(myInterface);
 
     myInterface.setActiveCamera(myScene.camera);
-
-    //var filename1=getUrlVars()['file'] || "garden.xml";
-    //var myGraph = new MySceneGraph(filename1, myScene);
 	
 	// start
     app.run();

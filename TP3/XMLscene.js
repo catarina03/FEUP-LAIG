@@ -20,8 +20,8 @@ class XMLscene extends CGFscene {
         super.init(application);     
 
         this.sceneInited = false;
-        this.displayAxis = true;
-        this.zoom = 2;
+        this.displayAxis = false;
+        this.zoom = 1.8;
 
         this.initCameras();
 
@@ -171,6 +171,10 @@ class XMLscene extends CGFscene {
                 this.orchestrator.board.checkers[checker].animation.update(time);
             }
         }
+
+        if (this.orchestrator.animatedCamera != null){
+            this.orchestrator.update(time);
+        }
     }
 
 
@@ -207,10 +211,7 @@ class XMLscene extends CGFscene {
 
     chooseView(val){
         this.newViewID = val;
-        console.log(this.newViewID);
-        console.log(this.camera);
         this.camera = this.graph.views[this.newViewID];
-        console.log(this.camera);
         this.interface.setActiveCamera(this.camera);
     }
 
@@ -243,6 +244,10 @@ class XMLscene extends CGFscene {
         this.initViews();
         this.sceneInited = true;
         this.orchestrator.theme = this.graphNames[index];
+
+        this.orchestrator.board.checkers.splice(0, this.orchestrator.board.checkers.length);
+        this.orchestrator.board.populateBoard();
+
         this.interface.addLightsGUI();
         this.interface.addScenesGUI();
         this.interface.addCamerasGUI();
@@ -252,16 +257,7 @@ class XMLscene extends CGFscene {
 
 
     changeScene(filename) {
-        /*
-        this.sceneChanged = true;
-        this.sceneInited = false;
-        let myGraph = new MySceneGraph(filename + '.xml', this);
-        */
-        
-        //this.sceneInited = false;
         this.updateScene(filename);
-        //this.graph.reader.open('scenes/' + filename + '.xml', this.graph);
-        this.graph.filename = filename + '.xml';
     }
 
 
@@ -317,6 +313,10 @@ class XMLscene extends CGFscene {
         this.applyViewMatrix();
 
         this.pushMatrix();
+
+        if (this.orchestrator.animatedCamera != null) {
+            this.scene.orchestrator.animatedCamera.display();
+        }
         
         if(this.displayAxis) this.axis.display();
 

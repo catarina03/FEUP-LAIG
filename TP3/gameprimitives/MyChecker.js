@@ -8,14 +8,21 @@ class MyChecker extends MyPiece {
      */
      
 
-    constructor(scene, player, tileID, xCoord, zCoord) {
+    constructor(scene, player, tileID, xCoord, zCoord, geometry) {
         super(scene,player);
         //this.checker = new CGFOBJModel(this.scene, 'models/checker.obj');
-        this.checker = new MyCylinder(scene, 0.4, 0.4, 0.15, 20, 3);
+        //this.checker = new MyCylinder(scene, 0.4, 0.4, 0.15, 20, 3);
         this.pickId = null;
         this.xCoord = xCoord;
         this.yCoord = 0.2;
         this.zCoord = zCoord;
+        this.geometry=geometry;//pode ser sphere ou cylinder
+
+        if(geometry=="cylinder" || geometry== "")
+          this.checker = new MyCylinder(scene, 0.4, 0.4, 0.15, 20, 3);
+
+        if(geometry=="sphere")
+          this.checker= new MySphere(scene,0.4,20,20);
 
         this.checkerStates = {
             NOT_SELECTED: 0,

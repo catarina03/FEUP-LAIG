@@ -36,6 +36,7 @@ class MySceneGraph {
         this.textures = [];
         this.animations = [];
         this.spritesheets = [];
+        this.geometries=["","",""];
        
 
         this.idRoot = null; // The id of the root element.
@@ -53,7 +54,6 @@ class MySceneGraph {
          * After the file is read, the reader calls onXMLReady on this object.
          * If any error occurs, the reader calls onXMLError on this object, with an error message
          */
-        this.filename = filename;
         this.reader.open('scenes/' + filename, this);
     }
 
@@ -108,12 +108,6 @@ class MySceneGraph {
         console.log("   " + message);
     }
 
-    /*
-    changeScene(filename){
-        this.scene.graph.changingScene = true;
-        this.reader.open('scenes/' + filename, this);
-    }
-    */
 
     /**
      * Parses the XML file, processing each block.
@@ -1348,7 +1342,7 @@ class MySceneGraph {
             vector.push(spritetext);
         }
 
-        else if (leafType = "spriteanim"){
+        else if (leafType == "spriteanim"){
             let ssid = this.reader.getString(leaf, 'ssid');
 
             // Validates ssid
@@ -1372,6 +1366,42 @@ class MySceneGraph {
 
             vector.push(new MySpriteAnimation(this.scene, this.spritesheets[ssid], duration, startCell, endCell));
 
+        }
+        else if(leafType=="orcpiece"){
+
+            console.log("ENTROU AQUIIIII");
+            let geometry=this.reader.getString(leaf,'geometry');
+
+            if(geometry == null || geometry=="")
+                return "geometry is null on orcpiece";
+            
+            if (geometry == null)
+                return "orcpiece geometry is not valid";    
+                this.geometries[0]=geometry; //insere geometry1 no index0
+        }
+        else if(leafType=="goblinpiece"){
+            let geometry1=this.reader.getString(leaf,'geometry');
+
+            if(geometry1 == null || geometry1=="")
+                return "geometry is null on orcpiece";
+            
+            if (geometry1 == null)
+                return " goblinpiece geometry is not valid";          
+
+                this.geometries[1]=geometry1;
+        }
+        else if(leafType=="zombiepiece"){
+            console.log("ENTROU AQUIIIII");
+            let geometry2=this.reader.getString(leaf,'geometry');
+
+            if(geometry2 == null || geometry2=="")
+                return "geometry is null on orcpiece";
+            
+            if (geometry2 == null)
+                return "zombiepiece geometry is not valid"; 
+
+         this.geometries[2]=geometry2;
+         console.log("MUDOU A GEOMETRIA");
         }
         else{
             return "Invalid type of leaf";

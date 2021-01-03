@@ -27,7 +27,7 @@ class MyInterface extends CGFinterface {
         this.gui = new dat.GUI();
 
         //Checkbox element in GUI
-        this.gui.add(this.scene, 'displayAxis').name('Display Axis');
+        //this.gui.add(this.scene, 'displayAxis').name('Display Axis');
         
         this.gui.add(this.scene, 'zoom', 0.1, 8).name('Zoom');
 
@@ -67,8 +67,6 @@ class MyInterface extends CGFinterface {
 
         this.lightsFolder=this.gui.addFolder('Lights');
 
-        this.lightsFolder.open();
-
         for(let i= 0; i<keyNames.length;i++)
             this.lightsFolder.add(this.scene.lights[i],'enabled').name(keyNames[i]); 
     }
@@ -104,7 +102,12 @@ class MyInterface extends CGFinterface {
         this.commandsFolder = this.gui.addFolder("Game");
         this.commandsFolder.open();
 
-        this.commandsFolder.add(this.scene.orchestrator, 'startGame').name("Start");
+        this.commandsFolder.add(this.scene.orchestrator.currentState, 'startHumanHuman').name("Human vs Human");
+        this.commandsFolder.add(this.scene.orchestrator.currentState, 'start').name("Human vs PC");
+        this.commandsFolder.add(this.scene.orchestrator.currentState, 'start').name("PC vs Human");
+        this.commandsFolder.add(this.scene.orchestrator.currentState, 'start').name("PC vs PC");
+
+        //this.commandsFolder.add(this.scene.orchestrator, 'startGame').name("Start");
         this.commandsFolder.add(this.scene.orchestrator.gameSequence, 'undoGameMove').name('Undo');
     }
 }

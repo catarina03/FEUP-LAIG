@@ -133,6 +133,7 @@ class GoblinPlayAgainState extends MyGameState{
                 this.scene.orchestrator.currentPiece.currentState = this.scene.orchestrator.currentPiece.checkerStates.NOT_SELECTED;
             }
             else if (this.scene.orchestrator.eatMoves.length == 0 && Array.isArray(this.scene.orchestrator.eatMoves) && this.scene.orchestrator.greenSkull == "o") {
+                this.scene.orchestrator.player = "o";
                 this.scene.orchestrator.currentState = new OrcPieceState(this.scene);
                 this.scene.orchestrator.currentPiece.currentState = this.scene.orchestrator.currentPiece.checkerStates.NOT_SELECTED;
             }
