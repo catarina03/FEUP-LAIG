@@ -47,6 +47,10 @@
 
 ----
 
-### [TP3 - ...](TP3)
-- (items briefly describing main strong points)
+### [TP3 - Green Skull](TP3)
+- Graphical Interface for the game GreenSkull
+  - Triangular board using modelled objects
+  - Two different geometries for the game pieces
+  - Comunication with Logical programming
+  - Choice between two different scenes 
 
