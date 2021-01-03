@@ -7,6 +7,12 @@ class MyInterface extends CGFinterface {
      */
     constructor() {
         super();
+
+        this.lightsFolder = null;
+        this.sceneFolder = null;
+        this.viewsFolder = null;
+        this.commandsFolder = null;
+
     }
 
     /**
@@ -59,21 +65,24 @@ class MyInterface extends CGFinterface {
     addLightsGUI(){
         var keyNames=Object.keys(this.scene.graph.lights);
 
-        var lightsFolder=this.gui.addFolder('Lights');
+        this.lightsFolder=this.gui.addFolder('Lights');
 
-        lightsFolder.open();
+        this.lightsFolder.open();
 
         for(let i= 0; i<keyNames.length;i++)
-            lightsFolder.add(this.scene.lights[i],'enabled').name(keyNames[i]); 
+            this.lightsFolder.add(this.scene.lights[i],'enabled').name(keyNames[i]); 
     }
 
 
     addScenesGUI(){
-        var folder = this.gui.addFolder("Scene");
+        this.sceneFolder = this.gui.addFolder("Scene");
+        this.sceneFolder.open();
+
         let scene = this.scene;
-        folder.add(this.scene, "currentScene" , ["garden", "tree"]).name("Current Scene").onChange(function(value) {
+
+        this.sceneFolder.add(this.scene, "currentScene" , ["garden", "tree"]).name("Current Scene").onChange(function(value) {
             let scenario = value + ".xml";
-            scene.graph.changeScene(scenario);
+            scene.changeScene(value);
         });
     }
 
@@ -81,22 +90,22 @@ class MyInterface extends CGFinterface {
      * Adds cameras to the User Interface
      */
     addCamerasGUI(){ 
-        var viewsFolder = this.gui.addFolder('Views');
-        viewsFolder.open();
+        this.viewsFolder = this.gui.addFolder('Views');
+        this.viewsFolder.open();
 
         const viewArray = Object.keys(this.scene.graph.views);
 
         this.currView = this.scene.graph.defaultView;
 
-        viewsFolder.add(this, 'currView', viewArray).name('Camera').onChange(val => this.scene.chooseView(val));
+        this.viewsFolder.add(this, 'currView', viewArray).name('Camera').onChange(val => this.scene.chooseView(val));
 
     }
 
     addGameCommandsGUI(){
-        var group = this.gui.addFolder("Game");
-        group.open();
+        this.commandsFolder = this.gui.addFolder("Game");
+        this.commandsFolder.open();
 
-        group.add(this.scene.orchestrator, 'startGame').name("Start");
-        group.add(this.scene.orchestrator.gameSequence, 'undoGameMove').name('Undo');
+        this.commandsFolder.add(this.scene.orchestrator, 'startGame').name("Start");
+        this.commandsFolder.add(this.scene.orchestrator.gameSequence, 'undoGameMove').name('Undo');
     }
 }

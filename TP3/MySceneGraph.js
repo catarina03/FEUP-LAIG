@@ -108,10 +108,12 @@ class MySceneGraph {
         console.log("   " + message);
     }
 
+    /*
     changeScene(filename){
         this.scene.graph.changingScene = true;
         this.reader.open('scenes/' + filename, this);
     }
+    */
 
     /**
      * Parses the XML file, processing each block.

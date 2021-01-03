@@ -80,6 +80,8 @@ class XMLscene extends CGFscene {
         
         this.graphNames = ["garden","tree"];
         this.graphs = [myGraph1, myGraph2];
+        //this.graphNames = ["garden"];
+        //this.graphs =[myGraph1],
         
 
         this.orchestrator = new MyGameOrchestrator(this);
@@ -146,10 +148,13 @@ class XMLscene extends CGFscene {
         this.interface.addScenesGUI();
         this.interface.addCamerasGUI();
         this.interface.addGameCommandsGUI();
-        
+
+        console.log(this.graph);
+        console.log("-----------------------");
 
         this.sceneInited = true;
-        this.currentScene = this.graph.filename.slice(0, -4);
+        //this.currentScene = this.graphs[0];
+        this.graph = this.graphs[0];
     }
 
 
@@ -213,26 +218,32 @@ class XMLscene extends CGFscene {
             this.lights[i].update();
         }
 
-        this.interface.gui.removeFolder(this.interface.cameraFolder);
+        this.interface.gui.removeFolder(this.interface.viewsFolder);
         this.interface.gui.removeFolder(this.interface.lightsFolder);
-
+        //this.gui.destroy(); 
+        
         var index = 0;
-
+        
         for (let i = 0; this.graphNames.length; i++){
             if (this.orchestrator.theme == this.graphNames[i]){
                 index = i;
                 break;
             }
         }
-
+        
+        console.log(this.graph);
+        //this.gui = new dat.GUI();
         this.graph = this.graphs[index];
-        this.axis = new CGaxis(this, this.graph.referenceLength);
+        console.log(this.graph);
+        //this.axis = new CGaxis(this, this.graph.referenceLength);
         this.gl.clearColor(...this.graph.background);
         this.setGlobalAmbientLight(...this.graph.ambient);
         this.initLights();
         this.initViews();
         this.sceneInited = true;
-        this.currentScene = this.graphNames[index];
+        this.orchestrator.theme = this.graphNames[index];
+        this.interface.addLightsGUI();
+        this.interface.addCamerasGUI();
 
     }
 

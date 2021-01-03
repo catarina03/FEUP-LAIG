@@ -35,8 +35,8 @@ main=function()
 
     myInterface.setActiveCamera(myScene.camera);
 
-    var filename1=getUrlVars()['file'] || "garden.xml";
-    var myGraph = new MySceneGraph(filename1, myScene);
+    //var filename1=getUrlVars()['file'] || "garden.xml";
+    //var myGraph = new MySceneGraph(filename1, myScene);
 	
 	// start
     app.run();

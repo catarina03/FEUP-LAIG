@@ -53,14 +53,14 @@
         <texture id="madeira_clara" path="./scenes/images/madeira_clara.jpg"/>
         <texture id="verde_chao" path="./scenes/images/pine_green.jpg"/>
         <texture id="quadro_barco" path="./scenes/images/moldura_barco.jpg"/>
-        <texture id="donut" path="./scenes/images/text_donut.jpg"/>
         <texture id="tv" path="./scenes/images/ecra_tv.png" />
         <texture id="madeira_escura" path="./scenes/images/madeira_escura.jpg" />
         <texture id="tapete_cinza" path="./scenes/images/tapete_cinza.jpg"/>
         <texture id="tapete" path="./scenes/images/tapete.jpg"/>
-        <texture id="paper_box" path="./scenes/images/paper_box.PNG" />
         <texture id="ecra_tv" path="./scenes/images/tv_screen.PNG" />
         <texture id="bola_brincar" path="./scenes/images/bola_futebol.jpg"/>
+        <texture id="donut" path="./scenes/images/text_donut.jpg"/>
+        <texture id="paper_box" path="./scenes/images/paper_box.PNG" />
         <texture id="duff_beer" path="./scenes/images/duff.jpg"/>
         <texture id="beer" path="./scenes/images/beer.jpg"/>
         <texture id="barrel" path="./scenes/images/barrel.jpg" />

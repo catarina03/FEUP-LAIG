@@ -171,8 +171,8 @@ find_move(GameState,RowPiece-ColumnPiece,Row-Column):-
     [Row, Column] = Move.
 
 % find_move auxiliary function
-choose_list(ListAdjacentMoves-_,1,ListAdjacentMoves).
 choose_list(_-ListEatMoves,2,ListEatMoves).
+choose_list(ListAdjacentMoves-_,1,ListAdjacentMoves).
 choose_list([]-ListEatMoves,1,ListEatMoves).
 choose_list(ListAdjacentMoves-[],2,ListAdjacentMoves).
 

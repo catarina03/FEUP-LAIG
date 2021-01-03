@@ -148,4 +148,19 @@ parse_input(change_score([PO,PG,PZ]-Player-ElemEaten,[PO1,PG1,PZ1]),[PO1,PG1,PZ1
 parse_input(is_over(GameState), 0) :- is_over(GameState).
 parse_input(is_over(GameState), 1).
 
+parse_input(choose_move(GameState, Player,Level,RowPiece-ColumnPiece-Row-Column), RowPiece-ColumnPiece-Row-Column) :-
+	choose_move(GameState, Player,Level,RowPiece-ColumnPiece-Row-Column).
+
+parse_input(move(GameState-[PO,PG,PZ]-Player-GreenSkull, RowPiece-ColumnPiece-Row-Column-MoveType, NewGameState-[PO1,PG1,PZ1]-ListEat-NewGreenSkull), NewGameState-[PO1,PG1,PZ1]-ListEat-NewGreenSkull) :-
+	move(GameState-[PO,PG,PZ]-Player-GreenSkull, RowPiece-ColumnPiece-Row-Column-MoveType, NewGameState-[PO1,PG1,PZ1]-ListEat-NewGreenSkull).
+
+parse_input(play_again_bot(NewGameState-[PO1,PG1,PZ1], ListEat, Player-[Row, Column]-MoveType, NewerGameState-[PO2,PG2,PZ2]), NewerGameState-[PO2,PG2,PZ2]) :-
+	play_again_bot(NewGameState-[PO1,PG1,PZ1], ListEat, Player-[Row, Column]-MoveType, NewerGameState-[PO2,PG2,PZ2]).
+
+parse_input(play_zombies_bot(Level, NewerGameState-[PO2,PG2,PZ2]-Player-NewGreenSkull, _-_-RowZombie-ColumnZombie-MoveTypeZombie, NewZombieGameState-[PO3,PG3,PZ3]-ListEatZombie-NewerGreenSkull), NewZombieGameState-[PO3,PG3,PZ3]-ListEatZombie-NewerGreenSkull) :-
+	play_zombies_bot(Level, NewerGameState-[PO2,PG2,PZ2]-Player-NewGreenSkull, _-_-RowZombie-ColumnZombie-MoveTypeZombie, NewZombieGameState-[PO3,PG3,PZ3]-ListEatZombie-NewerGreenSkull).
+
+parse_input(play_zombies_bot(Level, NewerGameState-[PO2,PG2,PZ2]-Player-NewGreenSkull, _-_-RowZombie-ColumnZombie-MoveTypeZombie, NewZombieGameState-[PO3,PG3,PZ3]-ListEatZombie-NewerGreenSkull), NewZombieGameState-[PO3,PG3,PZ3]-ListEatZombie-NewerGreenSkull) :-
+    play_again_zombies(NewZombieGameState-[PO3,PG3,PZ3]-NewerGreenSkull, ListEatZombie, Player-[RowZombie, ColumnZombie]-MoveTypeZombie, FinalGameState-[POF,PGF,PZF]-NewestGreenSkull).
+
 
