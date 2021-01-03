@@ -81,7 +81,6 @@ class MyInterface extends CGFinterface {
         let scene = this.scene;
 
         this.sceneFolder.add(this.scene, "currentScene" , ["garden", "tree"]).name("Current Scene").onChange(function(value) {
-            let scenario = value + ".xml";
             scene.changeScene(value);
         });
     }

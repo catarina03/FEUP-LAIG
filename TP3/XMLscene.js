@@ -85,6 +85,7 @@ class XMLscene extends CGFscene {
         
 
         this.orchestrator = new MyGameOrchestrator(this);
+        this.counter = 0;
 
 
         this.setPickEnabled(true);
@@ -144,17 +145,19 @@ class XMLscene extends CGFscene {
         this.initLights();
         this.initViews();
 
-        this.interface.addLightsGUI();
-        this.interface.addScenesGUI();
-        this.interface.addCamerasGUI();
-        this.interface.addGameCommandsGUI();
+        this.counter += 1;
 
-        console.log(this.graph);
-        console.log("-----------------------");
+        if (this.counter == 2) {
+            this.interface.addLightsGUI();
+            this.interface.addScenesGUI();
+            this.interface.addCamerasGUI();
+            this.interface.addGameCommandsGUI();
 
-        this.sceneInited = true;
-        //this.currentScene = this.graphs[0];
-        this.graph = this.graphs[0];
+            this.sceneInited = true;
+
+            this.graph = this.graphs[0];
+        }
+
     }
 
 
@@ -212,7 +215,7 @@ class XMLscene extends CGFscene {
     }
 
 
-    updateScene(){
+    updateScene(filename){
         for (let i = 0; i < this.lights.length; i++){
             this.lights[i].disable();
             this.lights[i].update();
@@ -220,21 +223,19 @@ class XMLscene extends CGFscene {
 
         this.interface.gui.removeFolder(this.interface.viewsFolder);
         this.interface.gui.removeFolder(this.interface.lightsFolder);
-        //this.gui.destroy(); 
+        this.interface.gui.removeFolder(this.interface.commandsFolder);
+        this.interface.gui.removeFolder(this.interface.sceneFolder);
         
         var index = 0;
         
         for (let i = 0; this.graphNames.length; i++){
-            if (this.orchestrator.theme == this.graphNames[i]){
+            if (filename == this.graphNames[i]){
                 index = i;
                 break;
             }
         }
         
-        console.log(this.graph);
-        //this.gui = new dat.GUI();
         this.graph = this.graphs[index];
-        console.log(this.graph);
         //this.axis = new CGaxis(this, this.graph.referenceLength);
         this.gl.clearColor(...this.graph.background);
         this.setGlobalAmbientLight(...this.graph.ambient);
@@ -243,7 +244,9 @@ class XMLscene extends CGFscene {
         this.sceneInited = true;
         this.orchestrator.theme = this.graphNames[index];
         this.interface.addLightsGUI();
+        this.interface.addScenesGUI();
         this.interface.addCamerasGUI();
+        this.interface.addGameCommandsGUI();
 
     }
 
@@ -256,7 +259,7 @@ class XMLscene extends CGFscene {
         */
         
         //this.sceneInited = false;
-        this.updateScene();
+        this.updateScene(filename);
         //this.graph.reader.open('scenes/' + filename + '.xml', this.graph);
         this.graph.filename = filename + '.xml';
     }

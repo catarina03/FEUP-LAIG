@@ -118,13 +118,6 @@ class MyGameBoard extends CGFobject{
         this.rightHolder = new CGFOBJModel(this.scene, 'models/tile.obj');
         this.skull = new MyGreenSkull(this.scene);
 
-        console.log("----------------------");
-        console.log(this.scene.graph);
-        console.log("-------------- END -------------------");
-
-
-
-
     }
 
 
