@@ -59,6 +59,14 @@ class MyChecker extends MyPiece {
         this.animation = null;
     }
 
+    update(){
+        if(this.geometry=="cylinder" || this.geometry== "")
+            this.checker = new MyCylinder(this.scene, 0.4, 0.4, 0.15, 20, 3);
+
+        if(this.geometry=="sphere")
+            this.checker= new MySphere(this.scene,0.4,20,20);
+    }
+
 
     display(){
     

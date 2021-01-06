@@ -102,10 +102,12 @@ class MyInterface extends CGFinterface {
         this.commandsFolder = this.gui.addFolder("Game");
         this.commandsFolder.open();
 
-        this.commandsFolder.add(this.scene.orchestrator.currentState, 'startHumanHuman').name("Human vs Human");
-        this.commandsFolder.add(this.scene.orchestrator.currentState, 'start').name("Human vs PC");
-        this.commandsFolder.add(this.scene.orchestrator.currentState, 'start').name("PC vs Human");
-        this.commandsFolder.add(this.scene.orchestrator.currentState, 'start').name("PC vs PC");
+        if (this.scene.orchestrator.currentState instanceof WaitingState){
+            this.commandsFolder.add(this.scene.orchestrator.currentState, 'startHumanHuman').name("Human vs Human");
+            this.commandsFolder.add(this.scene.orchestrator.currentState, 'startHumanPc').name("Human vs PC");
+            this.commandsFolder.add(this.scene.orchestrator.currentState, 'startPcHuman').name("PC vs Human");
+            this.commandsFolder.add(this.scene.orchestrator.currentState, 'startPcPc').name("PC vs PC");
+        }
 
         //this.commandsFolder.add(this.scene.orchestrator, 'startGame').name("Start");
         this.commandsFolder.add(this.scene.orchestrator.gameSequence, 'undoGameMove').name('Undo');

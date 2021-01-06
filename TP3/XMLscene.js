@@ -153,9 +153,10 @@ class XMLscene extends CGFscene {
             this.interface.addCamerasGUI();
             this.interface.addGameCommandsGUI();
 
+            this.graph = this.graphs[0];
+
             this.sceneInited = true;
 
-            this.graph = this.graphs[0];
         }
 
     }
@@ -242,16 +243,18 @@ class XMLscene extends CGFscene {
         this.setGlobalAmbientLight(...this.graph.ambient);
         this.initLights();
         this.initViews();
-        this.sceneInited = true;
         this.orchestrator.theme = this.graphNames[index];
-
-        this.orchestrator.board.checkers.splice(0, this.orchestrator.board.checkers.length);
-        this.orchestrator.board.populateBoard();
-
+        
         this.interface.addLightsGUI();
         this.interface.addScenesGUI();
         this.interface.addCamerasGUI();
         this.interface.addGameCommandsGUI();
+
+        for (let checker in  this.orchestrator.board.checkers){
+            console.log(this.graph.geometries[0]);
+            this.orchestrator.board.checkers[checker].geometry = this.graph.geometries[0];
+            this.orchestrator.board.checkers[checker].update();
+        }
 
     }
 

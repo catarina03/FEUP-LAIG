@@ -31,9 +31,27 @@ class WaitingState extends MyGameState{
         this.scene.orchestrator.currentState = new OrcPieceState(this.scene);
     }
 
-    start(){
-
+    startHumanPc(){
+        this.scene.setPickEnabled(true);
+        this.scene.clearPickRegistration();
+        this.scene.pickResults.splice(0, this.scene.pickResults.length);
+        this.scene.orchestrator.currentState = new OrcPieceState(this.scene);
     }
+
+    startPcHuman(){
+        this.scene.setPickEnabled(true);
+        this.scene.clearPickRegistration();
+        this.scene.pickResults.splice(0, this.scene.pickResults.length);
+        this.scene.orchestrator.currentState = new OrcPieceState(this.scene);
+    }
+
+    startPcPc(){
+        this.scene.setPickEnabled(true);
+        this.scene.clearPickRegistration();
+        this.scene.pickResults.splice(0, this.scene.pickResults.length);
+        this.scene.orchestrator.currentState = new OrcPieceState(this.scene);
+    }
+
 
 
 

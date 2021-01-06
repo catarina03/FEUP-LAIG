@@ -138,7 +138,7 @@ class MyGameBoard extends CGFobject{
 
         let keyframe0 = new MyKeyframe(t, [vec3.fromValues(0, 0, 0), vec3.fromValues(0, 0, 0), vec3.fromValues(0, 0, 0)]);
         let keyframe1 = new MyKeyframe(t + 0.25, [vec3.fromValues(deltaX/4, 5*Math.sin(45*DEGREE_TO_RAD), deltaZ/4), vec3.fromValues(0, 0, 0), vec3.fromValues(0, 0, 0)]);
-        let keyframe2 = new MyKeyframe(t + 0.5, [vec3.fromValues(deltaX/2, 5*Math.sin(90*DEGREE_TO_RAD), deltaZ/2), vec3.fromValues(0, 0, 0), vec3.fromValues(0, 0, 0)]);
+        let keyframe2 = new MyKeyframe(t + 0.5, [vec3.fromValues(deltaX/2, 5*Math.sin(90*DEGREE_TO_RAD), deltaZ/2), vec3.fromValues(0, -22.5, 0), vec3.fromValues(0, 0, 0)]);
         let keyframe3 = new MyKeyframe(t + 0.75, [vec3.fromValues(3*deltaX/4, 5*Math.sin(45*DEGREE_TO_RAD), 3*deltaZ/4), vec3.fromValues(0, 0, 0), vec3.fromValues(0, 0, 0)]);
         let keyframe4 = new MyKeyframe(t + 1, [vec3.fromValues(deltaX, 0, deltaZ), vec3.fromValues(0, -45, 0), vec3.fromValues(0, 0, 0)]);
 
@@ -161,7 +161,7 @@ class MyGameBoard extends CGFobject{
 
         let keyframe0 = new MyKeyframe(t, [vec3.fromValues(0, 0, 0), vec3.fromValues(0, 0, 0), vec3.fromValues(0, 0, 0)]);
         let keyframe1 = new MyKeyframe(t + 0.25, [vec3.fromValues(deltaX/4, 5*Math.sin(45*DEGREE_TO_RAD), deltaZ/4), vec3.fromValues(0, 0, 0), vec3.fromValues(0, 0, 0)]);
-        let keyframe2 = new MyKeyframe(t + 0.5, [vec3.fromValues(deltaX/2, 5*Math.sin(90*DEGREE_TO_RAD), deltaZ/2), vec3.fromValues(0, 0, 0), vec3.fromValues(0, 0, 0)]);
+        let keyframe2 = new MyKeyframe(t + 0.5, [vec3.fromValues(deltaX/2, 5*Math.sin(90*DEGREE_TO_RAD), deltaZ/2), vec3.fromValues(0, 22.5, 0), vec3.fromValues(0, 0, 0)]);
         let keyframe3 = new MyKeyframe(t + 0.75, [vec3.fromValues(3*deltaX/4, 5*Math.sin(45*DEGREE_TO_RAD), 3*deltaZ/4), vec3.fromValues(0, 0, 0), vec3.fromValues(0, 0, 0)]);
         let keyframe4 = new MyKeyframe(t + 1, [vec3.fromValues(deltaX, 0, deltaZ), vec3.fromValues(0, 45, 0), vec3.fromValues(0, 0, 0)]);
 
@@ -183,24 +183,22 @@ class MyGameBoard extends CGFobject{
     }
 
 
-
-
-
-    async moveGreenSkull(greenSkull) {
+    async moveGreenSkull() {
         let coordinates; 
 
         console.log("BEFORE SKULL ANIM");
 
-        if (greenSkull == "g") {
-            coordinates = await this.skullGoblinToOrcAnimation();
-        } else if (greenSkull == "o") {
-            coordinates = await this.skullOrcToGoblinAnimation();
+        if (this.scene.orchestrator.greenSkull == "g") {
+            coordinates = this.skullOrcToGoblinAnimation();
+        } else if (this.scene.orchestrator.greenSkull == "o") {
+            coordinates = this.skullGoblinToOrcAnimation();
         }
 
 
         await this.sleep(1000);
 
         console.log("AFTER SKULL ANIM");
+        console.log(this.skull);
 
         //Goblin
         //this.xCoord = 5;
@@ -210,7 +208,9 @@ class MyGameBoard extends CGFobject{
         //this.xCoord = -1;
         //this.zCoord = 5;
 
-        //this.updateSkull(coordinates);
+        this.updateSkull(coordinates);
+
+        console.log(this.skull);
     }
 
 
