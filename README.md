@@ -1,4 +1,14 @@
-# LAIG 2020/2021
+# FEUP-LAIG
+
+Exercises and project developed during the Graphical Interface Applications Laboratory curricular unit @ FEUP.  
+All code written in collaboration with [João Mascarenhas](https://github.com/JoaoVilhena00)
+
+## General Info
+
+- **Date:** 1st semester of 3rd year - 2020/2021
+- **Curricular unit page:** [LAIG](https://sigarra.up.pt/feup/pt/ucurr_geral.ficha_uc_view?pv_ocorrencia_id=459484)  
+
+---
 
 ## Group: T07G03
 
@@ -22,6 +32,7 @@
     - A rug
     - The classic boat art on the wall
   - relative path: scenes/demo.xml
+- Grade: 18.6
 
 -----
 
@@ -44,6 +55,7 @@
     - A Duffman sprite that appears in the middle of the scene
   - **Plot:** the fooball moves torwards the barrel, in the middle of the way it hits the table so the beer bottle falls. Homer gets sad so Duffman appears to save the day by lifting the beer bottle back up. Homer gets happy again and Duffman leaves flying.
   - relative path: scenes/LAIG_TP1_XML_T7_G03_v1.0.xml
+- Grade: 16.1
 
 ----
 
@@ -53,4 +65,5 @@
   - Two different geometries for the game pieces
   - Comunication with Logical programming
   - Choice between two different scenes 
+- Grade: 15.4
 
